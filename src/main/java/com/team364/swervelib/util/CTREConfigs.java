@@ -1,21 +1,21 @@
 package com.team364.swervelib.util;
 
 import com.ctre.phoenix.motorcontrol.SupplyCurrentLimitConfiguration;
-import com.ctre.phoenix.motorcontrol.can.TalonFXConfiguration;
+import com.ctre.phoenix6.configs.TalonFXConfiguration;
+import com.ctre.phoenix6.configs.CANcoderConfiguration;
 import com.ctre.phoenix.sensors.AbsoluteSensorRange;
-import com.ctre.phoenix.sensors.CANCoderConfiguration;
 import com.ctre.phoenix.sensors.SensorInitializationStrategy;
 import com.ctre.phoenix.sensors.SensorTimeBase;
 
 public final class CTREConfigs {
     public TalonFXConfiguration swerveAngleFXConfig;
     public TalonFXConfiguration swerveDriveFXConfig;
-    public CANCoderConfiguration swerveCanCoderConfig;
+    public CANcoderConfiguration swerveCanCoderConfig;
 
     public CTREConfigs(){
         swerveAngleFXConfig = new TalonFXConfiguration();
         swerveDriveFXConfig = new TalonFXConfiguration();
-        swerveCanCoderConfig = new CANCoderConfiguration();
+        swerveCanCoderConfig = new CANcoderConfiguration();
 
         /* Swerve Angle Motor Configurations */
         SupplyCurrentLimitConfiguration angleSupplyLimit = new SupplyCurrentLimitConfiguration(
@@ -24,10 +24,10 @@ public final class CTREConfigs {
             SwerveConstants.Swerve.anglePeakCurrentLimit, 
             SwerveConstants.Swerve.anglePeakCurrentDuration);
 
-        swerveAngleFXConfig.slot0.kP = SwerveConstants.Swerve.angleKP;
-        swerveAngleFXConfig.slot0.kI = SwerveConstants.Swerve.angleKI;
-        swerveAngleFXConfig.slot0.kD = SwerveConstants.Swerve.angleKD;
-        swerveAngleFXConfig.slot0.kF = SwerveConstants.Swerve.angleKF;
+        swerveAngleFXConfig.Slot0.kP = SwerveConstants.Swerve.angleKP;
+        swerveAngleFXConfig.Slot0.kI = SwerveConstants.Swerve.angleKI;
+        swerveAngleFXConfig.Slot0.kD = SwerveConstants.Swerve.angleKD;
+        swerveAngleFXConfig.Slot0.kF = SwerveConstants.Swerve.angleKF;
         swerveAngleFXConfig.supplyCurrLimit = angleSupplyLimit;
 
         /* Swerve Drive Motor Configuration */
@@ -37,10 +37,10 @@ public final class CTREConfigs {
             SwerveConstants.Swerve.drivePeakCurrentLimit, 
             SwerveConstants.Swerve.drivePeakCurrentDuration);
 
-        swerveDriveFXConfig.slot0.kP = SwerveConstants.Swerve.driveKP;
-        swerveDriveFXConfig.slot0.kI = SwerveConstants.Swerve.driveKI;
-        swerveDriveFXConfig.slot0.kD = SwerveConstants.Swerve.driveKD;
-        swerveDriveFXConfig.slot0.kF = SwerveConstants.Swerve.driveKF;        
+        swerveDriveFXConfig.Slot0.kP = SwerveConstants.Swerve.driveKP;
+        swerveDriveFXConfig.Slot0.kI = SwerveConstants.Swerve.driveKI;
+        swerveDriveFXConfig.Slot0.kD = SwerveConstants.Swerve.driveKD;
+        swerveDriveFXConfig.Slot0.kF = SwerveConstants.Swerve.driveKF;        
         swerveDriveFXConfig.supplyCurrLimit = driveSupplyLimit;
         swerveDriveFXConfig.openloopRamp = SwerveConstants.Swerve.openLoopRamp;
         swerveDriveFXConfig.closedloopRamp = SwerveConstants.Swerve.closedLoopRamp;

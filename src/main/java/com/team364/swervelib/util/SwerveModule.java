@@ -24,6 +24,7 @@ import com.team364.swervelib.math.Conversions;
 import org.team1515.BotterThanRevenge.Robot;
 
 public class SwerveModule {
+    
     public int moduleNumber;
     private Rotation2d angleOffset;
     private Rotation2d lastAngle;
@@ -87,7 +88,7 @@ public class SwerveModule {
     }
 
     private Rotation2d getAngle() {
-        return Rotation2d.fromDegrees(Units.rotationsToDegrees(mAngleMotor.getPosition().getValueAsDouble()));
+        return Rotation2d.fromRotations(mAngleMotor.getPosition().getValueAsDouble());
     }
 
     public Rotation2d getCanCoder() {
