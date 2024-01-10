@@ -15,6 +15,7 @@ public class Robot extends TimedRobot {
 
   @Override
   public void robotInit() {
+    //add CTRE configs
     m_robotContainer = new RobotContainer();
   }
 
