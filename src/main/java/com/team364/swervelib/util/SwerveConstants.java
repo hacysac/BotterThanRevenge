@@ -1,6 +1,7 @@
 package com.team364.swervelib.util;
 
 import com.ctre.phoenix.motorcontrol.NeutralMode;
+import com.ctre.phoenix6.signals.NeutralModeValue;
 
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
@@ -95,8 +96,8 @@ public final class SwerveConstants {
                 public static final double maxAngularVelocity = 10; // TODO: This must be tuned to specific
 
                 /* Neutral Modes */
-                public static final NeutralMode angleNeutralMode = NeutralMode.Coast;
-                public static final NeutralMode driveNeutralMode = NeutralMode.Brake;
+                public static final NeutralModeValue angleNeutralMode = NeutralModeValue.Coast;
+                public static final NeutralModeValue driveNeutralMode = NeutralModeValue.Brake;
 
                 /* Module Specific Constants */
                 /* Front Left Module - Module 0 */
