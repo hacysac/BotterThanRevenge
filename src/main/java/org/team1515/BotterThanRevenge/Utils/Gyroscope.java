@@ -7,7 +7,7 @@ import edu.wpi.first.wpilibj.SPI;
 
 public class Gyroscope {
     private final AHRS navx;
-    private double offset = 0;
+    private double offset = -360;
 
     public float rollOffset = 0;
     private float pitchOffset = 0;
