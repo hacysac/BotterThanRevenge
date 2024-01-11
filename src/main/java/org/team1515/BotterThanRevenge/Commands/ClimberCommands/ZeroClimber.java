@@ -1,14 +1,14 @@
-package org.team1515.BotterThanRevenge.Commands;
+package org.team1515.BotterThanRevenge.Commands.ClimberCommands;
 
 import edu.wpi.first.wpilibj2.command.Command;
 
 import org.team1515.BotterThanRevenge.Subsystems.Climber;
 
-public class ClimberDown extends Command {
+public class ZeroClimber extends Command {
 
     private final Climber climber;
 
-    public ClimberDown(Climber climber) {
+    public ZeroClimber(Climber climber) {
         this.climber = climber;
         addRequirements(climber);
     }
@@ -19,7 +19,13 @@ public class ClimberDown extends Command {
     }
 
     @Override
+    public boolean isFinished() {
+        return climber.getDown();
+    }
+
+    @Override
     public void end(boolean interrupted) {
+        climber.zeroEncoders();
         climber.end();
     }
 }

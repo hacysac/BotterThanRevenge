@@ -7,9 +7,9 @@ import edu.wpi.first.wpilibj.SPI;
 
 public class Gyroscope {
     private final AHRS navx;
-    private double offset = -360;
+    private float yawOffset = 0;
 
-    public float rollOffset = 0;
+    private float rollOffset = 0;
     private float pitchOffset = 0;
 
     public Gyroscope() {
@@ -27,8 +27,16 @@ public class Gyroscope {
 
         // We have to invert the angle of the NavX so that rotating the robot
         // counter-clockwise makes the angle increase.
-        return Rotation2d.fromDegrees(360.0 - navx.getYaw() + offset); // Add offset to make the shooter the front
-                                                                       // instead of the intake
+        return Rotation2d.fromDegrees(-getYaw());
+    }
+
+    public void flipGyro() {
+        if(yawOffset == 0) {
+            yawOffset = 180; // TODO maybe negative CHECK
+        }
+        else {
+            yawOffset = 0;
+        }
     }
 
     /**
@@ -42,7 +50,7 @@ public class Gyroscope {
      * @return float yaw of the robot in degrees
      */
     public float getYaw() {
-        return navx.getYaw();
+        return navx.getYaw() - yawOffset;
     }
 
     /**
