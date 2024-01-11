@@ -1,7 +1,5 @@
 package com.team364.swervelib.util;
 
-import com.ctre.phoenix.motorcontrol.SupplyCurrentLimitConfiguration;
-import com.ctre.phoenix.sensors.SensorTimeBase;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.signals.AbsoluteSensorRangeValue;
 import com.ctre.phoenix6.signals.SensorDirectionValue;
@@ -27,6 +25,7 @@ public final class CTREConfigs {
         //     SwerveConstants.Swerve.angleContinuousCurrentLimit, 
         //     SwerveConstants.Swerve.anglePeakCurrentLimit, 
         //     SwerveConstants.Swerve.anglePeakCurrentDuration);
+        
         CurrentLimitsConfigs angleSupplyLimit = new CurrentLimitsConfigs();
         angleSupplyLimit.SupplyCurrentLimit =  SwerveConstants.Swerve.angleContinuousCurrentLimit;
         angleSupplyLimit.SupplyCurrentLimitEnable = SwerveConstants.Swerve.angleEnableCurrentLimit;
@@ -73,6 +72,6 @@ public final class CTREConfigs {
 
         swerveCanCoderConfig.withMagnetSensor(mag);
 
-        swerveCanCoderConfig.sensorTimeBase = SensorTimeBase.PerSecond;
+        //swerveCanCoderConfig.sensorTimeBase = SensorTimeBase.PerSecond;
     }
 }
