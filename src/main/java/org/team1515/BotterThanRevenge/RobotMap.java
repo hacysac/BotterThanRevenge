@@ -16,5 +16,8 @@ public class RobotMap {
     public static final int PDH_ID = -1; // replace
 
     // Subsystems
+    // Indexer
+    public static final int INDEXER_ID = -1; // TODO
+    public static final int INDEXER_SPEED = -1;// TODO 
 
 }
