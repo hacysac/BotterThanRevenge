@@ -6,6 +6,9 @@ import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.math.util.Units;
 
+import com.ctre.phoenix.sensors.CANCoderConfiguration;
+import com.ctre.phoenix6.configs.CANcoderConfiguration;
+import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.controls.DutyCycleOut;
 import com.ctre.phoenix6.controls.PositionDutyCycle;
 import com.ctre.phoenix6.controls.VelocityDutyCycle;
@@ -73,7 +76,7 @@ public class SwerveModule {
                 ? lastAngle
                 : desiredState.angle; // Prevent rotating module if speed is less then 1%. Prevents Jittering.
 
-        mAngleMotor.setControl(new PositionDutyCycle(angle.getDegrees()));
+        mAngleMotor.setControl(new PositionDutyCycle(Units.degreesToRotations(angle.getDegrees())));
         lastAngle = angle;
     }
 
@@ -91,12 +94,14 @@ public class SwerveModule {
     }
 
     private void configAngleEncoder() {
+        angleEncoder.getConfigurator().apply(new CANcoderConfiguration());
         angleEncoder.getConfigurator().apply(Robot.config.swerveCanCoderConfig);
         //angleEncoder.configAllSettings(Robot.config.swerveCanCoderConfig);
     }
 
     private void configAngleMotor() {
-        mAngleMotor.getConfigurator().apply(Robot.config.swerveDriveFXConfig);;
+        mAngleMotor.getConfigurator().apply(new TalonFXConfiguration());
+        mAngleMotor.getConfigurator().apply(Robot.config.swerveAngleFXConfig);;
         //mAngleMotor.configAllSettings(Robot.config.swerveAngleFXConfig);
         mAngleMotor.setInverted(SwerveConstants.Swerve.angleMotorInvert);
         mAngleMotor.setNeutralMode(SwerveConstants.Swerve.angleNeutralMode);
@@ -104,7 +109,8 @@ public class SwerveModule {
     }
 
     private void configDriveMotor() {
-        mDriveMotor.getConfigurator().apply(Robot.config.swerveDriveFXConfig);;
+        mDriveMotor.getConfigurator().apply(new TalonFXConfiguration());
+        mDriveMotor.getConfigurator().apply(Robot.config.swerveDriveFXConfig);
         //mDriveMotor.configAllSettings(Robot.config.swerveDriveFXConfig);
         mDriveMotor.setInverted(SwerveConstants.Swerve.driveMotorInvert);
         mDriveMotor.setNeutralMode(SwerveConstants.Swerve.driveNeutralMode);
