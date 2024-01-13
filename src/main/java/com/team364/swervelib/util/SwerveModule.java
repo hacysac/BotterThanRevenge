@@ -76,7 +76,7 @@ public class SwerveModule {
                 ? lastAngle
                 : desiredState.angle; // Prevent rotating module if speed is less then 1%. Prevents Jittering.
 
-        mAngleMotor.setControl(new PositionDutyCycle(Units.degreesToRotations(angle.getDegrees())));
+        mAngleMotor.setControl(new PositionDutyCycle(Conversions.degreesToRotations(angle.getDegrees(), SwerveConstants.Swerve.angleGearRatio)));
         lastAngle = angle;
     }
 
