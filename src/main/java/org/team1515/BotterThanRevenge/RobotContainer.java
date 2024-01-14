@@ -8,12 +8,11 @@ import org.team1515.BotterThanRevenge.Commands.DefaultDriveCommand;
 import org.team1515.BotterThanRevenge.Subsystems.Drivetrain;
 import org.team1515.BotterThanRevenge.Utils.*;
 
-import com.ctre.phoenix6.mechanisms.swerve.SwerveModule.DriveRequestType;
-
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 
 public class RobotContainer {
 
@@ -38,8 +37,9 @@ public class RobotContainer {
         new DefaultDriveCommand(drivetrain,
             () -> -modifyAxis(-mainController.getLeftY() * getRobotSpeed()),
             () -> -modifyAxis(-mainController.getLeftX() * getRobotSpeed()),
-            () -> -modifyAxis(mainController.getRightX() * getRobotSpeed()),
-            () -> Controls.DRIVE_ROBOT_ORIENTED.getAsBoolean()));
+            () -> modifyAxis(mainController.getRightX() * getRobotSpeed()),
+            () -> Controls.DRIVE_ROBOT_ORIENTED.getAsBoolean()))
+    Controls.RESET_GYRO.onTrue(new InstantCommand(()->drivetrain.zeroGyro()));
   }
 
   public Command getAutonomousCommand() {
