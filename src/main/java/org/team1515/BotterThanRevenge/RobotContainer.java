@@ -20,21 +20,22 @@ public class RobotContainer {
   public static Intake intake;
 
 
+  private static Climber climber;
+
   public RobotContainer() {
     mainController = new XboxController(0);
     secondController = new XboxController(1);
 
     intake = new Intake();
 
+
+    climber = new Climber();
+
     configureBindings();
 
   }
 
-  private void configureBindings() {
-    Controls.INTAKE.whileTrue(new IntakeIn(intake));
-    Controls.INTAKE.whileTrue(new IntakeOut(intake));
-
-  }
+  private void configureBindings() {}
 
   public Command getAutonomousCommand() {
     return Commands.print("No autonomous command configured");
