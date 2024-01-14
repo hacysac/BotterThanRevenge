@@ -38,7 +38,7 @@ public class RobotContainer {
             () -> -modifyAxis(-mainController.getLeftY() * getRobotSpeed()),
             () -> -modifyAxis(-mainController.getLeftX() * getRobotSpeed()),
             () -> modifyAxis(mainController.getRightX() * getRobotSpeed()),
-            () -> Controls.DRIVE_ROBOT_ORIENTED.getAsBoolean()))
+            () -> Controls.DRIVE_ROBOT_ORIENTED.getAsBoolean()));
     Controls.RESET_GYRO.onTrue(new InstantCommand(()->drivetrain.zeroGyro()));
   }
 
