@@ -9,21 +9,26 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class Indexer extends SubsystemBase {
     
-    private CANSparkMax indexer;
+    private CANSparkMax topIndexer;
+    private CANSparkMax bottomIndexer;
 
     public Indexer(){
-        indexer = new CANSparkMax(RobotMap.INDEXER_ID, MotorType.kBrushless);
+        topIndexer = new CANSparkMax(RobotMap.TOP_INDEXER_ID, MotorType.kBrushless);
+        bottomIndexer = new CANSparkMax(RobotMap.BOTTOM_INDEXER_ID, MotorType.kBrushless);
     }
 
     public void up(){
-        indexer.set(RobotMap.INDEXER_SPEED);
+        topIndexer.set(RobotMap.INDEXER_SPEED);
+        bottomIndexer.set(RobotMap.INDEXER_SPEED);
     }
 
     public void down(){
-        indexer.set(-RobotMap.INDEXER_SPEED);
+        topIndexer.set(-RobotMap.INDEXER_SPEED);
+        bottomIndexer.set(-RobotMap.INDEXER_SPEED);
     }
 
     public void end() {
-        indexer.set(0);
+        topIndexer.set(0);
+        bottomIndexer.set(0);
     }
 }
