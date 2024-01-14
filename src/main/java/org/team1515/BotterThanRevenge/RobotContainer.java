@@ -4,17 +4,9 @@
 
 package org.team1515.BotterThanRevenge;
 
-<<<<<<< HEAD
-import org.team1515.BotterThanRevenge.Commands.IndexerDown;
-import org.team1515.BotterThanRevenge.Commands.IndexerUp;
-import org.team1515.BotterThanRevenge.Subsystems.Indexer;
 import org.team1515.BotterThanRevenge.Utils.*;
-=======
-import org.team1515.BotterThanRevenge.Commands.ClimberDown;
-import org.team1515.BotterThanRevenge.Commands.ClimberUp;
-import org.team1515.BotterThanRevenge.Subsystems.Climber;
-import org.team1515.BotterThanRevenge.Utils.Utilities;
->>>>>>> 0ddeb6c0fcce8b53ef3de4a7a06e7721868a0028
+import org.team1515.BotterThanRevenge.Commands.*;
+import org.team1515.BotterThanRevenge.Subsystems.*;
 
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -25,33 +17,28 @@ public class RobotContainer {
   public static XboxController mainController;
   public static XboxController secondController;
 
-<<<<<<< HEAD
+  public static Intake intake;
+
   private static Indexer indexer;
-=======
   private static Climber climber;
->>>>>>> 0ddeb6c0fcce8b53ef3de4a7a06e7721868a0028
 
   public RobotContainer() {
     mainController = new XboxController(0);
     secondController = new XboxController(1);
 
-<<<<<<< HEAD
+    intake = new Intake();
     indexer = new Indexer();
-=======
     climber = new Climber();
->>>>>>> 0ddeb6c0fcce8b53ef3de4a7a06e7721868a0028
 
     configureBindings();
+
   }
 
   private void configureBindings() {
-<<<<<<< HEAD
     Controls.INDEXER_UP.whileTrue(new IndexerUp(indexer));
     Controls.INDEXER_DOWN.whileTrue(new IndexerDown(indexer));
-=======
     Controls.CLIMB_UP.whileTrue(new ClimberUp(climber));
     Controls.CLIMB_DOWN.whileTrue(new ClimberDown(climber));
->>>>>>> 0ddeb6c0fcce8b53ef3de4a7a06e7721868a0028
   }
 
   public Command getAutonomousCommand() {
