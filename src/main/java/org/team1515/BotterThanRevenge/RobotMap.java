@@ -17,7 +17,12 @@ public class RobotMap {
 
     // Subsystems
     // Indexer
-    public static final int INDEXER_ID = -1; // TODO
-    public static final int INDEXER_SPEED = -1;// TODO 
+    public static final int INDEXER_ID = -1; // TO DO
+    public static final double INDEXER_SPEED = -1;// TO DO 
+
+    //Climber
+    public static final int L_CLIMBER_ID = -1; // to do
+    public static final int R_CLIMBER_ID = -1; // to do
+    public static final double CLIMBER_SPEED = -1; // to do
 
 }
