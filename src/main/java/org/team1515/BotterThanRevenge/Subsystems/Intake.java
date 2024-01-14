@@ -14,19 +14,24 @@ public class Intake extends SubsystemBase {
 
     public Intake(){
         bottomIntake = new CANSparkMax(RobotMap.INTAKE_ID, MotorType.kBrushless);
+        topIntake = new CANSparkMax(RobotMap.INTAKE_ID, MotorType.kBrushless);
+
     }
 
     public void in(){
         bottomIntake.set(RobotMap.INTAKE_SPEED);
+        topIntake.set(RobotMap.INTAKE_SPEED);
 
     }
 
     public void out(){
         bottomIntake.set(-RobotMap.INTAKE_SPEED);
+        topIntake.set(-RobotMap.INTAKE_SPEED);
 
     }
 
     public void end(){
         bottomIntake.set(0);
+        topIntake.set(0);
     }
 }
