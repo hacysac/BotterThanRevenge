@@ -9,7 +9,7 @@ public class Intake extends SubsystemBase {
     private CANSparkMax intake;
 
     public Intake(){
-
+        
     }
 
     public void in(){
@@ -17,6 +17,6 @@ public class Intake extends SubsystemBase {
     }
 
     public void out(){
-
+        
     }
 }
