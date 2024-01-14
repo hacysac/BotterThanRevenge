@@ -2,9 +2,11 @@ package com.team364.swervelib.util;
 
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.signals.AbsoluteSensorRangeValue;
+import com.ctre.phoenix6.signals.InvertedValue;
 import com.ctre.phoenix6.signals.SensorDirectionValue;
 import com.ctre.phoenix6.configs.CANcoderConfiguration;
 import com.ctre.phoenix6.configs.MagnetSensorConfigs;
+import com.ctre.phoenix6.configs.MotorOutputConfigs;
 import com.ctre.phoenix6.configs.OpenLoopRampsConfigs;
 import com.ctre.phoenix6.configs.ClosedLoopRampsConfigs;
 import com.ctre.phoenix6.configs.CurrentLimitsConfigs;
@@ -36,6 +38,9 @@ public final class CTREConfigs {
         swerveAngleFXConfig.Slot0.kI = SwerveConstants.Swerve.angleKI;
         swerveAngleFXConfig.Slot0.kD = SwerveConstants.Swerve.angleKD;
         swerveAngleFXConfig.Slot0.kV = SwerveConstants.Swerve.angleKF * 2048.0*(1.0/1023.0)*(0.1);
+        MotorOutputConfigs invert = new MotorOutputConfigs();
+        invert.Inverted = InvertedValue.Clockwise_Positive;
+        swerveAngleFXConfig.withMotorOutput(invert);
         swerveAngleFXConfig.withCurrentLimits(angleSupplyLimit);
 
         /* Swerve Drive Motor Configuration */

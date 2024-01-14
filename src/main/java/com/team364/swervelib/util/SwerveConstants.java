@@ -16,7 +16,7 @@ public final class SwerveConstants {
 
                 public static final COTSFalconSwerveConstants chosenModule = // TODO: This must be tuned to specific
                                                                              // robot
-                                COTSFalconSwerveConstants.SDSMK4(COTSFalconSwerveConstants.driveGearRatios.SDSMK4_L2);
+                                COTSFalconSwerveConstants.SDSMK4i(COTSFalconSwerveConstants.driveGearRatios.SDSMK4i_L2);
 
                 /* Drivetrain Constants */
                 public static final double trackWidth = Units.inchesToMeters(24.5); // TODO: This must be tuned to

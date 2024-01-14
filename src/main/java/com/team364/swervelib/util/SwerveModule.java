@@ -78,6 +78,8 @@ public class SwerveModule {
 
         mAngleMotor.setControl(new PositionDutyCycle(Conversions.degreesToRotations(angle.getDegrees(), SwerveConstants.Swerve.angleGearRatio)));
         lastAngle = angle;
+
+        System.out.println(angle.getRotations() + ", " + Conversions.degreesToRotations(angle.getDegrees(), SwerveConstants.Swerve.angleGearRatio));
     }
 
     private Rotation2d getAngle() {
@@ -103,7 +105,7 @@ public class SwerveModule {
         mAngleMotor.getConfigurator().apply(new TalonFXConfiguration());
         mAngleMotor.getConfigurator().apply(Robot.config.swerveAngleFXConfig);;
         //mAngleMotor.configAllSettings(Robot.config.swerveAngleFXConfig);
-        mAngleMotor.setInverted(SwerveConstants.Swerve.angleMotorInvert);
+        //mAngleMotor.setInverted(SwerveConstants.Swerve.angleMotorInvert);
         mAngleMotor.setNeutralMode(SwerveConstants.Swerve.angleNeutralMode);
         resetToAbsolute();
     }
@@ -112,21 +114,21 @@ public class SwerveModule {
         mDriveMotor.getConfigurator().apply(new TalonFXConfiguration());
         mDriveMotor.getConfigurator().apply(Robot.config.swerveDriveFXConfig);
         //mDriveMotor.configAllSettings(Robot.config.swerveDriveFXConfig);
-        mDriveMotor.setInverted(SwerveConstants.Swerve.driveMotorInvert);
+        //mDriveMotor.setInverted(SwerveConstants.Swerve.driveMotorInvert);
         mDriveMotor.setNeutralMode(SwerveConstants.Swerve.driveNeutralMode);
         mDriveMotor.setPosition(0);
     }
 
     public SwerveModuleState getState() {
         return new SwerveModuleState(
-                Conversions.falconToMPS(Conversions.RPMToFalcon(mDriveMotor.getVelocity().getValueAsDouble(), SwerveConstants.Swerve.driveGearRatio) ,
+                Conversions.falconToMPS(Conversions.RPMToFalcon(mDriveMotor.getVelocity().getValueAsDouble()/60.0, SwerveConstants.Swerve.driveGearRatio) ,
                         SwerveConstants.Swerve.wheelCircumference, SwerveConstants.Swerve.driveGearRatio),
                 getAngle());
     }
 
     public SwerveModulePosition getPosition() {
         return new SwerveModulePosition(
-                Conversions.falconToMeters(Conversions.RPMToFalcon(mDriveMotor.getVelocity().getValueAsDouble(), SwerveConstants.Swerve.driveGearRatio),
+                Conversions.falconToMeters(Conversions.RPMToFalcon(mDriveMotor.getVelocity().getValueAsDouble()/60.0, SwerveConstants.Swerve.driveGearRatio),
                         SwerveConstants.Swerve.wheelCircumference, SwerveConstants.Swerve.driveGearRatio),
                 getAngle());
     }
