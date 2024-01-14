@@ -20,6 +20,9 @@ public class Controls {
     public static final Trigger INDEXER_UP = new Trigger(Controls::getRightTriggerSecond);
     public static final Trigger INDEXER_DOWN = new Trigger(Controls::getLeftTriggerSecond);
 
+    public static final Trigger SHOOT = new Trigger(RobotContainer.secondController::getXButton);
+    public static final Trigger SHOOTER_IN = new Trigger(RobotContainer.secondController::getAButton);
+
     public static boolean getLeftTriggerMain() {
         return RobotContainer.mainController.getLeftTriggerAxis() >= 0.250;
     }

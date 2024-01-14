@@ -18,7 +18,7 @@ public class RobotContainer {
   public static XboxController secondController;
 
   public static Intake intake;
-
+  public static Shooter shooter;
   private static Indexer indexer;
   private static Climber climber;
 
@@ -29,6 +29,7 @@ public class RobotContainer {
     intake = new Intake();
     indexer = new Indexer();
     climber = new Climber();
+    shooter = new Shooter();
 
     configureBindings();
 
@@ -41,6 +42,8 @@ public class RobotContainer {
     Controls.CLIMB_DOWN.whileTrue(new ClimberDown(climber));
     Controls.INTAKE.whileTrue(new IntakeIn(intake));
     Controls.OUTTAKE.whileTrue(new IntakeOut(intake));
+    Controls.SHOOT.whileTrue(new ShooterShoot(shooter));
+    Controls.SHOOTER_IN.whileTrue(new ShooterIn(shooter));
   }
 
   public Command getAutonomousCommand() {

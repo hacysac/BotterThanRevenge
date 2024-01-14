@@ -4,17 +4,17 @@ import edu.wpi.first.wpilibj2.command.Command;
 
 import org.team1515.BotterThanRevenge.Subsystems.Shooter;
 
-public class ShooterShoot extends Command {
+public class ShooterIn extends Command {
     private final Shooter shooter; 
 
-    public ShooterShoot(Shooter shooter) {
+    public ShooterIn(Shooter shooter) {
         this.shooter = shooter;
         addRequirements(shooter);
     }
 
     @Override
     public void execute() {
-        shooter.shoot();
+        shooter.in();
     }
 
     @Override

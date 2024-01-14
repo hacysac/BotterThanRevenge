@@ -30,4 +30,8 @@ public class RobotMap {
     public static final int R_CLIMBER_ID = -1; // to do
     public static final double CLIMBER_SPEED = -1; // to do
 
+    // Shooter
+    public static final int L_SHOOTER_ID = -1; // to do
+    public static final int R_SHOOTER_ID = -1; // to do
+    public static final double SHOOTER_SPEED = -1; // to do
 }
