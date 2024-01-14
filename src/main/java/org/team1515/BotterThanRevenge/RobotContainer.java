@@ -4,6 +4,8 @@
 
 package org.team1515.BotterThanRevenge;
 
+import org.team1515.BotterThanRevenge.Commands.*;
+import org.team1515.BotterThanRevenge.Subsystems.*;
 import org.team1515.BotterThanRevenge.Utils.*;
 
 import edu.wpi.first.wpilibj.XboxController;
@@ -15,13 +17,24 @@ public class RobotContainer {
   public static XboxController mainController;
   public static XboxController secondController;
 
+  public static Intake intake;
+
+
   public RobotContainer() {
     mainController = new XboxController(0);
     secondController = new XboxController(1);
+
+    intake = new Intake();
+
     configureBindings();
+
   }
 
-  private void configureBindings() {}
+  private void configureBindings() {
+    Controls.INTAKE.whileTrue(new IntakeIn(intake));
+    Controls.INTAKE.whileTrue(new IntakeOut(intake));
+
+  }
 
   public Command getAutonomousCommand() {
     return Commands.print("No autonomous command configured");

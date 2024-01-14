@@ -13,6 +13,9 @@ public class Controls {
     public static final Trigger ZERO_ROBOT = new Trigger(RobotContainer.mainController::getStartButton);
     public static final Trigger FLIP_DRIVE_FORWARD = new Trigger(RobotContainer.mainController::getYButton);
 
+    public static final Trigger INTAKE = new Trigger(RobotContainer.secondController::getRightBumper);
+    public static final Trigger OUTTAKE = new Trigger(RobotContainer.secondController::getLeftBumper);
+
     public static boolean getLeftTriggerMain() {
         return RobotContainer.mainController.getLeftTriggerAxis() >= 0.250;
     }

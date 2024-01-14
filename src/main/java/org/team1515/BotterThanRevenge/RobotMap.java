@@ -20,6 +20,10 @@ public class RobotMap {
     public static final int INDEXER_ID = -1; // TO DO
     public static final double INDEXER_SPEED = -1;// TO DO 
 
+    //intake
+    public static final int INTAKE_ID = -1; //TO DO 
+    public static final int INTAKE_SPEED = -1; //TO DO
+
     //Climber
     public static final int L_CLIMBER_ID = -1; // to do
     public static final int R_CLIMBER_ID = -1; // to do
