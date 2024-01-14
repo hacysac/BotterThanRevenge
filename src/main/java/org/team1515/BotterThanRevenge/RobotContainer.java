@@ -4,7 +4,10 @@
 
 package org.team1515.BotterThanRevenge;
 
-import org.team1515.BotterThanRevenge.Utils.*;
+import org.team1515.BotterThanRevenge.Commands.ClimberDown;
+import org.team1515.BotterThanRevenge.Commands.ClimberUp;
+import org.team1515.BotterThanRevenge.Subsystems.Climber;
+import org.team1515.BotterThanRevenge.Utils.Utilities;
 
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -15,13 +18,21 @@ public class RobotContainer {
   public static XboxController mainController;
   public static XboxController secondController;
 
+  private static Climber climber;
+
   public RobotContainer() {
     mainController = new XboxController(0);
     secondController = new XboxController(1);
+
+    climber = new Climber();
+
     configureBindings();
   }
 
-  private void configureBindings() {}
+  private void configureBindings() {
+    Controls.CLIMB_UP.whileTrue(new ClimberUp(climber));
+    Controls.CLIMB_DOWN.whileTrue(new ClimberDown(climber));
+  }
 
   public Command getAutonomousCommand() {
     return Commands.print("No autonomous command configured");

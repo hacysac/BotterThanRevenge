@@ -1,7 +1,5 @@
 package org.team1515.BotterThanRevenge;
 
-import java.util.function.DoubleSupplier;
-
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 
 public class Controls {
@@ -12,6 +10,9 @@ public class Controls {
 
     public static final Trigger ZERO_ROBOT = new Trigger(RobotContainer.mainController::getStartButton);
     public static final Trigger FLIP_DRIVE_FORWARD = new Trigger(RobotContainer.mainController::getYButton);
+
+    public static final Trigger CLIMB_DOWN = new Trigger(RobotContainer.mainController::getAButton);
+    public static final Trigger CLIMB_UP = new Trigger(RobotContainer.mainController::getYButton);
 
     public static boolean getLeftTriggerMain() {
         return RobotContainer.mainController.getLeftTriggerAxis() >= 0.250;
