@@ -39,6 +39,8 @@ public class RobotContainer {
     Controls.INDEXER_DOWN.whileTrue(new IndexerDown(indexer));
     Controls.CLIMB_UP.whileTrue(new ClimberUp(climber));
     Controls.CLIMB_DOWN.whileTrue(new ClimberDown(climber));
+    Controls.INTAKE.whileTrue(new IntakeIn(intake));
+    Controls.OUTTAKE.whileTrue(new IntakeOut(intake));
   }
 
   public Command getAutonomousCommand() {
