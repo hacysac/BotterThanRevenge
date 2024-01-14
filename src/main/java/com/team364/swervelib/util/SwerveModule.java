@@ -6,7 +6,6 @@ import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.math.util.Units;
 
-import com.ctre.phoenix.sensors.CANCoderConfiguration;
 import com.ctre.phoenix6.configs.CANcoderConfiguration;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.controls.DutyCycleOut;
@@ -56,6 +55,8 @@ public class SwerveModule {
          * continuous controller which CTRE and Rev onboard is not
          */
         desiredState = CTREModuleState.optimize(desiredState, getState().angle);
+        System.out.println("Desired State: Passed in-" + getState().angle + ", Returned-" + desiredState.angle);
+        //TODO: check this (issue in desired state or setAngle?)
         setAngle(desiredState);
         setSpeed(desiredState, isOpenLoop);
     }
@@ -79,7 +80,8 @@ public class SwerveModule {
         mAngleMotor.setControl(new PositionDutyCycle(Conversions.degreesToRotations(angle.getDegrees(), SwerveConstants.Swerve.angleGearRatio)));
         lastAngle = angle;
 
-        System.out.println(angle.getRotations() + ", " + Conversions.degreesToRotations(angle.getDegrees(), SwerveConstants.Swerve.angleGearRatio));
+        System.out.println("Angle Motor " + mAngleMotor.getDeviceID() + ": Rotations-" + angle.getRotations() + ", Converted Rotations" + Conversions.degreesToRotations(angle.getDegrees(), SwerveConstants.Swerve.angleGearRatio));
+        //TODO: check this (issue in desired state or setAngle?)
     }
 
     private Rotation2d getAngle() {
@@ -91,8 +93,9 @@ public class SwerveModule {
     }
 
     public void resetToAbsolute() {
+        //double absolutePosition = Conversions.degreesToRotations(getCanCoder().getDegrees() - angleOffset.getDegrees(), SwerveConstants.Swerve.angleGearRatio);
         double absolutePosition = Units.degreesToRotations(getCanCoder().getDegrees() - angleOffset.getDegrees());
-        mAngleMotor.setPosition(absolutePosition);
+        mAngleMotor.setPosition(absolutePosition); //HERE (doing Units.degreesToRotations seemed to work, but the other way should be correct)
     }
 
     private void configAngleEncoder() {
@@ -128,8 +131,9 @@ public class SwerveModule {
 
     public SwerveModulePosition getPosition() {
         return new SwerveModulePosition(
-                Conversions.falconToMeters(Conversions.RPMToFalcon(mDriveMotor.getVelocity().getValueAsDouble()/60.0, SwerveConstants.Swerve.driveGearRatio),
+                Conversions.falconToMeters(Conversions.RPMToFalcon(mDriveMotor.getVelocity().getValueAsDouble()*60.0, SwerveConstants.Swerve.driveGearRatio),
                         SwerveConstants.Swerve.wheelCircumference, SwerveConstants.Swerve.driveGearRatio),
                 getAngle());
+        //may have just solved the issue (rps*60 -> rpm not rps/60) we r kinda stupid
     }
 }

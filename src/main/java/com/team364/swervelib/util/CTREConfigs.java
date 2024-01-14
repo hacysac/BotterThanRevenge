@@ -39,7 +39,7 @@ public final class CTREConfigs {
         swerveAngleFXConfig.Slot0.kD = SwerveConstants.Swerve.angleKD;
         swerveAngleFXConfig.Slot0.kV = SwerveConstants.Swerve.angleKF * 2048.0*(1.0/1023.0)*(0.1);
         MotorOutputConfigs invert = new MotorOutputConfigs();
-        invert.Inverted = InvertedValue.Clockwise_Positive;
+        invert.Inverted = InvertedValue.Clockwise_Positive; //TODO: add condition
         swerveAngleFXConfig.withMotorOutput(invert);
         swerveAngleFXConfig.withCurrentLimits(angleSupplyLimit);
 
