@@ -9,7 +9,7 @@ public class Controls {
     public static final Trigger CANCEL_ALL = new Trigger(RobotContainer.secondController::getBackButton);
 
     public static final Trigger ZERO_ROBOT = new Trigger(RobotContainer.mainController::getStartButton);
-    public static final Trigger FLIP_DRIVE_FORWARD = new Trigger(RobotContainer.mainController::getYButton);
+    //public static final Trigger FLIP_DRIVE_FORWARD = new Trigger(RobotContainer.mainController::getYButton);
 
     public static final Trigger CLIMB_DOWN = new Trigger(RobotContainer.mainController::getAButton);
     public static final Trigger CLIMB_UP = new Trigger(RobotContainer.mainController::getYButton);
