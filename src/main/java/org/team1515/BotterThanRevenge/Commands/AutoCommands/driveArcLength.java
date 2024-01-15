@@ -39,7 +39,16 @@ public class driveArcLength extends SequentialCommandGroup {
     for(int i = 0; i<points.length-2;i++){
         addCommands(new driveSegment(drivetrain, turnAmount , speed, points[i], points[i+1], segmentT, startPose, true));
     }
-    //addCommands(new InstantCommand(()->drivetrain.drive(new Translation2d(0,0), 0, true, true)));
+
+    Point lastPoint = new Point(drivetrain.getOdometry().getX()-startPose.getX(), drivetrain.getOdometry().getY()-startPose.getY());
+    Point projected = new Point(points[-1].x, points[-1].y);
+    double dist = Math.sqrt(Math.pow(projected.x-lastPoint.x,2)+Math.pow(projected.y-lastPoint.y,2));
+    speed = dist/segmentT;
+
+    turnAmount = () -> 0.0;
+
+    addCommands(new driveSegment(drivetrain, turnAmount, speed, lastPoint, projected, segmentT, startPose, true));
+    addCommands(new InstantCommand(()->drivetrain.drive(new Translation2d(0,0), 0, true, true)));
   }
 
 }
