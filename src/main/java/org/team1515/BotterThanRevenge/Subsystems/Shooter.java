@@ -18,12 +18,12 @@ public class Shooter extends SubsystemBase {
         rShooter.follow(lShooter, true);
     }
 
-    public void shoot(){
-        lShooter.set(RobotMap.SHOOTER_SPEED);
+    public void shoot(double speed){
+        lShooter.set(speed);
     }
     
     public void in(){
-        lShooter.set(-RobotMap.SHOOTER_SPEED);
+        lShooter.set(-RobotMap.AMP_SPEED);
     }
 
     public void end(){

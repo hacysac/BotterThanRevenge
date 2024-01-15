@@ -21,8 +21,4 @@ public class IntakeIn extends Command {
     public void end(boolean interrupted) {
         intake.end();
     }
-
-
-
-
 }

@@ -36,14 +36,20 @@ public class RobotContainer {
   }
 
   private void configureBindings() {
+    
     Controls.INDEXER_UP.whileTrue(new IndexerUp(indexer));
     Controls.INDEXER_DOWN.whileTrue(new IndexerDown(indexer));
+
     Controls.CLIMB_UP.whileTrue(new ClimberUp(climber));
     Controls.CLIMB_DOWN.whileTrue(new ClimberDown(climber));
+
     Controls.INTAKE.whileTrue(new IntakeIn(intake));
     Controls.OUTTAKE.whileTrue(new IntakeOut(intake));
-    Controls.SHOOT.whileTrue(new ShooterShoot(shooter));
+
+    Controls.SHOOT_SPEAKER.whileTrue(new ShooterShoot(shooter, RobotMap.SPEAKER_SPEED));
+    Controls.SHOOT_AMP.whileTrue(new ShooterShoot(shooter, RobotMap.AMP_SPEED));
     Controls.SHOOTER_IN.whileTrue(new ShooterIn(shooter));
+
   }
 
   public Command getAutonomousCommand() {
