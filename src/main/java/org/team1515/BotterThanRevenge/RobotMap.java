@@ -9,29 +9,27 @@ import edu.wpi.first.math.util.Units;
 
 public class RobotMap {
 
-    // Conversion factors
-    public final static double FALCON_SENSOR_UNITS = 4096.0;
-
     // PDH
-    public static final int PDH_ID = -1; // replace
+    public static final int PDH_ID = -1; // TODO
 
     // Subsystems
     // Indexer
-    public static final int TOP_INDEXER_ID = 0; // TO DO
-    public static final int BOTTOM_INDEXER_ID = 0; // TO DO
-    public static final double INDEXER_SPEED = -1;// TO DO 
+    public static final int TOP_INDEXER_ID = -1; // TODO
+    public static final int BOTTOM_INDEXER_ID = -1; // TODO
+    public static final double INDEXER_SPEED = -1;// TODO 
 
-    //intake
-    public static final int INTAKE_ID = -1; //TO DO 
-    public static final int INTAKE_SPEED = -1; //TO DO
+    //Intake
+    public static final int INTAKE_ID = -1; //TODO 
+    public static final int INTAKE_SPEED = -1; //TODO
 
     //Climber
-    public static final int L_CLIMBER_ID = -1; // to do
-    public static final int R_CLIMBER_ID = -1; // to do
-    public static final double CLIMBER_SPEED = -1; // to do
+    public static final int L_CLIMBER_ID = -1; // TODO
+    public static final int R_CLIMBER_ID = -1; // TODO
+    public static final double CLIMBER_SPEED = -1; // TODO
 
     // Shooter
-    public static final int L_SHOOTER_ID = -1; // to do
-    public static final int R_SHOOTER_ID = -1; // to do
-    public static final double SHOOTER_SPEED = -1; // to do
+    public static final int L_SHOOTER_ID = -1; // TODO
+    public static final int R_SHOOTER_ID = -1; // TODO
+    public static final double SPEAKER_SPEED = -1; // TODO
+    public static final double AMP_SPEED = -1; // TODO
 }

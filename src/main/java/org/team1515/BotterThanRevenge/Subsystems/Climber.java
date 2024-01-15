@@ -12,7 +12,6 @@ public class Climber extends SubsystemBase {
     private CANSparkMax lClimber;
 
     public Climber(){
-
         lClimber = new CANSparkMax(RobotMap.L_CLIMBER_ID, MotorType.kBrushless);
         rClimber = new CANSparkMax(RobotMap.R_CLIMBER_ID, MotorType.kBrushless);
     } 
