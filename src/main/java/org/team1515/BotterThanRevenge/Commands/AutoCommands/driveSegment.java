@@ -13,9 +13,9 @@ import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.util.Units;
-import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj2.command.Command;
 
-public class driveSegment extends CommandBase {
+public class driveSegment extends Command {
     private final Drivetrain drivetrain;
     private Point start;
     private Point end;
@@ -27,6 +27,7 @@ public class driveSegment extends CommandBase {
     private Pose2d originalPose;
     double iError;
     double jError;
+    private boolean runPose;
 
     private PIDController angleController;
     private double maxRotate;
@@ -60,11 +61,7 @@ public class driveSegment extends CommandBase {
         addRequirements(drivetrain);
     }
 
-    private double getAngle() {
-        return startAngle.getAsDouble() + angle.getAsDouble();
-    }
-
-    public driveSegment(Drivetrain drivetrain, double theta, double speed, Point start, Point end, double t, Pose2d pose) {
+    public driveSegment(Drivetrain drivetrain, DoubleSupplier theta, double speed, Point start, Point end, double t, Pose2d pose, boolean run) {
         this.drivetrain = drivetrain;
         this.start = start;
         this.end = end;
@@ -77,18 +74,9 @@ public class driveSegment extends CommandBase {
         startTime = System.currentTimeMillis();
         this.speed = speed;
         this.originalPose = pose;
-        Pose2d currentPose = drivetrain.getOdometry();
-        double originalX = originalPose.getX();
-        double originalY = originalPose.getY();
-        double projectedX = originalX+start.x;
-        double projectedY = originalY+start.y;
-        this.iError = projectedX-currentPose.getX();
-        this.jError = projectedY-currentPose.getY();
-        //adds vector to correct error (error/time driving)/speed
-        this.i+=(iError/t)/speed;
-        this.j+=(jError/t)/speed;
+        this.runPose = run;
 
-        this.angle = angle;
+        this.angle = theta;
         this.maxRotate = 0.5 * SwerveConstants.Swerve.maxAngularVelocity;
         this.startAngle = () -> RobotContainer.gyro.getGyroscopeRotation().getRadians();
         angleController = new PIDController(2, 1, 0);
@@ -99,11 +87,29 @@ public class driveSegment extends CommandBase {
         addRequirements(drivetrain);
     }
 
+    private double getAngle() {
+        return startAngle.getAsDouble() + angle.getAsDouble();
+    }
+
     @Override
     public void initialize(){
         startTime = System.currentTimeMillis();
         angleController.setSetpoint(MathUtil.angleModulus(getAngle()));
-        System.out.println("Start: " + MathUtil.angleModulus(getAngle()));
+        if (runPose){
+            Pose2d currentPose = drivetrain.getOdometry();
+            double originalX = originalPose.getX();
+            double originalY = originalPose.getY();
+            double projectedX = originalX+start.x;
+            double projectedY = originalY+start.y;
+            this.iError = projectedX-currentPose.getX();
+            this.jError = projectedY-currentPose.getY();
+            System.out.println("I Error: " + iError + ", J Error: " + jError);
+            //adds vector to correct error (error/time driving)/speed
+            
+            
+
+        }
+        //System.out.println("Start: " + MathUtil.angleModulus(getAngle()));
     }
 
     @Override
@@ -112,7 +118,7 @@ public class driveSegment extends CommandBase {
         double error = -MathUtil.angleModulus(currentAngle - angleController.getSetpoint());
         double rotation = (MathUtil.clamp(angleController.calculate(error + angleController.getSetpoint(), angleController.getSetpoint()) + (ff * Math.signum(-error)),
                 -maxRotate, maxRotate)); // change setpoint?
-        drivetrain.drive(new Translation2d(speed*i,speed*j), rotation,true,false);
+        drivetrain.drive(new Translation2d(speed*i+(iError/t),speed*j+(jError/t)), rotation,true,true);
         //System.out.println("i: " + i + " j: " + j + " speed: " + speed + " length: " + speed*t);
     }
 
@@ -124,8 +130,11 @@ public class driveSegment extends CommandBase {
 
     @Override
     public void end(boolean interrupted) {
-        System.out.print("t: " + (System.currentTimeMillis()-startTime));
-        System.out.println(" Speed: " + speed);
+        double xoff = drivetrain.getOdometry().getX()-originalPose.getX();
+        double yoff = drivetrain.getOdometry().getY()-originalPose.getY();
+        System.out.println("x: " + xoff + " y:" + yoff);
+        //System.out.print("t: " + (System.currentTimeMillis()-startTime));
+        //System.out.println(" Speed: " + speed);
         //drivetrain.drive(new Translation2d(0.0, 0.0), 0.0, false, false);
     }
 }

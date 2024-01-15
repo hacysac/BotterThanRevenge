@@ -25,14 +25,14 @@ public class bezierUtil {
         }
         return result;
     }
-    public static ArrayList<Equation> bezierEquation(ArrayList<Point> arr){
+    public static ArrayList<Equation> bezierEquation(Point[] arr){
         ArrayList<Equation> result = new ArrayList<Equation>();
-        int n = arr.size()-1;
+        int n = arr.length-1;
         for (int i = 0; i <= n; i++){
             int integar=i;
             // System.out.print(integar);
-            double x1 = arr.get(i).x;
-            double y1 = arr.get(i).y;
+            double x1 = arr[i].x;
+            double y1 = arr[i].y;
             DoubleFunction<Double> term1 = (double t) -> binomialCo(n,integar);
             DoubleFunction<Double> term2 = (double t) -> Math.pow((1.0-t), n-integar);
             DoubleFunction<Double> term3 = (double t) -> Math.pow(t,integar);
@@ -101,7 +101,7 @@ public class bezierUtil {
         return new Point(i, j);
     }
 
-    public static Point[] spacedPoints(ArrayList<Point> bezierPoints){
+    public static Point[] spacedPoints(Point[] bezierPoints){
         ArrayList<Equation> bezierEquation = bezierEquation(bezierPoints);
         //return value
         //number of points on our bezier apporximation
@@ -138,7 +138,7 @@ public class bezierUtil {
                 points[j] = applyBezierEquation(bezierEquation, tValues[j]);
             }
         }
-        points[points.length-1] = bezierPoints.get(bezierPoints.size()-1);
+        points[points.length-1] = bezierPoints[bezierPoints.length-1];
         return points;
     }
 }   

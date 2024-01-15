@@ -4,11 +4,17 @@
 
 package org.team1515.BotterThanRevenge;
 
+import java.util.ArrayList;
+import java.util.function.DoubleSupplier;
+
 import org.team1515.BotterThanRevenge.Commands.DefaultDriveCommand;
+import org.team1515.BotterThanRevenge.Commands.AutoCommands.driveArcLength;
+import org.team1515.BotterThanRevenge.Commands.AutoCommands.driveSegment;
 import org.team1515.BotterThanRevenge.Subsystems.Drivetrain;
 import org.team1515.BotterThanRevenge.Utils.*;
 
 import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
@@ -43,7 +49,19 @@ public class RobotContainer {
   }
 
   public Command getAutonomousCommand() {
-    return Commands.print("No autonomous command configured");
+    
+    Point[] points = {
+      new Point(0.0,0.0),
+      new Point(1.0,1.0),
+      new Point(2.0,0.0),
+      new Point(3.0,-1.0),
+      new Point(4.0,0.0)
+    };
+    points = bezierUtil.spacedPoints(points);
+
+    DoubleSupplier ds = ()->Units.degreesToRadians(90);
+    return new driveArcLength(drivetrain, points, 10, ds);
+    //return new driveSegment(drivetrain, ds, 1, new Point(0.0, 0.0), new Point(0.0, 5.0), 5);
   }
 
   public static double getRobotSpeed() {

@@ -147,12 +147,15 @@ public class Drivetrain extends SubsystemBase {
             SmartDashboard.putNumber("Mod " + mod.moduleNumber + " Cancoder", mod.getCANcoder().getDegrees());
             SmartDashboard.putNumber("Mod " + mod.moduleNumber + " Integrated", mod.getPosition().angle.getDegrees());
             SmartDashboard.putNumber("Mod " + mod.moduleNumber + " Velocity", mod.getState().speedMetersPerSecond);
+            
         }
         m_pose = m_odometry.update(RobotContainer.gyro.getGyroscopeRotation(),
             new SwerveModulePosition[] {
             mSwerveMods[0].getPosition(), mSwerveMods[1].getPosition(),
             mSwerveMods[2].getPosition(), mSwerveMods[3].getPosition()}
         );
+        SmartDashboard.putNumber("Pose X: ", getOdometry().getX());
+        SmartDashboard.putNumber("Pose Y: ", getOdometry().getY());
     }
 
     /**

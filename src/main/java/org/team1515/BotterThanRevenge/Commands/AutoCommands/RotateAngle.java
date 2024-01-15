@@ -9,13 +9,13 @@ import org.team1515.BotterThanRevenge.Subsystems.Drivetrain;
 
 import com.team364.swervelib.util.SwerveConstants;
 
-import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.util.Units;
+import edu.wpi.first.wpilibj2.command.Command;
 
-public class RotateAngle extends CommandBase {
+public class RotateAngle extends Command {
     private Drivetrain drivetrainSubsystem;
     // l
     private PIDController angleController;
