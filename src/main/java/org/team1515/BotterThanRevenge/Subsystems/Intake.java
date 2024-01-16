@@ -12,22 +12,23 @@ public class Intake extends SubsystemBase {
     private CANSparkMax bottomIntake;
     private CANSparkMax topIntake;
 
-    public Intake(){
-        bottomIntake = new CANSparkMax(RobotMap.INTAKE_ID, MotorType.kBrushless);
-        topIntake = new CANSparkMax(RobotMap.INTAKE_ID, MotorType.kBrushless);
+    private CANSparkMax flip;
 
+    public Intake(){
+        bottomIntake = new CANSparkMax(RobotMap.BOTTOM_INTAKE_ID, MotorType.kBrushless);
+        topIntake = new CANSparkMax(RobotMap.TOP_INTAKE_ID, MotorType.kBrushless);
+
+        flip = new CANSparkMax(RobotMap.FLIP_INTAKE_ID, MotorType.kBrushless);
     }
 
     public void in(){
         bottomIntake.set(RobotMap.INTAKE_SPEED);
         topIntake.set(RobotMap.INTAKE_SPEED);
-
     }
 
     public void out(){
         bottomIntake.set(-RobotMap.INTAKE_SPEED);
         topIntake.set(-RobotMap.INTAKE_SPEED);
-
     }
 
     public void end(){

@@ -19,7 +19,9 @@ public class RobotMap {
     public static final double INDEXER_SPEED = -1;// TODO 
 
     //Intake
-    public static final int INTAKE_ID = -1; //TODO 
+    public static final int BOTTOM_INTAKE_ID = -1; //TODO 
+    public static final int TOP_INTAKE_ID = -1; //TODO 
+    public static final int FLIP_INTAKE_ID = -1; //TODO 
     public static final int INTAKE_SPEED = -1; //TODO
 
     //Climber
