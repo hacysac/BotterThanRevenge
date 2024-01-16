@@ -10,7 +10,6 @@ import org.team1515.BotterThanRevenge.Subsystems.Drivetrain;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Translation2d;
-import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
@@ -44,7 +43,7 @@ public class driveArcLength extends SequentialCommandGroup {
         Point start = new Point(drivetrain.getOdometry().getX()-startPose.getX(), drivetrain.getOdometry().getY()-startPose.getY());
         double dist = Math.sqrt(Math.pow(points[i+1].x-start.x,2)+Math.pow(points[i+1].y-start.y,2));
         speed = dist/segmentT;
-        addCommands(new driveSegment(drivetrain, turnAmount , speed, start, points[i+1], segmentT));
+        addCommands(new driveSegment(drivetrain, turnAmount , start, points[i+1], segmentT));
     }
 
     Point lastPoint = new Point(drivetrain.getOdometry().getX()-startPose.getX(), drivetrain.getOdometry().getY()-startPose.getY());
@@ -98,17 +97,17 @@ public class driveArcLength extends SequentialCommandGroup {
     double segmentT = segmentLength/changingSpeed;
     for(int i = 0; i < numAccel; i++){
       segmentT = segmentLength/changingSpeed;
-      addCommands(new driveSegment(drivetrain, turnAmount , changingSpeed, points[i], points[i+1], segmentT, startPose, true));
+      addCommands(new driveSegment(drivetrain, turnAmount , points[i], points[i+1], segmentT, startPose, true));
       changingSpeed += finalAccel;
     }
     segmentT = (double) middleSegmentT.apply(maxSpeed);
     for(int i = numAccel; i < numMax;i++){
-        addCommands(new driveSegment(drivetrain, turnAmount , maxSpeed, points[i], points[i+1], segmentT, startPose, true));
+        addCommands(new driveSegment(drivetrain, turnAmount, points[i], points[i+1], segmentT, startPose, true));
     }
     for(int i = numMax; i < points.length-2; i++){
       changingSpeed += finalDecel;
       segmentT = segmentLength/changingSpeed;
-      addCommands(new driveSegment(drivetrain, turnAmount , changingSpeed, points[i], points[i+1], segmentT, startPose, true));
+      addCommands(new driveSegment(drivetrain, turnAmount, points[i], points[i+1], segmentT, startPose, true));
     }
   }
 

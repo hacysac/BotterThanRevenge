@@ -35,7 +35,7 @@ public class driveSegment extends Command {
     private DoubleSupplier angle;
     private double ff = 0.0; // retune
     
-    public driveSegment(Drivetrain drivetrain, DoubleSupplier theta, double speed, Point start, Point end, double t) {
+    public driveSegment(Drivetrain drivetrain, DoubleSupplier theta, Point start, Point end, double t) {
         this.drivetrain = drivetrain;
         this.start = start;
         this.end = end;
@@ -46,7 +46,7 @@ public class driveSegment extends Command {
         this.j = dy/mag; //unit vector j component
         this.t = t*1000;
         startTime = System.currentTimeMillis();
-        this.speed = speed;
+        this.speed = mag/t;
         this.iError = 0.0;
         this.jError = 0.0;
 
@@ -61,7 +61,7 @@ public class driveSegment extends Command {
         addRequirements(drivetrain);
     }
 
-    public driveSegment(Drivetrain drivetrain, DoubleSupplier theta, double speed, Point start, Point end, double t, Pose2d pose, boolean run) {
+    public driveSegment(Drivetrain drivetrain, DoubleSupplier theta, Point start, Point end, double t, Pose2d pose, boolean run) {
         this.drivetrain = drivetrain;
         this.start = start;
         this.end = end;
@@ -72,7 +72,7 @@ public class driveSegment extends Command {
         this.j = dy/mag; //unit vector j component
         this.t = t*1000;
         startTime = System.currentTimeMillis();
-        this.speed = speed;
+        this.speed = mag/t;
         this.originalPose = pose;
         this.runPose = run;
 
