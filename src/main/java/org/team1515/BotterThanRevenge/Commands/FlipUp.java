@@ -4,21 +4,26 @@ import edu.wpi.first.wpilibj2.command.Command;
 
 import org.team1515.BotterThanRevenge.Subsystems.Intake;
 
-public class IntakeIn extends Command {
+public class FlipUp extends Command {
     private final Intake intake; 
 
-    public IntakeIn(Intake intake) {
+    public FlipUp(Intake intake) {
         this.intake = intake;
         addRequirements(intake);
     }
 
     @Override
     public void execute() {
-        intake.in();
+        intake.flipUp();
+    }
+
+    @Override
+    public boolean isFinished(){
+        return intake.canCoderUp();
     }
 
     @Override
     public void end(boolean interrupted) {
-        intake.endIntake();
+        intake.endFlip();
     }
 }

@@ -19,6 +19,6 @@ public class IntakeOut extends Command {
 
     @Override
     public void end(boolean interrupted) {
-        intake.end();
+        intake.endIntake();
     }
 }
