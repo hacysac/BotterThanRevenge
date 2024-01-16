@@ -119,7 +119,8 @@ public class driveSegment extends Command {
         double rotation = (MathUtil.clamp(angleController.calculate(error + angleController.getSetpoint(), angleController.getSetpoint()) + (ff * Math.signum(-error)),
                 -maxRotate, maxRotate)); // change setpoint?
         drivetrain.drive(new Translation2d(speed*i+(iError/t),speed*j+(jError/t)), rotation,true,true);
-        //System.out.println("i: " + i + " j: " + j + " speed: " + speed + " length: " + speed*t);
+        System.out.println(" i: " + i + " j: " + j + " speed: " + speed + " length: " + speed*t);
+        System.out.println("start pose: " + start + "end pose: " + end + "\n");
     }
 
     @Override
@@ -130,9 +131,9 @@ public class driveSegment extends Command {
 
     @Override
     public void end(boolean interrupted) {
-        double xoff = drivetrain.getOdometry().getX()-originalPose.getX();
-        double yoff = drivetrain.getOdometry().getY()-originalPose.getY();
-        System.out.println("x: " + xoff + " y:" + yoff);
+        //double xoff = drivetrain.getOdometry().getX()-originalPose.getX();
+        //double yoff = drivetrain.getOdometry().getY()-originalPose.getY();
+        //System.out.println("x: " + xoff + " y:" + yoff);
         //System.out.print("t: " + (System.currentTimeMillis()-startTime));
         //System.out.println(" Speed: " + speed);
         //drivetrain.drive(new Translation2d(0.0, 0.0), 0.0, false, false);
