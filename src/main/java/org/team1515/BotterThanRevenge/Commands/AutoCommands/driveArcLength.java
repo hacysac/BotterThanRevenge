@@ -1,6 +1,7 @@
 package org.team1515.BotterThanRevenge.Commands.AutoCommands;
 
 import java.util.ArrayList;
+import java.util.function.DoubleFunction;
 import java.util.function.DoubleSupplier;
 
 import org.team1515.BotterThanRevenge.RobotContainer;
@@ -32,7 +33,7 @@ public class driveArcLength extends SequentialCommandGroup {
     // t1 = t3 = t2 = 1/3 (t)    
     
     double length = bezierUtil.bezierLength(points);
-    double segmentLength = length/(points.length-1);
+    double segmentLength = length/(points.length);
     double speed = length/t;
     double startAngle = RobotContainer.gyro.getGyroscopeRotation().getRadians();
     Pose2d startPose = drivetrain.getOdometry();
@@ -55,48 +56,56 @@ public class driveArcLength extends SequentialCommandGroup {
   }
   public driveArcLength(Drivetrain drivetrain, Point[] points, double t, DoubleSupplier theta, double initialSpeed, double finalSpeed, int numAccel, int numDecel) {
     double length = bezierUtil.bezierLength(points);
-    double segmentLength = length/(points.length-1);
+    double segmentLength = length/(points.length);
     int numSegments = points.length-1;
-    int numMax = numSegments-(numAccel+numDecel-1); // -1 because we discount the last point, stay at max speed for one segment less so we decelerate for the correct number of segments
+    int numMax = numSegments-(numAccel+numDecel); // -1 because we discount the last point, stay at max speed for one segment less so we decelerate for the correct number of segments
     
     //calculate segment time at max speed by subtracting time accelerating and time decelerating
-    double speed = initialSpeed;
-    double maxSpeed = length/t * 1.75; // max speed is 175% the average speed (this is an arbitratary measurement, check in testing)
-    double accel = (maxSpeed - initialSpeed)/numAccel;
-    double decel = (finalSpeed - maxSpeed)/numDecel;
-    
-    double accelT = 0.0;
-    for(int i = 0; i < numAccel; i++){
-      accelT += segmentLength/speed;
-      speed += accel;
-    }
-    double decelT = 0.0;
-    for(int i = numMax; i < points.length-2; i++){
-      decelT += segmentLength/speed;
-      speed += decel;
-    }
-    double middleT = t - (accelT+decelT);
-    double middleSegmentT = middleT/numMax; // MUST = SEGMENTLENGTH/MAXSPEED
+    DoubleFunction speed = (double maxSpeed) -> initialSpeed;
+    //DoubleFunction maxSpeed = (double factor) -> length/t * factor; // max speed is 175% the average speed (this is an arbitratary measurement, check in testing)
+    DoubleFunction accel = (double maxSpeed) -> (maxSpeed - initialSpeed)/numAccel;
+    DoubleFunction decel = (double maxSpeed) -> (finalSpeed - maxSpeed)/numDecel;
 
+    DoubleFunction accelT = (double maxSpeed) -> 0.0;
+    for(int i = 0; i < numAccel; i++){
+      accelT = (double maxSpeed) -> ((double) accelT.apply(maxSpeed) + (segmentLength/(double) speed.apply(maxSpeed))); // also for some reason cant make this non final
+      speed = (double maxSpeed) -> ((double) speed.apply(maxSpeed) + (double) accel.apply(maxSpeed));
+    }
+    DoubleFunction decelT = (double maxSpeed) -> 0.0;
+    for(int i = numMax; i < points.length-2; i++){
+      decelT = (double maxSpeed) -> ((double) decelT.apply(maxSpeed) + (segmentLength/(double) speed.apply(maxSpeed)));
+      speed = (double maxSpeed) -> ((double) speed.apply(maxSpeed) + (double) decel.apply(maxSpeed));
+    }
+    DoubleFunction middleT = (double maxSpeed) -> t - ((double) accelT.apply(maxSpeed)+(double) decelT.apply(maxSpeed));
+    DoubleFunction middleSegmentT = (double maxSpeed) -> (double) middleT.apply(maxSpeed)/numMax; // MUST = SEGMENTLENGTH/MAXSPEED
+    
+    
+    //segmentLength = middleSegmentT.apply(maxSpeed)*maxSpeed (segment length is known this is a one variable equation
+    
+    
+    double maxSpeed = 0.0; // HOW DO I SOLVE FOR THIS
+    double finalAccel = (double) accel.apply(maxSpeed);
+    double finalDecel = (double) decel.apply(maxSpeed);
     
     double startAngle = RobotContainer.gyro.getGyroscopeRotation().getRadians();
     Pose2d startPose = drivetrain.getOdometry();
     DoubleSupplier turnAmount = () -> theta.getAsDouble() - (RobotContainer.gyro.getGyroscopeRotation().getRadians() - startAngle);
 
-    speed = initialSpeed;
+    double changingSpeed = initialSpeed;
+    double segmentT = segmentLength/changingSpeed;
     for(int i = 0; i < numAccel; i++){
-      double segmentT = segmentLength/speed;
-      addCommands(new driveSegment(drivetrain, turnAmount , speed, points[i], points[i+1], segmentT, startPose, true));
-      speed += accel;
+      segmentT = segmentLength/changingSpeed;
+      addCommands(new driveSegment(drivetrain, turnAmount , changingSpeed, points[i], points[i+1], segmentT, startPose, true));
+      changingSpeed += finalAccel;
     }
-    speed = maxSpeed;
+    segmentT = (double) middleSegmentT.apply(maxSpeed);
     for(int i = numAccel; i < numMax;i++){
-        addCommands(new driveSegment(drivetrain, turnAmount , speed, points[i], points[i+1], middleSegmentT, startPose, true));
+        addCommands(new driveSegment(drivetrain, turnAmount , maxSpeed, points[i], points[i+1], segmentT, startPose, true));
     }
     for(int i = numMax; i < points.length-2; i++){
-      speed += decel;
-      double segmentT = segmentLength/speed;
-      addCommands(new driveSegment(drivetrain, turnAmount , speed, points[i], points[i+1], segmentT, startPose, true));
+      changingSpeed += finalDecel;
+      segmentT = segmentLength/changingSpeed;
+      addCommands(new driveSegment(drivetrain, turnAmount , changingSpeed, points[i], points[i+1], segmentT, startPose, true));
     }
   }
 
