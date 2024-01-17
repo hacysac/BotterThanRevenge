@@ -27,6 +27,25 @@ public class driveArcLength extends SequentialCommandGroup {
    *
 
    */
+
+   //working driveBezier
+  public driveArcLength(Drivetrain drivetrain, Point[] points, double t, DoubleSupplier theta, boolean working) {
+    double length = bezierUtil.bezierLength(points);
+    double segmentLength = length/points.length;
+    double speed = length/t;
+    double startAngle = RobotContainer.gyro.getGyroscopeRotation().getRadians();
+    Pose2d startPose = drivetrain.getOdometry();
+    DoubleSupplier turnAmount = () -> theta.getAsDouble() - (RobotContainer.gyro.getGyroscopeRotation().getRadians() - startAngle);
+    double segmentT = segmentLength/speed;
+
+    for(int i = 0; i<points.length-2;i++){
+        addCommands(new driveSegment(drivetrain, turnAmount, points[i], points[i+1], segmentT, startPose));
+    }
+    addCommands(new InstantCommand(()->drivetrain.drive(new Translation2d(0,0), 0, true, true)));
+  }
+
+  
+  //error correction not working
   public driveArcLength(Drivetrain drivetrain, Point[] points, double t, DoubleSupplier theta) {
     double startAngle = RobotContainer.gyro.getGyroscopeRotation().getRadians();
     Pose2d startPose = drivetrain.getOdometry();
@@ -36,7 +55,7 @@ public class driveArcLength extends SequentialCommandGroup {
 
     for(int i = 0; i<points.length-1;i++){
         Point start = new Point(drivetrain.getOdometry().getX()-startPose.getX(), drivetrain.getOdometry().getY()-startPose.getY());
-        addCommands(new driveSegment(drivetrain, turnAmount , start, points[i+1], segmentT));
+        addCommands(new driveSegment(drivetrain, turnAmount , start, points[i+1], segmentT, startPose));
     }
 
     Point lastPoint = new Point(drivetrain.getOdometry().getX()-startPose.getX(), drivetrain.getOdometry().getY()-startPose.getY());
@@ -47,6 +66,9 @@ public class driveArcLength extends SequentialCommandGroup {
     //addCommands(new driveSegment(drivetrain, turnAmount, lastPoint, projected, segmentT, startPose, true));
     addCommands(new InstantCommand(()->drivetrain.drive(new Translation2d(0,0), 0, true, true)));
   }
+
+
+  //accel deccel
   public driveArcLength(Drivetrain drivetrain, Point[] points, double t, DoubleSupplier theta, double initialSpeed, double finalSpeed, int numAccel, int numDeccel) {
     double length = bezierUtil.bezierLength(points);
     double segmentLength = length/(points.length);
@@ -98,14 +120,14 @@ public class driveArcLength extends SequentialCommandGroup {
     
     for(int i = 0; i < numAccel; i++){
       double segmentT = initialSegTime+accelAmount*i;
-      addCommands(new driveSegment(drivetrain, turnAmount , points[i], points[i+1], segmentT));
+      addCommands(new driveSegment(drivetrain, turnAmount , points[i], points[i+1], segmentT, startPose));
     }
     for(int i = numAccel; i < numMax;i++){
-        addCommands(new driveSegment(drivetrain, turnAmount, points[i], points[i+1], minTime));
+        addCommands(new driveSegment(drivetrain, turnAmount, points[i], points[i+1], minTime, startPose));
     }
     for(int i = numMax+numAccel; i < points.length-1; i++){
       double segmentT = averageSegTime+deccelAmount*(i-(numMax+numAccel));
-      addCommands(new driveSegment(drivetrain, turnAmount, points[i], points[i+1], segmentT));
+      addCommands(new driveSegment(drivetrain, turnAmount, points[i], points[i+1], segmentT, startPose));
     }
   }
 

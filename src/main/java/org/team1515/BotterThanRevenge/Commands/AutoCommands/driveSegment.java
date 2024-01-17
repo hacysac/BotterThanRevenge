@@ -35,8 +35,9 @@ public class driveSegment extends Command {
     private DoubleSupplier angle;
     private double ff = 0.0; // retune
     
-    public driveSegment(Drivetrain drivetrain, DoubleSupplier theta, Point start, Point end, double t) {
+    public driveSegment(Drivetrain drivetrain, DoubleSupplier theta, Point start, Point end, double t, Pose2d startPose) {
         this.drivetrain = drivetrain;
+        this.originalPose = startPose;
         this.start = start;
         this.end = end;
         double dx = end.x-start.x;//change in x from start to end
@@ -94,6 +95,12 @@ public class driveSegment extends Command {
     @Override
     public void initialize(){
         startTime = System.currentTimeMillis();
+        //start = drivetrain.getOdometry();
+        //double dx = end.x-start.x;//change in x from start to end
+        //double dy = end.y-start.y;//change in y from start to end
+        //double mag = Math.sqrt(Math.pow(dx, 2)+Math.pow(dy, 2));//magnitude of the change vector
+        //this.i = dx/mag; //unit vector i component
+        //this.j = dy/mag; //unit vector j component
         angleController.setSetpoint(MathUtil.angleModulus(getAngle()));
         if (runPose){
             Pose2d currentPose = drivetrain.getOdometry();
@@ -119,8 +126,7 @@ public class driveSegment extends Command {
         double rotation = (MathUtil.clamp(angleController.calculate(error + angleController.getSetpoint(), angleController.getSetpoint()) + (ff * Math.signum(-error)),
                 -maxRotate, maxRotate)); // change setpoint?
         drivetrain.drive(new Translation2d(speed*i+(iError/t),speed*j+(jError/t)), rotation,true,true);
-        System.out.println(" i: " + i + " j: " + j + " speed: " + speed + " length: " + speed*t);
-        System.out.println("start pose: " + start + "end pose: " + end + "\n");
+        //System.out.println(" i: " + i + " j: " + j + " speed: " + speed + " length: " + speed*t);
     }
 
     @Override
@@ -137,5 +143,6 @@ public class driveSegment extends Command {
         //System.out.print("t: " + (System.currentTimeMillis()-startTime));
         //System.out.println(" Speed: " + speed);
         //drivetrain.drive(new Translation2d(0.0, 0.0), 0.0, false, false);
+        System.out.println("start pose: " + start + "end pose: " + end + "\n");
     }
 }
