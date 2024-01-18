@@ -9,7 +9,6 @@ import org.team1515.BotterThanRevenge.Subsystems.Drivetrain;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Translation2d;
-import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
@@ -39,7 +38,7 @@ public class driveArcLength extends SequentialCommandGroup {
     for(int i = 0; i<points.length-2;i++){
         addCommands(new driveSegment(drivetrain, turnAmount , speed, points[i], points[i+1], segmentT, startPose, true));
     }
-    //addCommands(new InstantCommand(()->drivetrain.drive(new Translation2d(0,0), 0, true, true)));
+    addCommands(new InstantCommand(()->drivetrain.drive(new Translation2d(0,0), 0, true, true)));
   }
 
 }
