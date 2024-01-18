@@ -118,7 +118,7 @@ public class bezierUtil {
             tValues[i] = (double)i/n;
         }
         //4 rounds of nudging
-        for(int i = 0; i<4; i++){
+        for(int i = 0; i<6; i++){
             //list of lengths of each bezier section
             double[] legLengths = new double[n-1];
             for(int j = 0; j<n-1;j++){
