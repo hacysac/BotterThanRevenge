@@ -32,12 +32,11 @@ public class driveSegment extends Command {
     private DoubleSupplier angle;
     private double ff = 0.0; // retune
     
-    public driveSegment(Drivetrain drivetrain, DoubleSupplier theta, Point start, Point end, double t, Pose2d startPose) {
+    public driveSegment(Drivetrain drivetrain, DoubleSupplier theta, Point end, double t, Pose2d startPose) {
         this.drivetrain = drivetrain;
         this.originalPose = startPose;
         this.end = end;
         this.t = t*1000;
-        startTime = System.currentTimeMillis();
 
         this.angle = theta;
         this.maxRotate = 0.5 * SwerveConstants.Swerve.maxAngularVelocity;
@@ -56,14 +55,20 @@ public class driveSegment extends Command {
 
     @Override
     public void initialize(){
-        start = new Point(drivetrain.getOdometry().getX() - originalPose.getX(), drivetrain.getOdometry().getY() - originalPose.getY());
+
+        startTime = System.currentTimeMillis(); // time when command is run
+
+        //reset the start pose to the current odometry and calculate speed based on the distance from the setpoint
+        start = new Point(drivetrain.getOdometry().getX() - originalPose.getX(), 
+                          drivetrain.getOdometry().getY() - originalPose.getY()); 
+                          // starting position relative to the original position of the bezier
         double dx = end.x-start.x;//change in x from start to end
         double dy = end.y-start.y;//change in y from start to end
         double mag = Math.sqrt(Math.pow(dx, 2)+Math.pow(dy, 2));//magnitude of the change vector
         i = dx/mag; //unit vector i component
         j = dy/mag; //unit vector j component
         speed = mag/(t/1000);
-        startTime = System.currentTimeMillis();
+
         angleController.setSetpoint(MathUtil.angleModulus(getAngle()));
         //System.out.println("Start: " + MathUtil.angleModulus(getAngle()));
     }
@@ -73,14 +78,12 @@ public class driveSegment extends Command {
         double currentAngle = RobotContainer.gyro.getGyroscopeRotation().getRadians();
         double error = -MathUtil.angleModulus(currentAngle - angleController.getSetpoint());
         double rotation = (MathUtil.clamp(angleController.calculate(error + angleController.getSetpoint(), angleController.getSetpoint()) + (ff * Math.signum(-error)),
-                -maxRotate, maxRotate)); // change setpoint?
+                -maxRotate, maxRotate)); //setpoint can't be zero, addsetpoint to error
         drivetrain.drive(new Translation2d(speed*i,speed*j), rotation,true,true);
-        //System.out.println(" i: " + i + " j: " + j + " speed: " + speed + " length: " + speed*t);
     }
 
     @Override
     public boolean isFinished() {
-        //System.out.println("t: " + t);
         return System.currentTimeMillis()-startTime >= t;
     }
 
@@ -91,7 +94,6 @@ public class driveSegment extends Command {
         //System.out.println("x: " + xoff + " y:" + yoff);
         //System.out.print("t: " + (System.currentTimeMillis()-startTime));
         //System.out.println(" Speed: " + speed);
-        //drivetrain.drive(new Translation2d(0.0, 0.0), 0.0, false, false);
         //System.out.println("start pose: " + start.x + ", " + start.y + " end pose: " + end.x + ", " + end.y + "\n");
         //System.out.println("odem x: " + drivetrain.getOdometry().getX() + " odem y: " + drivetrain.getOdometry().getY() + "\n");
     }
