@@ -24,6 +24,7 @@ public class driveSegment extends Command {
     private double startTime; //actial system time
     private double i;
     private double j;
+    private double ramp;
     private Pose2d originalPose;
 
     private PIDController angleController;
@@ -32,11 +33,12 @@ public class driveSegment extends Command {
     private DoubleSupplier angle;
     private double ff = 0.0; // retune
     
-    public driveSegment(Drivetrain drivetrain, DoubleSupplier theta, Point end, double t, Pose2d startPose) {
+    public driveSegment(Drivetrain drivetrain, DoubleSupplier theta, Point end, double t, Pose2d startPose, double ramp) {
         this.drivetrain = drivetrain;
         this.originalPose = startPose;
         this.end = end;
         this.t = t*1000;
+        this.ramp = ramp;
 
         this.angle = theta;
         this.maxRotate = 0.5 * SwerveConstants.Swerve.maxAngularVelocity;
@@ -79,7 +81,7 @@ public class driveSegment extends Command {
         double error = -MathUtil.angleModulus(currentAngle - angleController.getSetpoint());
         double rotation = (MathUtil.clamp(angleController.calculate(error + angleController.getSetpoint(), angleController.getSetpoint()) + (ff * Math.signum(-error)),
                 -maxRotate, maxRotate)); //setpoint can't be zero, addsetpoint to error
-        drivetrain.drive(new Translation2d(speed*i,speed*j), rotation,true,true);
+        drivetrain.drive(new Translation2d(speed*i*ramp,speed*j*ramp), rotation,true,true);
     }
 
     @Override
