@@ -27,12 +27,15 @@ public class RobotContainer {
 
   public static Gyroscope gyro;
   private Drivetrain drivetrain;
+  private PhotonVision photon;
 
   public RobotContainer() {
     mainController = new XboxController(0);
     secondController = new XboxController(1);
 
     gyro = new Gyroscope();
+    photon = new PhotonVision();
+
     drivetrain = new Drivetrain(new Pose2d());
 
     configureBindings();
@@ -45,7 +48,9 @@ public class RobotContainer {
             () -> -modifyAxis(-mainController.getLeftX() * getRobotSpeed()),
             () -> modifyAxis(mainController.getRightX() * getRobotSpeed()),
             () -> Controls.DRIVE_ROBOT_ORIENTED.getAsBoolean()));
+            
     Controls.RESET_GYRO.onTrue(new InstantCommand(()->drivetrain.zeroGyro()));
+    Controls.GET_ANGLE_TARGET.onTrue(new InstantCommand(()->System.out.println(photon.getAngle())));
   }
 
   public Command getAutonomousCommand() {
