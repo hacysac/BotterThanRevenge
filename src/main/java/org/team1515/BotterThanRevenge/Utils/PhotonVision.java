@@ -13,7 +13,6 @@ public class PhotonVision {
         camera = new PhotonCamera(RobotMap.CAMERA_NAME);
     }
 
-    /* 
     public double getDist(){
         var result = camera.getLatestResult();
         if (result.hasTargets()){
@@ -26,7 +25,7 @@ public class PhotonVision {
                     Units.degreesToRadians(result.getBestTarget().getPitch()));
                     return range;
             }
-            if(targetID==RobotMap.SPEAKER_ID){
+            else if(targetID==RobotMap.SPEAKER_TAG_ID){
                 double range = PhotonUtils.calculateDistanceToTargetMeters(
                     RobotMap.CAMERA_HEIGHT_METERS,
                     RobotMap.SPEAKER_TARGET_HEIGHT_METERS,
@@ -37,12 +36,11 @@ public class PhotonVision {
         }
         return 0.0;
     }
-    */
 
     public double getAngle(){
         var result = camera.getLatestResult();
         if (result.hasTargets()){
-            return result.getBestTarget().getYaw();
+            return Units.degreesToRadians(result.getBestTarget().getYaw());
         }
         return 0.0;
     }

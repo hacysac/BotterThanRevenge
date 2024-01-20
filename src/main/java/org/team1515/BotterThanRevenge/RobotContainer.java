@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.function.DoubleSupplier;
 
 import org.team1515.BotterThanRevenge.Commands.DefaultDriveCommand;
+import org.team1515.BotterThanRevenge.Commands.AutoCommands.RotateAngle;
 import org.team1515.BotterThanRevenge.Commands.AutoCommands.driveArcLength;
 import org.team1515.BotterThanRevenge.Commands.AutoCommands.driveSegment;
 import org.team1515.BotterThanRevenge.Subsystems.Drivetrain;
@@ -50,7 +51,9 @@ public class RobotContainer {
             () -> Controls.DRIVE_ROBOT_ORIENTED.getAsBoolean()));
             
     Controls.RESET_GYRO.onTrue(new InstantCommand(()->drivetrain.zeroGyro()));
-    Controls.GET_ANGLE_TARGET.onTrue(new InstantCommand(()->System.out.println(photon.getAngle())));
+    DoubleSupplier angle = () -> -photon.getAngle();
+    Controls.ROTATE_ANGLE_TARGET.onTrue(new RotateAngle(drivetrain, angle));
+    Controls.GET_DIST_TARGET.onTrue(new InstantCommand(()->System.out.println(photon.getDist())));
   }
 
   public Command getAutonomousCommand() {
@@ -64,8 +67,8 @@ public class RobotContainer {
     };
     points = bezierUtil.spacedPoints(points);
 
-    DoubleSupplier ds = ()->Units.degreesToRadians(0.0);
-    return new driveArcLength(drivetrain, points, 10, ds);
+    DoubleSupplier ds = ()->Units.degreesToRadians(360.0);
+    return new driveArcLength(drivetrain, points, 7, ds);
     //return new driveSegment(drivetrain, ds, 1, new Point(0.0, 0.0), new Point(0.0, 5.0), 5);
   }
 

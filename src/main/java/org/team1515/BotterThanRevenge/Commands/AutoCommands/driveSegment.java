@@ -33,17 +33,17 @@ public class driveSegment extends Command {
     private DoubleSupplier angle;
     private double ff = 0.0; // retune
     
-    public driveSegment(Drivetrain drivetrain, DoubleSupplier theta, Point end, double t, Pose2d startPose, double ramp) {
+    public driveSegment(Drivetrain drivetrain, DoubleSupplier theta, Point end, double speed, Pose2d startPose) {
         this.drivetrain = drivetrain;
         this.originalPose = startPose;
         this.end = end;
-        this.t = t*1000;
-        this.ramp = ramp;
+        //this.ramp = ramp;
 
         this.angle = theta;
         this.maxRotate = 0.5 * SwerveConstants.Swerve.maxAngularVelocity;
         this.startAngle = () -> RobotContainer.gyro.getGyroscopeRotation().getRadians();
         angleController = new PIDController(2, 1, 0);
+        speed = speed;
         // TODO retune PID
         angleController.setTolerance(Units.degreesToRadians(3));
         angleController.enableContinuousInput(-Math.PI, Math.PI);
@@ -69,7 +69,7 @@ public class driveSegment extends Command {
         double mag = Math.sqrt(Math.pow(dx, 2)+Math.pow(dy, 2));//magnitude of the change vector
         i = dx/mag; //unit vector i component
         j = dy/mag; //unit vector j component
-        speed = mag/(t/1000);
+        this.t = (mag/speed);
 
         angleController.setSetpoint(MathUtil.angleModulus(getAngle()));
         //System.out.println("Start: " + MathUtil.angleModulus(getAngle()));
@@ -81,7 +81,7 @@ public class driveSegment extends Command {
         double error = -MathUtil.angleModulus(currentAngle - angleController.getSetpoint());
         double rotation = (MathUtil.clamp(angleController.calculate(error + angleController.getSetpoint(), angleController.getSetpoint()) + (ff * Math.signum(-error)),
                 -maxRotate, maxRotate)); //setpoint can't be zero, addsetpoint to error
-        drivetrain.drive(new Translation2d(speed*i*ramp,speed*j*ramp), rotation,true,true);
+        drivetrain.drive(new Translation2d(speed*i,speed*j), rotation,true,true);
     }
 
     @Override
