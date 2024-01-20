@@ -43,7 +43,7 @@ public class driveSegment extends Command {
         this.maxRotate = 0.5 * SwerveConstants.Swerve.maxAngularVelocity;
         this.startAngle = () -> RobotContainer.gyro.getGyroscopeRotation().getRadians();
         angleController = new PIDController(2, 1, 0);
-        speed = speed;
+        this.speed = speed;
         // TODO retune PID
         angleController.setTolerance(Units.degreesToRadians(3));
         angleController.enableContinuousInput(-Math.PI, Math.PI);
