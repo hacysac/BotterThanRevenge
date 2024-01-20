@@ -16,11 +16,11 @@ public class RobotMap {
     public static final int PDH_ID = -1; // replace
 
     //Vision
-    public static final String CAMERA_NAME = ""; //TODO
-    public static final double CAMERA_HEIGHT_METERS = -1.0; //TODO
+    public static final String CAMERA_NAME = "camera3"; //TODO
+    public static final double CAMERA_HEIGHT_METERS = 1.18; //TODO
     public static final double AMP_TARGET_HEIGHT_METERS = -1.0; //TODO: to center or bottom?
     public static final double SPEAKER_TARGET_HEIGHT_METERS = -1.0; //TODO: to center or bottom?
-    public static final double CAMERA_PITCH_RADIANS = -1.0; //TODO
+    public static final double CAMERA_PITCH_RADIANS = 0; //TODO
 
     // Subsystems
 
