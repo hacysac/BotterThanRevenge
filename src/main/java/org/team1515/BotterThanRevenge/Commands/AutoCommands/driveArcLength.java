@@ -35,8 +35,22 @@ public class driveArcLength extends SequentialCommandGroup {
 
     double [] rampArr = calcUtil.rampArr(points.length, 0.5, 1.5);
     for(int i = 0; i<points.length-1;i++){
-        addCommands(new driveSegment(drivetrain, turnAmount, points[i+1], segmentT, startPose));
+        addCommands(new driveSegment(drivetrain, turnAmount, points[i+1], segmentT, startPose, rampArr[i]));
     }
+
+    // //to account for slow down
+    // //20ms roborio cycle
+    // double cycleSeconds = 0.02;
+    // //1 wasted cycle updating per command
+    // double totalExtra = cycleSeconds*points.length;
+    // //extra speed neded to account
+    // double speedCorrection = totalExtra/t;
+    // //ramp multiplier to account
+    // double constantRamp = 1.0+speedCorrection;
+
+    // for(int i = 0; i<points.length-1;i++){
+    //     addCommands(new driveSegment(drivetrain, turnAmount, points[i+1], segmentT, startPose, ));
+    // }
 
     //correction on final point if needed
     //Point lastPoint = new Point(drivetrain.getOdometry().getX()-startPose.getX(), drivetrain.getOdometry().getY()-startPose.getY());
