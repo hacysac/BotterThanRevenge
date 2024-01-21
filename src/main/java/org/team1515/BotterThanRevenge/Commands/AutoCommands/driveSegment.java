@@ -24,7 +24,6 @@ public class driveSegment extends Command {
     private double startTime; //actial system time
     private double i;
     private double j;
-    private double ramp;
     private Pose2d originalPose;
 
     private PIDController angleController;
@@ -37,7 +36,8 @@ public class driveSegment extends Command {
         this.drivetrain = drivetrain;
         this.originalPose = startPose;
         this.end = end;
-        //this.ramp = ramp;
+
+        this.speed = speed;
 
         this.angle = theta;
         this.maxRotate = 0.5 * SwerveConstants.Swerve.maxAngularVelocity;
@@ -69,7 +69,8 @@ public class driveSegment extends Command {
         double mag = Math.sqrt(Math.pow(dx, 2)+Math.pow(dy, 2));//magnitude of the change vector
         i = dx/mag; //unit vector i component
         j = dy/mag; //unit vector j component
-        this.t = (mag/speed);
+
+        this.t = (mag/speed) *1000;
 
         angleController.setSetpoint(MathUtil.angleModulus(getAngle()));
         //System.out.println("Start: " + MathUtil.angleModulus(getAngle()));
