@@ -15,6 +15,7 @@ import org.team1515.BotterThanRevenge.Subsystems.Drivetrain;
 import org.team1515.BotterThanRevenge.Utils.*;
 
 import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -51,6 +52,7 @@ public class RobotContainer {
             () -> Controls.DRIVE_ROBOT_ORIENTED.getAsBoolean()));
             
     Controls.RESET_GYRO.onTrue(new InstantCommand(()->drivetrain.zeroGyro()));
+    Controls.ZERO_ROBOT.onTrue(new InstantCommand(()->drivetrain.setOdometry(new Pose2d(new Translation2d(0,0), drivetrain.getOdometry().getRotation()))));
     DoubleSupplier angle = () -> -photon.getAngle();
     Controls.ROTATE_ANGLE_TARGET.onTrue(new RotateAngle(drivetrain, angle));
     Controls.GET_DIST_TARGET.onTrue(new InstantCommand(()->System.out.println(photon.getDist())));
