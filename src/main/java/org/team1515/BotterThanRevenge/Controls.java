@@ -10,7 +10,7 @@ public class Controls {
     public static final Trigger DRIVE_ROBOT_ORIENTED = new Trigger(RobotContainer.mainController::getLeftBumper);
     public static final Trigger CANCEL_ALL = new Trigger(RobotContainer.secondController::getBackButton);
 
-    public static final Trigger ZERO_ROBOT = new Trigger(RobotContainer.mainController::getStartButton);
+    public static final Trigger ZERO_ROBOT = new Trigger(RobotContainer.mainController::getXButton);
     public static final Trigger FLIP_DRIVE_FORWARD = new Trigger(RobotContainer.mainController::getYButton);
 
     public static final Trigger ROTATE_ANGLE_TARGET = new Trigger(RobotContainer.mainController::getBButton);

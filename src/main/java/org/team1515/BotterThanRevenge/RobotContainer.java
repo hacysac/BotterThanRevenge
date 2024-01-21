@@ -15,12 +15,14 @@ import org.team1515.BotterThanRevenge.Subsystems.Drivetrain;
 import org.team1515.BotterThanRevenge.Utils.*;
 
 import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 
 public class RobotContainer {
 
@@ -29,7 +31,7 @@ public class RobotContainer {
 
   public static Gyroscope gyro;
   private Drivetrain drivetrain;
-  private PhotonVision photon;
+  public static PhotonVision photon;
 
   public RobotContainer() {
     mainController = new XboxController(0);
@@ -38,7 +40,7 @@ public class RobotContainer {
     gyro = new Gyroscope();
     photon = new PhotonVision();
 
-    drivetrain = new Drivetrain(new Pose2d());
+    drivetrain = new Drivetrain(new Pose2d(), photon);
 
     configureBindings();
   }
@@ -52,7 +54,7 @@ public class RobotContainer {
             () -> Controls.DRIVE_ROBOT_ORIENTED.getAsBoolean()));
             
     Controls.RESET_GYRO.onTrue(new InstantCommand(()->drivetrain.zeroGyro()));
-    Controls.ZERO_ROBOT.onTrue(new InstantCommand(()->drivetrain.setOdometry(new Pose2d(new Translation2d(0,0), drivetrain.getOdometry().getRotation()))));
+    Controls.ZERO_ROBOT.onTrue(new SequentialCommandGroup(new InstantCommand(()->drivetrain.setOdometry(new Pose2d(new Translation2d(0,0), new Rotation2d(0.0)))), new InstantCommand(()->drivetrain.zeroGyro())));
     DoubleSupplier angle = () -> -photon.getAngle();
     Controls.ROTATE_ANGLE_TARGET.onTrue(new RotateAngle(drivetrain, angle));
     Controls.GET_DIST_TARGET.onTrue(new InstantCommand(()->System.out.println(photon.getDist())));
@@ -70,8 +72,8 @@ public class RobotContainer {
     points = bezierUtil.spacedPoints(points);
 
 
-    DoubleSupplier ds = ()->Units.degreesToRadians(90.0);
-    return new driveArcLength(drivetrain, points, 7, ds);
+    DoubleSupplier ds = ()->Units.degreesToRadians(0.0);
+    return new driveArcLength(drivetrain, points, 5, ds);
     //return new driveSegment(drivetrain, ds, 1, new Point(0.0, 0.0), new Point(0.0, 5.0), 5);
   }
 

@@ -20,7 +20,7 @@ public class RobotMap {
     public static final double CAMERA_HEIGHT_METERS = 0.07; //TODO
     public static final double AMP_TARGET_HEIGHT_METERS = -1.0; //TODO: to center or bottom?
     public static final double SPEAKER_TARGET_HEIGHT_METERS = 0.85; //TODO: to center or bottom?
-    public static final double CAMERA_PITCH_RADIANS = Units.degreesToRadians(0.0); //TODO
+    public static final double CAMERA_PITCH_RADIANS = Units.degreesToRadians(18.0); //TODO
     public static int SPEAKER_TAG_ID = 3;
     public static int L_AMP_TAG_ID = 2;
     public static int R_AMP_TAG_ID = 2;

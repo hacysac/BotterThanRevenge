@@ -1,11 +1,15 @@
 package org.team1515.BotterThanRevenge.Subsystems;
 
 import org.team1515.BotterThanRevenge.RobotContainer;
+import org.team1515.BotterThanRevenge.Utils.PhotonVision;
 
 import com.team364.swervelib.util.SwerveConstants;
 import com.team364.swervelib.util.SwerveModule;
 
+import edu.wpi.first.math.estimator.PoseEstimator;
+import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
 import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
@@ -25,11 +29,15 @@ public class Drivetrain extends SubsystemBase {
 
     private SwerveDriveOdometry m_odometry;
     private Pose2d m_pose;
+    private SwerveDrivePoseEstimator estimator;
+    private PhotonVision photonVision;
 
 
-    public Drivetrain(Pose2d initialPos) {
+    public Drivetrain(Pose2d initialPos, PhotonVision photon) {
         realZero = Rotation2d.fromDegrees(RobotContainer.gyro.getYaw());
 
+        photonVision = photon;
+        
         zeroGyro();
 
         mSwerveMods = new SwerveModule[] {
@@ -39,7 +47,6 @@ public class Drivetrain extends SubsystemBase {
                 new SwerveModule(3, SwerveConstants.Swerve.Mod3.constants)
         };
 
-        
 
         m_odometry = new SwerveDriveOdometry(
             SwerveConstants.Swerve.swerveKinematics, RobotContainer.gyro.getGyroscopeRotation(),
@@ -49,6 +56,10 @@ public class Drivetrain extends SubsystemBase {
             mSwerveMods[2].getPosition(),
             mSwerveMods[3].getPosition()
         }, new Pose2d(0, 0, new Rotation2d(0)));
+
+        estimator = new SwerveDrivePoseEstimator(SwerveConstants.Swerve.swerveKinematics, RobotContainer.gyro.getGyroscopeRotation(),new SwerveModulePosition[] {mSwerveMods[0].getPosition(),mSwerveMods[1].getPosition(),mSwerveMods[2].getPosition(),mSwerveMods[3].getPosition()}, initialPos);
+        
+
 
         /*
          * By pausing init for a second before setting module offsets, we avoid a bug
@@ -149,11 +160,24 @@ public class Drivetrain extends SubsystemBase {
             SmartDashboard.putNumber("Mod " + mod.moduleNumber + " Velocity", mod.getState().speedMetersPerSecond);
             
         }
-        m_pose = m_odometry.update(RobotContainer.gyro.getGyroscopeRotation(),
+        m_pose = estimator.update(RobotContainer.gyro.getGyroscopeRotation(),
             new SwerveModulePosition[] {
             mSwerveMods[0].getPosition(), mSwerveMods[1].getPosition(),
             mSwerveMods[2].getPosition(), mSwerveMods[3].getPosition()}
         );
+
+        // Compute the robot's field-relative position exclusively from vision measurements.
+        if(photonVision.getEstimatedGlobalPose(m_pose).isPresent()){
+            Pose3d visionMeasurement3d = photonVision.getEstimatedGlobalPose(m_pose).get().estimatedPose;
+
+            // Convert robot pose from Pose3d to Pose2d needed to apply vision measurements.
+            Pose2d visionMeasurement2d = visionMeasurement3d.toPose2d();
+
+            estimator.addVisionMeasurement(visionMeasurement2d, Timer.getFPGATimestamp());
+        }
+
+
+
         SmartDashboard.putNumber("Pose X: ", getOdometry().getX());
         SmartDashboard.putNumber("Pose Y: ", getOdometry().getY());
     }

@@ -105,7 +105,7 @@ public class bezierUtil {
         ArrayList<Equation> bezierEquation = bezierEquation(bezierPoints);
         //return value
         //number of points on our bezier apporximation
-        int n = 100;
+        int n = 50;
         //set of points on our bezier
         Point[] points = placePoints(bezierEquation, n);
         //use helper functions to calculate average leg length
@@ -118,7 +118,7 @@ public class bezierUtil {
             tValues[i] = (double)i/n;
         }
         //4 rounds of nudging
-        for(int i = 0; i<6; i++){
+        for(int i = 0; i<4; i++){
             //list of lengths of each bezier section
             double[] legLengths = new double[n-1];
             for(int j = 0; j<n-1;j++){
