@@ -5,6 +5,7 @@ import java.util.function.DoubleSupplier;
 import org.team1515.BotterThanRevenge.RobotContainer;
 import org.team1515.BotterThanRevenge.Subsystems.Drivetrain;
 import org.team1515.BotterThanRevenge.Utils.Point;
+import org.team1515.BotterThanRevenge.Utils.bezierUtil;
 import org.team1515.BotterThanRevenge.Utils.calcUtil;
 
 import edu.wpi.first.math.geometry.Pose2d;
@@ -28,14 +29,14 @@ public class driveArcLength extends SequentialCommandGroup {
     Pose2d startPose = drivetrain.getOdometry();
     DoubleSupplier turnAmount = () -> theta.getAsDouble() - (RobotContainer.gyro.getGyroscopeRotation().getRadians() - startAngle);
     int numSegments = points.length-1;
-    double segmentT = t/(double) numSegments; // check this
+    double speed = bezierUtil.bezierLength(points)/t; // check this
     
     //starting odometry
     addCommands(new InstantCommand(()->System.out.println("odem x: " + drivetrain.getOdometry().getX() + " odem y: " + drivetrain.getOdometry().getY() + "\n")));
 
-    double [] rampArr = calcUtil.rampArr(points.length, 0.5, 1.5);
+    //double [] rampArr = calcUtil.rampArr(points.length, 0.5, 1.5);
     for(int i = 0; i<points.length-1;i++){
-        addCommands(new driveSegment(drivetrain, turnAmount, points[i+1], segmentT, startPose, rampArr[i]));
+        addCommands(new driveSegment(drivetrain, turnAmount, points[i+1], speed, startPose));
     }
 
     // //to account for slow down
