@@ -25,5 +25,6 @@ public class FlipUp extends Command {
     @Override
     public void end(boolean interrupted) {
         intake.endFlip();
+        intake.setDown(false);
     }
 }
