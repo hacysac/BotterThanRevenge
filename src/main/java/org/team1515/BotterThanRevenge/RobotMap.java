@@ -9,6 +9,7 @@ public class RobotMap {
     // Indexer
     public static final int TOP_INDEXER_ID = -1; // TODO
     public static final int BOTTOM_INDEXER_ID = -1; // TODO
+    public static final int INDEX_SENSOR_CHANNEL = -1; // TODO
     public static final double INDEXER_SPEED = -1;// TODO 
 
     //Intake

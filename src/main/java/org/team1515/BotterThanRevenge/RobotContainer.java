@@ -43,8 +43,9 @@ public class RobotContainer {
     Controls.CLIMB_UP.whileTrue(new ClimberUp(climber));
     Controls.CLIMB_DOWN.whileTrue(new ClimberDown(climber));
 
-    Controls.INTAKE.whileTrue(new IntakeIn(intake));
+    Controls.INTAKE.onTrue(new IntakeIn(intake, indexer));
     Controls.OUTTAKE.whileTrue(new IntakeOut(intake));
+    Controls.FLIP.onTrue(new Flip(intake));
 
     Controls.SHOOT_SPEAKER.whileTrue(new ShooterShoot(shooter, RobotMap.SPEAKER_SPEED));
     Controls.SHOOT_AMP.whileTrue(new ShooterShoot(shooter, RobotMap.AMP_SPEED));
