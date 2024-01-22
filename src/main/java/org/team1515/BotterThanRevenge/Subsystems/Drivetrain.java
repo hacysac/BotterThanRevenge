@@ -55,9 +55,16 @@ public class Drivetrain extends SubsystemBase {
             mSwerveMods[1].getPosition(),
             mSwerveMods[2].getPosition(),
             mSwerveMods[3].getPosition()
-        }, new Pose2d(0, 0, new Rotation2d(0)));
+        }, initialPos);
 
-        estimator = new SwerveDrivePoseEstimator(SwerveConstants.Swerve.swerveKinematics, RobotContainer.gyro.getGyroscopeRotation(),new SwerveModulePosition[] {mSwerveMods[0].getPosition(),mSwerveMods[1].getPosition(),mSwerveMods[2].getPosition(),mSwerveMods[3].getPosition()}, initialPos);
+        estimator = new SwerveDrivePoseEstimator(
+            SwerveConstants.Swerve.swerveKinematics, RobotContainer.gyro.getGyroscopeRotation(),
+            new SwerveModulePosition[] {
+            mSwerveMods[0].getPosition(),
+            mSwerveMods[1].getPosition(),
+            mSwerveMods[2].getPosition(),
+            mSwerveMods[3].getPosition()
+        }, initialPos); // maybe pose needs to be set correctly at the begining
         
 
 
