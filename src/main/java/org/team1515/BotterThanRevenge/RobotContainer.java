@@ -47,9 +47,10 @@ public class RobotContainer {
 
   private void configureBindings() {
     drivetrain.setDefaultCommand(
+      //potential solution to inverted controls while driving
         new DefaultDriveCommand(drivetrain,
-            () -> -modifyAxis(-mainController.getLeftY() * getRobotSpeed()),
-            () -> -modifyAxis(-mainController.getLeftX() * getRobotSpeed()),
+            () -> modifyAxis(-mainController.getLeftY() * getRobotSpeed()),
+            () -> modifyAxis(-mainController.getLeftX() * getRobotSpeed()),
             () -> modifyAxis(mainController.getRightX() * getRobotSpeed()),
             () -> Controls.DRIVE_ROBOT_ORIENTED.getAsBoolean()));
             

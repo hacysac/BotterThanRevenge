@@ -9,7 +9,7 @@ public class Gyroscope {
     private final AHRS navx;
     private double offset = -360;
 
-    public float rollOffset = 0;
+    private float rollOffset = 0;
     private float pitchOffset = 0;
 
     public Gyroscope() {
@@ -27,7 +27,7 @@ public class Gyroscope {
 
         // We have to invert the angle of the NavX so that rotating the robot
         // counter-clockwise makes the angle increase.
-        return Rotation2d.fromDegrees(360.0 - navx.getYaw() + offset); // Add offset to make the shooter the front
+        return Rotation2d.fromDegrees(-navx.getYaw()); // Add offset to make the shooter the front
                                                                        // instead of the intake
     }
 

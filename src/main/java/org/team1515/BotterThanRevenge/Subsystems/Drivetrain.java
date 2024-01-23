@@ -26,6 +26,7 @@ public class Drivetrain extends SubsystemBase {
 
     private Rotation2d realZero;
     private double gyroOffset = 0;
+    private boolean gyroReset;
 
     private SwerveDriveOdometry m_odometry;
     private Pose2d m_pose;
@@ -147,9 +148,11 @@ public class Drivetrain extends SubsystemBase {
     public void flipGyro() {
         if(gyroOffset == 0) {
             gyroOffset = 180;
+            gyroReset = true;
         }
         else {
             gyroOffset = 0;
+            gyroReset = false;
         }
     }
 
