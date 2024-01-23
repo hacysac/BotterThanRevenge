@@ -55,7 +55,7 @@ public class RotateAngle extends Command {
     @Override
     public void execute() {
         double currentAngle = RobotContainer.gyro.getGyroscopeRotation().getRadians();
-        double error = -MathUtil.angleModulus(currentAngle - angleController.getSetpoint());
+        double error = MathUtil.angleModulus(currentAngle - angleController.getSetpoint());
         double rotation = (MathUtil.clamp(angleController.calculate(error + angleController.getSetpoint(), angleController.getSetpoint()) + (ff * Math.signum(-error)),
                 -maxRotate, maxRotate)); // change setpoint?
         drivetrainSubsystem.drive(new Translation2d(0.0, 0.0), rotation, true, true);

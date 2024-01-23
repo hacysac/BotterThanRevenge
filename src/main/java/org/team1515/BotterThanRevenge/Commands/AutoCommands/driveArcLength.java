@@ -33,7 +33,7 @@ public class driveArcLength extends SequentialCommandGroup {
     double speed = bezierUtil.bezierLength(points)/t; // check this
     
     //starting odometry
-    addCommands(new InstantCommand(()->System.out.println("odem x: " + drivetrain.getOdometry().getX() + " odem y: " + drivetrain.getOdometry().getY() + "\n")));
+    //addCommands(new InstantCommand(()->System.out.println("odem x: " + drivetrain.getOdometry().getX() + " odem y: " + drivetrain.getOdometry().getY() + "\n")));
 
     //double [] rampArr = calcUtil.rampArr(points.length, 0.5, 1.5);
     for(int i = 0; i<points.length-1;i++){

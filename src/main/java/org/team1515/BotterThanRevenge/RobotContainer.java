@@ -64,16 +64,16 @@ public class RobotContainer {
     
     Point[] points = {
       new Point(0.0,0.0),
-      new Point(1.0,1.0),
-      new Point(2.0,0.0),
-      new Point(3.0,-1.0),
+      new Point(3.0,1.0),
+      new Point(9.0,0.0),
+      new Point(-1.25,-3.0),
       new Point(4.0,0.0)
     };
     points = bezierUtil.spacedPoints(points);
 
 
-    DoubleSupplier ds = ()->Units.degreesToRadians(0.0);
-    return new driveArcLength(drivetrain, points, 5, ds);
+    DoubleSupplier ds = ()->Units.degreesToRadians(90.0);
+    return new driveArcLength(drivetrain, points, 10, ds);
     //return new driveSegment(drivetrain, ds, 1, new Point(0.0, 0.0), new Point(0.0, 5.0), 5);
   }
 
