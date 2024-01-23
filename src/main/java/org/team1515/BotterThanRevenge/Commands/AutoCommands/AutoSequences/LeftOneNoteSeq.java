@@ -13,7 +13,7 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 
 public class LeftOneNoteSeq extends SequentialCommandGroup {
     public LeftOneNoteSeq(Drivetrain drivetrain){
-        double finalPose = 0.5*RobotMap.CHASSIS_WIDTH + 0.5*RobotMap.SUBWOOFER_WIDTH;
+        double finalPose = 0.5*RobotMap.CHASSIS_WIDTH + 0.5*RobotMap.SUBWOOFER_LONG_WIDTH;
         Point[] path = {
             new Point(0, 0),
             new Point(Units.inchesToMeters(133), Units.inchesToMeters(finalPose/2)), 

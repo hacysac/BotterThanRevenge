@@ -16,8 +16,13 @@ public class RobotMap {
     public static final int PDH_ID = -1; // replace
 
     //field and robot measurements
-    public static final double CHASSIS_WIDTH = 28; //TODO in inches
-    public static final double SUBWOOFER_WIDTH = -1; //TODO in inches
+    public static final double CHASSIS_WIDTH = 28;
+    public static final double BUMPER_WIDTH = 3;
+
+    public static final double SUBWOOFER_DEPTH = 37; //TODO in inches
+    public static final double SUBWOOFER_SIDE = 40; //TODO in inches
+    public static final double SUBWOOFER_LONG_WIDTH = 80;
+
 
     //Vision
     public static final String CAMERA_NAME = "camera3";
