@@ -38,14 +38,14 @@ public class LeftTwoPiece extends SequentialCommandGroup{
         double time = 0.5;
         double speed = Units.inchesToMeters(57-34)/time;
 
-        //Pose2d startPoint = new Pose2d(new Translation2d(Units.inchesToMeters(37), Units.inchesToMeters(finalPose)), new Rotation2d(180.0));
+        Pose2d startPoint = new Pose2d(new Translation2d(Units.inchesToMeters(37), Units.inchesToMeters(finalPose)), new Rotation2d(180.0));
         Point finalPoint = new Point(Units.inchesToMeters(57-34), 0);
-        addCommands(new driveSegment(drivetrain, angle, finalPoint, speed, true));
+        addCommands(new driveSegment(drivetrain, angle, finalPoint, speed, startPoint, true));
         //run intake+indexer
-        //startPoint = new Pose2d(new Translation2d(startPoint.getX()+finalPoint.x, startPoint.getY()+finalPoint.y), new Rotation2d(180.0));
+        startPoint = new Pose2d(new Translation2d(startPoint.getX()+finalPoint.x, startPoint.getY()+finalPoint.y), new Rotation2d(180.0));
         finalPoint = new Point(Units.inchesToMeters(34-57), 0);
         addCommands(Commands.waitSeconds(0.5));
-        addCommands(new driveSegment(drivetrain, angle, finalPoint, speed, true));
+        addCommands(new driveSegment(drivetrain, angle, finalPoint, speed, startPoint, true));
         //end all
     }
 }

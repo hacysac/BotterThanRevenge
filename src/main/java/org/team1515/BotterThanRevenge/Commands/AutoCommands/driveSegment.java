@@ -25,7 +25,7 @@ public class driveSegment extends Command {
     private double i;
     private double j;
     private Pose2d originalPose;
-    private boolean ignore;
+    private boolean endSegment;
 
     private PIDController angleController;
     private double maxRotate;
@@ -52,10 +52,11 @@ public class driveSegment extends Command {
         addRequirements(drivetrain);
     }
 
-    public driveSegment(Drivetrain drivetrain, DoubleSupplier theta, Point end, double speed, boolean ignore) {
+    public driveSegment(Drivetrain drivetrain, DoubleSupplier theta, Point end, double speed, Pose2d startPose, boolean endSegment) {
         this.drivetrain = drivetrain;
         this.end = end;
-        this.ignore = ignore;
+        this.originalPose = startPose;
+        this.endSegment = endSegment;
 
         this.speed = speed;
 
@@ -81,13 +82,8 @@ public class driveSegment extends Command {
         startTime = System.currentTimeMillis(); // time when command is run
 
         //reset the start pose to the current odometry and calculate speed based on the distance from the setpoint
-        if (ignore){
-            start = new Point(0,0);
-        }
-        else{
-            start = new Point(drivetrain.getOdometry().getX() - originalPose.getX(), 
+        start = new Point(drivetrain.getOdometry().getX() - originalPose.getX(), 
                           drivetrain.getOdometry().getY() - originalPose.getY()); 
-        }
                           // starting position relative to the original position of the bezier
         double dx = end.x-start.x;//change in x from start to end
         double dy = end.y-start.y;//change in y from start to end
@@ -126,7 +122,7 @@ public class driveSegment extends Command {
         //System.out.println(" Speed: " + speed);
         //System.out.println("start pose: " + start.x + ", " + start.y + " end pose: " + end.x + ", " + end.y + "\n");
         //System.out.println("odem x: " + drivetrain.getOdometry().getX() + " odem y: " + drivetrain.getOdometry().getY() + "\n");
-        if (ignore){
+        if (endSegment){
             drivetrain.drive(new Translation2d(0,0), 0.0, true, true);
         }
     }
