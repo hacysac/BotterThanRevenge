@@ -11,6 +11,8 @@ import org.team1515.BotterThanRevenge.Subsystems.*;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 
 public class RobotContainer {
 
@@ -43,7 +45,8 @@ public class RobotContainer {
     Controls.CLIMB_UP.whileTrue(new ClimberUp(climber));
     Controls.CLIMB_DOWN.whileTrue(new ClimberDown(climber));
 
-    Controls.INTAKE.onTrue(new IntakeIn(intake, indexer));
+    Controls.INTAKE.onTrue(new SequentialCommandGroup(new InstantCommand(()->intake.setDown(!intake.getDone())), new IntakeIn(intake, indexer)));
+    //make command interuptable? TODO: test this
     Controls.OUTTAKE.whileTrue(new IntakeOut(intake));
     Controls.FLIP.onTrue(new Flip(intake));
 

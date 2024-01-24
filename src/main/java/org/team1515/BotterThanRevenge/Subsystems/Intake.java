@@ -17,6 +17,7 @@ public class Intake extends SubsystemBase {
     private CANSparkMax flip;
     private CANcoder canCoder;
 
+    private boolean done;
     private boolean down;
 
     public Intake(){
@@ -71,5 +72,13 @@ public class Intake extends SubsystemBase {
 
     public void setDown(boolean down){
         this.down = down;
+    }
+
+    public boolean getDone(){
+        return done;
+    }
+
+    public void setDone(boolean done){
+        this.done = done;
     }
 }

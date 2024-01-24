@@ -35,6 +35,6 @@ public class Flip extends Command {
     @Override
     public void end(boolean interrupted) {
         intake.endFlip();
-        intake.setDown(true);
+        intake.setDown(!intake.getDown()); // reset the intake to the opposite state
     }
 }

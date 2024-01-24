@@ -13,6 +13,7 @@ public class IntakeIn extends Command {
         this.intake = intake;
         this.indexer = indexer;
         addRequirements(intake);
+        addRequirements(indexer);
     }
 
     @Override
@@ -23,11 +24,12 @@ public class IntakeIn extends Command {
 
     @Override
     public boolean isFinished() {
-        return indexer.isBlocked();
+        return indexer.isBlocked() || intake.getDone();
     }
 
     @Override
     public void end(boolean interrupted) {
         intake.endIntake();
+        intake.setDone(true);
     }
 }
