@@ -11,6 +11,7 @@ import org.team1515.BotterThanRevenge.Commands.DefaultDriveCommand;
 import org.team1515.BotterThanRevenge.Commands.AutoCommands.RotateAngle;
 import org.team1515.BotterThanRevenge.Commands.AutoCommands.driveArcLength;
 import org.team1515.BotterThanRevenge.Commands.AutoCommands.driveSegment;
+import org.team1515.BotterThanRevenge.Commands.AutoCommands.AutoSequences.LeftTwoPiece;
 import org.team1515.BotterThanRevenge.Subsystems.Drivetrain;
 import org.team1515.BotterThanRevenge.Utils.*;
 
@@ -51,7 +52,7 @@ public class RobotContainer {
         new DefaultDriveCommand(drivetrain,
             () -> modifyAxis(-mainController.getLeftY() * getRobotSpeed()),
             () -> modifyAxis(-mainController.getLeftX() * getRobotSpeed()),
-            () -> modifyAxis(mainController.getRightX() * getRobotSpeed()),
+            () -> -modifyAxis(mainController.getRightX() * getRobotSpeed()),
             () -> Controls.DRIVE_ROBOT_ORIENTED.getAsBoolean()));
             
     Controls.RESET_GYRO.onTrue(new InstantCommand(()->drivetrain.zeroGyro()));
@@ -70,11 +71,11 @@ public class RobotContainer {
       new Point(-1.25,-3.0),
       new Point(4.0,0.0)
     };
-    points = bezierUtil.spacedPoints(points);
+    points = bezierUtil.spacedPoints(points, 50);
 
 
     DoubleSupplier ds = ()->Units.degreesToRadians(90.0);
-    return new driveArcLength(drivetrain, points, 10, ds);
+    return new LeftTwoPiece(drivetrain);
     //return new driveSegment(drivetrain, ds, 1, new Point(0.0, 0.0), new Point(0.0, 5.0), 5);
   }
 

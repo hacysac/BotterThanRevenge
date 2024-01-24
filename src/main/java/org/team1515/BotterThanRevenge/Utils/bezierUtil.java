@@ -101,11 +101,9 @@ public class bezierUtil {
         return new Point(i, j);
     }
 
-    public static Point[] spacedPoints(Point[] bezierPoints){
+    public static Point[] spacedPoints(Point[] bezierPoints, int n){
         ArrayList<Equation> bezierEquation = bezierEquation(bezierPoints);
         //return value
-        //number of points on our bezier apporximation
-        int n = 50;
         //set of points on our bezier
         Point[] points = placePoints(bezierEquation, n);
         //use helper functions to calculate average leg length
