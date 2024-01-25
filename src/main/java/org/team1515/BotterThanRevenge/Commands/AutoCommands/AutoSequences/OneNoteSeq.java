@@ -1,6 +1,5 @@
 package org.team1515.BotterThanRevenge.Commands.AutoCommands.AutoSequences;
 
-import java.util.ArrayList;
 import java.util.function.DoubleSupplier;
 
 import org.team1515.BotterThanRevenge.RobotMap;

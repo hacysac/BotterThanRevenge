@@ -16,8 +16,8 @@ import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 
-public class ThreePieceSeq extends SequentialCommandGroup{
-     public ThreePieceSeq(Drivetrain drivetrain, boolean blue){
+public class ThreeNoteSeq extends SequentialCommandGroup{
+     public ThreeNoteSeq(Drivetrain drivetrain, boolean blue){
         double finalPose = 0.5*RobotMap.CHASSIS_WIDTH + 0.5*RobotMap.SUBWOOFER_LONG_WIDTH + 2; //assuming red
         if (blue){
             finalPose = -finalPose;

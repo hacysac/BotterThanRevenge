@@ -1,7 +1,5 @@
 package org.team1515.BotterThanRevenge;
 
-import java.util.function.DoubleSupplier;
-
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 
 public class Controls {

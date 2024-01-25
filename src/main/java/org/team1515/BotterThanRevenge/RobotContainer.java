@@ -4,15 +4,15 @@
 
 package org.team1515.BotterThanRevenge;
 
-import java.util.ArrayList;
 import java.util.Optional;
 import java.util.function.DoubleSupplier;
 
 import org.team1515.BotterThanRevenge.Commands.DefaultDriveCommand;
 import org.team1515.BotterThanRevenge.Commands.AutoCommands.RotateAngle;
-import org.team1515.BotterThanRevenge.Commands.AutoCommands.driveArcLength;
-import org.team1515.BotterThanRevenge.Commands.AutoCommands.driveSegment;
-import org.team1515.BotterThanRevenge.Commands.AutoCommands.AutoSequences.ThreePieceSeq;
+import org.team1515.BotterThanRevenge.Commands.AutoCommands.AutoSequences.AmpSeq;
+import org.team1515.BotterThanRevenge.Commands.AutoCommands.AutoSequences.DriveBackSeq;
+import org.team1515.BotterThanRevenge.Commands.AutoCommands.AutoSequences.OneNoteSeq;
+import org.team1515.BotterThanRevenge.Commands.AutoCommands.AutoSequences.ThreeNoteSeq;
 import org.team1515.BotterThanRevenge.Subsystems.Drivetrain;
 import org.team1515.BotterThanRevenge.Utils.*;
 
@@ -22,20 +22,21 @@ import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
-import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 
 public class RobotContainer {
-
   public static XboxController mainController;
   public static XboxController secondController;
 
   public static Gyroscope gyro;
   private Drivetrain drivetrain;
   public static PhotonVision photon;
+
+  public static SendableChooser<Command> autoChooser;
 
   public RobotContainer() {
     mainController = new XboxController(0);
@@ -45,6 +46,8 @@ public class RobotContainer {
     photon = new PhotonVision();
 
     drivetrain = new Drivetrain(new Pose2d(), photon);
+
+    autoChooser = new SendableChooser<Command>();
 
     configureBindings();
   }
@@ -63,19 +66,25 @@ public class RobotContainer {
     DoubleSupplier angle = () -> -photon.getAngle();
     Controls.ROTATE_ANGLE_TARGET.onTrue(new RotateAngle(drivetrain, angle));
     Controls.GET_DIST_TARGET.onTrue(new InstantCommand(()->System.out.println(photon.getDist())));
+
+    Optional<Alliance> ally = DriverStation.getAlliance();
+    boolean blue = false;
+    if (ally.isPresent()) {
+        if (ally.get() == Alliance.Red) {
+            blue = false;
+        }
+        else if (ally.get() == Alliance.Blue) {
+            blue = true;
+        }
+    }
+    autoChooser.setDefaultOption("Drive Back", new DriveBackSeq(drivetrain));
+    autoChooser.addOption("1 Note Seq", new OneNoteSeq(drivetrain, blue));
+    autoChooser.addOption("3 Note Seq", new ThreeNoteSeq(drivetrain, blue));
+    SmartDashboard.putData(autoChooser);
   }
 
   public Command getAutonomousCommand() {
-    Optional<Alliance> ally = DriverStation.getAlliance();
-    if (ally.isPresent()) {
-        if (ally.get() == Alliance.Red) {
-            return new ThreePieceSeq(drivetrain, false);
-        }
-        else if (ally.get() == Alliance.Blue) {
-            return new ThreePieceSeq(drivetrain, true);
-        }
-    }
-    return new ThreePieceSeq(drivetrain, true);
+    return autoChooser.getSelected();
   }
 
   public static double getRobotSpeed() {
