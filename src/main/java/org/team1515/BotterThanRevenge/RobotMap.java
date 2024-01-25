@@ -17,11 +17,12 @@ public class RobotMap {
 
     //field and robot measurements
     public static final double CHASSIS_WIDTH = 28;
-    public static final double BUMPER_WIDTH = 3;
+    public static final double BUMPER_WIDTH = 2;
 
     public static final double SUBWOOFER_DEPTH = 37; //TODO in inches
-    public static final double SUBWOOFER_SIDE = 40; //TODO in inches
     public static final double SUBWOOFER_LONG_WIDTH = 80;
+    public static final double SUBWOOFER_TO_NOTE = 68.5;
+    public static final double NOTE_TO_NOTE = 0; //TODO in inches
 
 
     //Vision

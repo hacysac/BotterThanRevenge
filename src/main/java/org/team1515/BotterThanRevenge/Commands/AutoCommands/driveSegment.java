@@ -3,6 +3,7 @@ package org.team1515.BotterThanRevenge.Commands.AutoCommands;
 import java.util.function.DoubleSupplier;
 
 import org.team1515.BotterThanRevenge.Subsystems.Drivetrain;
+import org.team1515.BotterThanRevenge.Robot;
 import org.team1515.BotterThanRevenge.RobotContainer;
 import org.team1515.BotterThanRevenge.Utils.Point;
 
@@ -92,8 +93,14 @@ public class driveSegment extends Command {
         j = dy/mag; //unit vector j component
 
         this.t = (mag/speed) *1000;
-
-        angleController.setSetpoint(MathUtil.angleModulus(getAngle()));
+        if (endSegment){
+            //correction on angle
+            double angleOffset = RobotContainer.gyro.getGyroscopeRotation().getRadians()-originalPose.getRotation().getRadians();
+            angleController.setSetpoint(angleOffset + getAngle());
+        }
+        else{
+            angleController.setSetpoint(MathUtil.angleModulus(getAngle()));
+        }
         //System.out.println("Start: " + MathUtil.angleModulus(getAngle()));
     }
 

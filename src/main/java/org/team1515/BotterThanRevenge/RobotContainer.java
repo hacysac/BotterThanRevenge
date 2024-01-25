@@ -5,13 +5,14 @@
 package org.team1515.BotterThanRevenge;
 
 import java.util.ArrayList;
+import java.util.Optional;
 import java.util.function.DoubleSupplier;
 
 import org.team1515.BotterThanRevenge.Commands.DefaultDriveCommand;
 import org.team1515.BotterThanRevenge.Commands.AutoCommands.RotateAngle;
 import org.team1515.BotterThanRevenge.Commands.AutoCommands.driveArcLength;
 import org.team1515.BotterThanRevenge.Commands.AutoCommands.driveSegment;
-import org.team1515.BotterThanRevenge.Commands.AutoCommands.AutoSequences.LeftTwoPiece;
+import org.team1515.BotterThanRevenge.Commands.AutoCommands.AutoSequences.ThreePieceSeq;
 import org.team1515.BotterThanRevenge.Subsystems.Drivetrain;
 import org.team1515.BotterThanRevenge.Utils.*;
 
@@ -19,6 +20,8 @@ import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.util.Units;
+import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
@@ -63,20 +66,16 @@ public class RobotContainer {
   }
 
   public Command getAutonomousCommand() {
-    
-    Point[] points = {
-      new Point(0.0,0.0),
-      new Point(3.0,1.0),
-      new Point(9.0,0.0),
-      new Point(-1.25,-3.0),
-      new Point(4.0,0.0)
-    };
-    points = bezierUtil.spacedPoints(points, 50);
-
-
-    DoubleSupplier ds = ()->Units.degreesToRadians(90.0);
-    return new LeftTwoPiece(drivetrain);
-    //return new driveSegment(drivetrain, ds, 1, new Point(0.0, 0.0), new Point(0.0, 5.0), 5);
+    Optional<Alliance> ally = DriverStation.getAlliance();
+    if (ally.isPresent()) {
+        if (ally.get() == Alliance.Red) {
+            return new ThreePieceSeq(drivetrain, false);
+        }
+        else if (ally.get() == Alliance.Blue) {
+            return new ThreePieceSeq(drivetrain, true);
+        }
+    }
+    return new ThreePieceSeq(drivetrain, true);
   }
 
   public static double getRobotSpeed() {
