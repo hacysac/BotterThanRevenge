@@ -52,11 +52,12 @@ public class ThreePieceSeq extends SequentialCommandGroup{
         addCommands(new driveSegment(drivetrain, angle, finalPoint, speed, startPoint, true));
         //run indexer into shooter
         startPoint = new Pose2d(new Translation2d(startPoint.getX()+finalPoint.x, startPoint.getY()+finalPoint.y), new Rotation2d(180.0));
+        double direction = blue ? -1 : 1; //reverse if allience is blue
         finalPoint = new Point(Units.inchesToMeters(RobotMap.SUBWOOFER_TO_NOTE-RobotMap.CHASSIS_WIDTH-4), RobotMap.NOTE_TO_NOTE);
         addCommands(new driveSegment(drivetrain, angle, finalPoint, speed, startPoint, true));
         //indexer+intake
         startPoint = new Pose2d(new Translation2d(startPoint.getX()+finalPoint.x, startPoint.getY()+finalPoint.y), new Rotation2d(180.0));
-        finalPoint = new Point(-Units.inchesToMeters(RobotMap.SUBWOOFER_TO_NOTE-RobotMap.CHASSIS_WIDTH-4), -RobotMap.NOTE_TO_NOTE);
+        finalPoint = new Point(-Units.inchesToMeters(RobotMap.SUBWOOFER_TO_NOTE-RobotMap.CHASSIS_WIDTH-4), direction*-RobotMap.NOTE_TO_NOTE);
         addCommands(new driveSegment(drivetrain, angle, finalPoint, speed, startPoint, true));
         //run indexer into shooter
         //end all
