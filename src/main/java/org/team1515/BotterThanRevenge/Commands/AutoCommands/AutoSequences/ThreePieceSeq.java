@@ -18,7 +18,7 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 
 public class ThreePieceSeq extends SequentialCommandGroup{
      public ThreePieceSeq(Drivetrain drivetrain, boolean blue){
-        double finalPose = 0.5*RobotMap.CHASSIS_WIDTH + 0.5*RobotMap.SUBWOOFER_LONG_WIDTH; //assuming red
+        double finalPose = 0.5*RobotMap.CHASSIS_WIDTH + 0.5*RobotMap.SUBWOOFER_LONG_WIDTH + 2; //assuming red
         if (blue){
             finalPose = -finalPose;
         }
@@ -40,23 +40,23 @@ public class ThreePieceSeq extends SequentialCommandGroup{
         
         angle = () -> Units.degreesToRadians(0);
         double time = 0.75;
-        double speed = Units.inchesToMeters(RobotMap.SUBWOOFER_TO_NOTE-34)/time;
+        double speed = Units.inchesToMeters(RobotMap.SUBWOOFER_TO_NOTE-RobotMap.CHASSIS_WIDTH-4)/time;
 
         Pose2d startPoint = new Pose2d(new Translation2d(Units.inchesToMeters(RobotMap.SUBWOOFER_DEPTH), Units.inchesToMeters(finalPose)), new Rotation2d(180.0));
-        Point finalPoint = new Point(Units.inchesToMeters(RobotMap.SUBWOOFER_TO_NOTE-34), 0);
+        Point finalPoint = new Point(Units.inchesToMeters(RobotMap.SUBWOOFER_TO_NOTE-RobotMap.CHASSIS_WIDTH-4), 0);
         addCommands(new driveSegment(drivetrain, angle, finalPoint, speed, startPoint, true));
         //run intake+indexer
         startPoint = new Pose2d(new Translation2d(startPoint.getX()+finalPoint.x, startPoint.getY()+finalPoint.y), new Rotation2d(180.0));
-        finalPoint = new Point(-Units.inchesToMeters(RobotMap.SUBWOOFER_TO_NOTE-34), 0);
+        finalPoint = new Point(-Units.inchesToMeters(RobotMap.SUBWOOFER_TO_NOTE-RobotMap.CHASSIS_WIDTH-4), 0);
         addCommands(Commands.waitSeconds(0.5));
         addCommands(new driveSegment(drivetrain, angle, finalPoint, speed, startPoint, true));
         //run indexer into shooter
         startPoint = new Pose2d(new Translation2d(startPoint.getX()+finalPoint.x, startPoint.getY()+finalPoint.y), new Rotation2d(180.0));
-        finalPoint = new Point(Units.inchesToMeters(RobotMap.SUBWOOFER_TO_NOTE-34), RobotMap.NOTE_TO_NOTE);
+        finalPoint = new Point(Units.inchesToMeters(RobotMap.SUBWOOFER_TO_NOTE-RobotMap.CHASSIS_WIDTH-4), RobotMap.NOTE_TO_NOTE);
         addCommands(new driveSegment(drivetrain, angle, finalPoint, speed, startPoint, true));
         //indexer+intake
         startPoint = new Pose2d(new Translation2d(startPoint.getX()+finalPoint.x, startPoint.getY()+finalPoint.y), new Rotation2d(180.0));
-        finalPoint = new Point(-Units.inchesToMeters(RobotMap.SUBWOOFER_TO_NOTE-34), -RobotMap.NOTE_TO_NOTE);
+        finalPoint = new Point(-Units.inchesToMeters(RobotMap.SUBWOOFER_TO_NOTE-RobotMap.CHASSIS_WIDTH-4), -RobotMap.NOTE_TO_NOTE);
         addCommands(new driveSegment(drivetrain, angle, finalPoint, speed, startPoint, true));
         //run indexer into shooter
         //end all
