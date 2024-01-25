@@ -11,11 +11,8 @@ import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 
 public class OneNoteSeq extends SequentialCommandGroup {
-    public OneNoteSeq(Drivetrain drivetrain, boolean blue){
-        double finalPose = 0.5*RobotMap.CHASSIS_WIDTH + 0.5*RobotMap.SUBWOOFER_LONG_WIDTH + RobotMap.BUMPER_WIDTH;
-        if (blue){
-            finalPose = -finalPose;
-        }
+    public OneNoteSeq(Drivetrain drivetrain, int direction){
+        double finalPose = direction*(0.5*RobotMap.CHASSIS_WIDTH + 0.5*RobotMap.SUBWOOFER_LONG_WIDTH + RobotMap.BUMPER_WIDTH);
 
         Point[] path = {
             new Point(0, 0),

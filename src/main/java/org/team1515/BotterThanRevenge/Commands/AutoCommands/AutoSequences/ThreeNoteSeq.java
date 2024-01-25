@@ -17,11 +17,8 @@ import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 
 public class ThreeNoteSeq extends SequentialCommandGroup{
-     public ThreeNoteSeq(Drivetrain drivetrain, boolean blue){
-        double finalPose = 0.5*RobotMap.CHASSIS_WIDTH + 0.5*RobotMap.SUBWOOFER_LONG_WIDTH + 2; //assuming red
-        if (blue){
-            finalPose = -finalPose;
-        }
+     public ThreeNoteSeq(Drivetrain drivetrain, int direction){
+        double finalPose = direction*(0.5*RobotMap.CHASSIS_WIDTH + 0.5*RobotMap.SUBWOOFER_LONG_WIDTH + RobotMap.BUMPER_WIDTH); //assuming red
         //go negative direction
         Point[] path = {
             new Point(0, 0),
@@ -52,8 +49,7 @@ public class ThreeNoteSeq extends SequentialCommandGroup{
         addCommands(new driveSegment(drivetrain, angle, finalPoint, speed, startPoint, true));
         //run indexer into shooter
         startPoint = new Pose2d(new Translation2d(startPoint.getX()+finalPoint.x, startPoint.getY()+finalPoint.y), new Rotation2d(180.0));
-        double direction = blue ? -1 : 1; //reverse if allience is blue
-        finalPoint = new Point(Units.inchesToMeters(RobotMap.SUBWOOFER_TO_NOTE-RobotMap.CHASSIS_WIDTH-2*RobotMap.BUMPER_WIDTH), RobotMap.NOTE_TO_NOTE);
+        finalPoint = new Point(Units.inchesToMeters(RobotMap.SUBWOOFER_TO_NOTE-RobotMap.CHASSIS_WIDTH-2*RobotMap.BUMPER_WIDTH), direction*RobotMap.NOTE_TO_NOTE);
         addCommands(new driveSegment(drivetrain, angle, finalPoint, speed, startPoint, true));
         //indexer+intake
         startPoint = new Pose2d(new Translation2d(startPoint.getX()+finalPoint.x, startPoint.getY()+finalPoint.y), new Rotation2d(180.0));

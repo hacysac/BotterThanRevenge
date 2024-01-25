@@ -68,18 +68,18 @@ public class RobotContainer {
     Controls.GET_DIST_TARGET.onTrue(new InstantCommand(()->System.out.println(photon.getDist())));
 
     Optional<Alliance> ally = DriverStation.getAlliance();
-    boolean blue = false;
+    int team = -1; // default blue
     if (ally.isPresent()) {
         if (ally.get() == Alliance.Red) {
-            blue = false;
+            team = 1;
         }
         else if (ally.get() == Alliance.Blue) {
-            blue = true;
+            team = -1;
         }
     }
     autoChooser.setDefaultOption("Drive Back", new DriveBackSeq(drivetrain));
-    autoChooser.addOption("1 Note Seq", new OneNoteSeq(drivetrain, blue));
-    autoChooser.addOption("3 Note Seq", new ThreeNoteSeq(drivetrain, blue));
+    autoChooser.addOption("1 Note Seq", new OneNoteSeq(drivetrain, team));
+    autoChooser.addOption("3 Note Seq", new ThreeNoteSeq(drivetrain, team));
     SmartDashboard.putData(autoChooser);
   }
 
