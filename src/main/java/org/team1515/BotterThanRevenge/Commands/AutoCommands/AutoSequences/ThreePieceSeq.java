@@ -34,30 +34,30 @@ public class ThreePieceSeq extends SequentialCommandGroup{
         DoubleSupplier angle = () -> Units.degreesToRadians(180); //make sure shooter is forward
         
         //start shooter speed up
-        addCommands(new driveArcLength(drivetrain, path, 3, angle));
+        addCommands(new driveArcLength(drivetrain, path, 3.5, angle));
         //run indexer into shooter
         //wait 1 seconds + flip down intake
         
         angle = () -> Units.degreesToRadians(0);
         double time = 0.75;
-        double speed = Units.inchesToMeters(RobotMap.SUBWOOFER_TO_NOTE-RobotMap.CHASSIS_WIDTH-4)/time;
+        double speed = Units.inchesToMeters(RobotMap.SUBWOOFER_TO_NOTE-RobotMap.CHASSIS_WIDTH-2*RobotMap.BUMPER_WIDTH)/time;
 
         Pose2d startPoint = new Pose2d(new Translation2d(Units.inchesToMeters(RobotMap.SUBWOOFER_DEPTH), Units.inchesToMeters(finalPose)), new Rotation2d(180.0));
-        Point finalPoint = new Point(Units.inchesToMeters(RobotMap.SUBWOOFER_TO_NOTE-RobotMap.CHASSIS_WIDTH-4), 0);
+        Point finalPoint = new Point(Units.inchesToMeters(RobotMap.SUBWOOFER_TO_NOTE-RobotMap.CHASSIS_WIDTH-2*RobotMap.BUMPER_WIDTH), 0);
         addCommands(new driveSegment(drivetrain, angle, finalPoint, speed, startPoint, true));
         //run intake+indexer
         startPoint = new Pose2d(new Translation2d(startPoint.getX()+finalPoint.x, startPoint.getY()+finalPoint.y), new Rotation2d(180.0));
-        finalPoint = new Point(-Units.inchesToMeters(RobotMap.SUBWOOFER_TO_NOTE-RobotMap.CHASSIS_WIDTH-4), 0);
+        finalPoint = new Point(-Units.inchesToMeters(RobotMap.SUBWOOFER_TO_NOTE-RobotMap.CHASSIS_WIDTH-2*RobotMap.BUMPER_WIDTH), 0);
         addCommands(Commands.waitSeconds(0.5));
         addCommands(new driveSegment(drivetrain, angle, finalPoint, speed, startPoint, true));
         //run indexer into shooter
         startPoint = new Pose2d(new Translation2d(startPoint.getX()+finalPoint.x, startPoint.getY()+finalPoint.y), new Rotation2d(180.0));
         double direction = blue ? -1 : 1; //reverse if allience is blue
-        finalPoint = new Point(Units.inchesToMeters(RobotMap.SUBWOOFER_TO_NOTE-RobotMap.CHASSIS_WIDTH-4), RobotMap.NOTE_TO_NOTE);
+        finalPoint = new Point(Units.inchesToMeters(RobotMap.SUBWOOFER_TO_NOTE-RobotMap.CHASSIS_WIDTH-2*RobotMap.BUMPER_WIDTH), RobotMap.NOTE_TO_NOTE);
         addCommands(new driveSegment(drivetrain, angle, finalPoint, speed, startPoint, true));
         //indexer+intake
         startPoint = new Pose2d(new Translation2d(startPoint.getX()+finalPoint.x, startPoint.getY()+finalPoint.y), new Rotation2d(180.0));
-        finalPoint = new Point(-Units.inchesToMeters(RobotMap.SUBWOOFER_TO_NOTE-RobotMap.CHASSIS_WIDTH-4), direction*-RobotMap.NOTE_TO_NOTE);
+        finalPoint = new Point(-Units.inchesToMeters(RobotMap.SUBWOOFER_TO_NOTE-RobotMap.CHASSIS_WIDTH-2*RobotMap.BUMPER_WIDTH), direction*-RobotMap.NOTE_TO_NOTE);
         addCommands(new driveSegment(drivetrain, angle, finalPoint, speed, startPoint, true));
         //run indexer into shooter
         //end all

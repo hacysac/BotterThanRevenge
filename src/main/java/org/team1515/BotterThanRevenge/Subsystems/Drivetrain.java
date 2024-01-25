@@ -202,6 +202,7 @@ public class Drivetrain extends SubsystemBase {
         return m_pose;
     }
     public void setOdometry(Pose2d pose){
+        zeroGyro();
         m_pose = pose;
     }
 }
