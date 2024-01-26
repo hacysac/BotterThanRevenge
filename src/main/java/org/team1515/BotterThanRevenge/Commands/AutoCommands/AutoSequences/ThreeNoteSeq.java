@@ -48,12 +48,14 @@ public class ThreeNoteSeq extends SequentialCommandGroup{
         addCommands(Commands.waitSeconds(0.5));
         addCommands(new driveSegment(drivetrain, angle, finalPoint, speed, startPoint, true));
         //run indexer into shooter
-        startPoint = new Pose2d(new Translation2d(startPoint.getX()+finalPoint.x, startPoint.getY()+finalPoint.y), new Rotation2d(180.0));
-        finalPoint = new Point(Units.inchesToMeters(RobotMap.SUBWOOFER_TO_NOTE-RobotMap.CHASSIS_WIDTH-2*RobotMap.BUMPER_WIDTH), direction*RobotMap.NOTE_TO_NOTE);
+        startPoint = new Pose2d(new Translation2d(Units.inchesToMeters(RobotMap.SUBWOOFER_DEPTH), Units.inchesToMeters(finalPose)), new Rotation2d(180.0));
+        finalPoint = new Point(Units.inchesToMeters(RobotMap.SUBWOOFER_TO_NOTE-RobotMap.CHASSIS_WIDTH-2*RobotMap.BUMPER_WIDTH), Units.inchesToMeters(direction*-RobotMap.NOTE_TO_NOTE));
+        addCommands(Commands.waitSeconds(0.5));
         addCommands(new driveSegment(drivetrain, angle, finalPoint, speed, startPoint, true));
         //indexer+intake
         startPoint = new Pose2d(new Translation2d(startPoint.getX()+finalPoint.x, startPoint.getY()+finalPoint.y), new Rotation2d(180.0));
-        finalPoint = new Point(-Units.inchesToMeters(RobotMap.SUBWOOFER_TO_NOTE-RobotMap.CHASSIS_WIDTH-2*RobotMap.BUMPER_WIDTH), direction*-RobotMap.NOTE_TO_NOTE);
+        finalPoint = new Point(-Units.inchesToMeters(RobotMap.SUBWOOFER_TO_NOTE-RobotMap.CHASSIS_WIDTH-2*RobotMap.BUMPER_WIDTH), Units.inchesToMeters(direction*RobotMap.NOTE_TO_NOTE));
+        addCommands(Commands.waitSeconds(0.5));
         addCommands(new driveSegment(drivetrain, angle, finalPoint, speed, startPoint, true));
         //run indexer into shooter
         //end all

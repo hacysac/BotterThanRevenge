@@ -79,7 +79,6 @@ public class driveSegment extends Command {
 
     @Override
     public void initialize(){
-
         startTime = System.currentTimeMillis(); // time when command is run
 
         //reset the start pose to the current odometry and calculate speed based on the distance from the setpoint
@@ -93,14 +92,7 @@ public class driveSegment extends Command {
         j = dy/mag; //unit vector j component
 
         this.t = (mag/speed) *1000;
-        if (endSegment){
-            //correction on angle
-            double angleOffset = RobotContainer.gyro.getGyroscopeRotation().getRadians()-originalPose.getRotation().getRadians();
-            angleController.setSetpoint(angleOffset + getAngle());
-        }
-        else{
-            angleController.setSetpoint(MathUtil.angleModulus(getAngle()));
-        }
+        angleController.setSetpoint(MathUtil.angleModulus(getAngle()));
         //System.out.println("Start: " + MathUtil.angleModulus(getAngle()));
     }
 
@@ -108,10 +100,10 @@ public class driveSegment extends Command {
     public void execute() {
         double currentAngle = RobotContainer.gyro.getGyroscopeRotation().getRadians();
         double error = MathUtil.angleModulus(currentAngle - angleController.getSetpoint());
-        System.out.println("error: " + Units.radiansToDegrees(error));
+        //System.out.println("error: " + Units.radiansToDegrees(error));
         double rotation = (MathUtil.clamp(angleController.calculate(error + angleController.getSetpoint(), angleController.getSetpoint()) + (ff * Math.signum(-error)),
                 -maxRotate, maxRotate)); //setpoint can't be zero, addsetpoint to error
-        System.out.println("rotation: " + Units.radiansToDegrees(rotation));
+        //System.out.println("rotation: " + Units.radiansToDegrees(rotation));
         drivetrain.drive(new Translation2d(speed*i,speed*j), rotation,true,true);
     }
 

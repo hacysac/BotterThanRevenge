@@ -17,7 +17,7 @@ public class RobotMap {
     public static final double SUBWOOFER_DEPTH = 37; //TODO in inches
     public static final double SUBWOOFER_LONG_WIDTH = 80;
     public static final double SUBWOOFER_TO_NOTE = 68.5;
-    public static final double NOTE_TO_NOTE = 0; //TODO in inches
+    public static final double NOTE_TO_NOTE = 57; //TODO in inches
 
 
     //Vision

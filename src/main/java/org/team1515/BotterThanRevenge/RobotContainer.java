@@ -36,7 +36,7 @@ public class RobotContainer {
   private Drivetrain drivetrain;
   public static PhotonVision photon;
 
-  public static SendableChooser<Command> autoChooser;
+  public static SendableChooser<Command> AutoChooser = new SendableChooser<>();
 
   public RobotContainer() {
     mainController = new XboxController(0);
@@ -47,7 +47,21 @@ public class RobotContainer {
 
     drivetrain = new Drivetrain(new Pose2d(), photon);
 
-    autoChooser = new SendableChooser<Command>();
+    Optional<Alliance> ally = DriverStation.getAlliance();
+    int team = -1; // default blue
+    if (ally.isPresent()) {
+        if (ally.get() == Alliance.Red) {
+            team = 1;
+        }
+        else if (ally.get() == Alliance.Blue) {
+            team = -1;
+        }
+    }
+
+    AutoChooser.setDefaultOption("Drive Back", new DriveBackSeq(drivetrain));
+    AutoChooser.addOption("1 Note Seq", new OneNoteSeq(drivetrain, team));
+    AutoChooser.addOption("3 Note Seq", new ThreeNoteSeq(drivetrain, team));
+    SmartDashboard.putData(AutoChooser);
 
     configureBindings();
   }
@@ -67,24 +81,12 @@ public class RobotContainer {
     Controls.ROTATE_ANGLE_TARGET.onTrue(new RotateAngle(drivetrain, angle));
     Controls.GET_DIST_TARGET.onTrue(new InstantCommand(()->System.out.println(photon.getDist())));
 
-    Optional<Alliance> ally = DriverStation.getAlliance();
-    int team = -1; // default blue
-    if (ally.isPresent()) {
-        if (ally.get() == Alliance.Red) {
-            team = 1;
-        }
-        else if (ally.get() == Alliance.Blue) {
-            team = -1;
-        }
-    }
-    autoChooser.setDefaultOption("Drive Back", new DriveBackSeq(drivetrain));
-    autoChooser.addOption("1 Note Seq", new OneNoteSeq(drivetrain, team));
-    autoChooser.addOption("3 Note Seq", new ThreeNoteSeq(drivetrain, team));
-    SmartDashboard.putData(autoChooser);
+    
+
   }
 
   public Command getAutonomousCommand() {
-    return autoChooser.getSelected();
+    return AutoChooser.getSelected();
   }
 
   public static double getRobotSpeed() {

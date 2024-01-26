@@ -26,7 +26,7 @@ public class driveArcLength extends SequentialCommandGroup {
   public driveArcLength(Drivetrain drivetrain, Point[] points, double t, DoubleSupplier theta) {
     
     double startAngle = RobotContainer.gyro.getGyroscopeRotation().getRadians();
-    Pose2d startPose = drivetrain.getOdometry();
+    Pose2d startPose = new Pose2d();
     DoubleSupplier turnAmount = () -> theta.getAsDouble() - (RobotContainer.gyro.getGyroscopeRotation().getRadians() - startAngle);
     int numSegments = points.length-1;
 
