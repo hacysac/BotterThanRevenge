@@ -16,8 +16,8 @@ import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 
-public class ThreeNoteSeq extends SequentialCommandGroup{
-     public ThreeNoteSeq(Drivetrain drivetrain, int direction){
+public class TwoNoteSeq extends SequentialCommandGroup{
+     public TwoNoteSeq(Drivetrain drivetrain, int direction){
         double finalPose = direction*(0.5*RobotMap.CHASSIS_WIDTH + 0.5*RobotMap.SUBWOOFER_LONG_WIDTH + RobotMap.BUMPER_WIDTH); //assuming red
         Pose2d subwoofer = new Pose2d(new Translation2d(Units.inchesToMeters(RobotMap.SUBWOOFER_DEPTH + RobotMap.AUTO_OFFSET), Units.inchesToMeters(finalPose)), new Rotation2d(180.0));
         //go negative direction
@@ -45,18 +45,6 @@ public class ThreeNoteSeq extends SequentialCommandGroup{
         //run intake+indexer
         startPoint = new Pose2d(new Translation2d(subwoofer.getX()+finalPoint.x, subwoofer.getY()+finalPoint.y), new Rotation2d(180.0));
         finalPoint = new Point(-subwooferToNote, 0);
-        addCommands(Commands.waitSeconds(0.5));
-        addCommands(new driveSegment(drivetrain, angle, finalPoint, speed, startPoint, true));
-        //run indexer into shooter
-        angle = ()->Units.degreesToRadians(-30.0*direction);
-        startPoint = subwoofer;
-        finalPoint = new Point(subwooferToNote, Units.inchesToMeters(direction * -(RobotMap.NOTE_TO_NOTE - (0.5 * RobotMap.CHASSIS_WIDTH))));
-        addCommands(Commands.waitSeconds(0.5));
-        addCommands(new driveSegment(drivetrain, angle, finalPoint, speed, startPoint, true));
-        //indexer+intake
-        angle = ()->Units.degreesToRadians(30.0*direction);
-        startPoint = new Pose2d(new Translation2d(subwoofer.getX()+finalPoint.x, subwoofer.getY()+finalPoint.y), new Rotation2d(150.0));
-        finalPoint = new Point(-subwooferToNote, Units.inchesToMeters(direction * (RobotMap.NOTE_TO_NOTE - (0.5 * RobotMap.CHASSIS_WIDTH))));
         addCommands(Commands.waitSeconds(0.5));
         addCommands(new driveSegment(drivetrain, angle, finalPoint, speed, startPoint, true));
         //run indexer into shooter
