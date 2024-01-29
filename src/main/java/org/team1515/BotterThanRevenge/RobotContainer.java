@@ -11,8 +11,8 @@ import org.team1515.BotterThanRevenge.Commands.DefaultDriveCommand;
 import org.team1515.BotterThanRevenge.Commands.AutoCommands.RotateAngle;
 import org.team1515.BotterThanRevenge.Commands.AutoCommands.AutoSequences.TwoSpeakerAmpSeq;
 import org.team1515.BotterThanRevenge.Commands.AutoCommands.AutoSequences.DriveBackSeq;
-import org.team1515.BotterThanRevenge.Commands.AutoCommands.AutoSequences.OneNoteSeq;
 import org.team1515.BotterThanRevenge.Commands.AutoCommands.AutoSequences.ThreeNoteSeq;
+import org.team1515.BotterThanRevenge.Commands.AutoCommands.AutoSequences.TwoNoteSeq;
 import org.team1515.BotterThanRevenge.Subsystems.Drivetrain;
 import org.team1515.BotterThanRevenge.Utils.*;
 
@@ -59,9 +59,9 @@ public class RobotContainer {
     }
 
     AutoChooser.setDefaultOption("Drive Back", new DriveBackSeq(drivetrain));
-    AutoChooser.addOption("1 Note Seq", new OneNoteSeq(drivetrain, team));
+    AutoChooser.addOption("2 Note Seq", new TwoNoteSeq(drivetrain, team));
     AutoChooser.addOption("3 Note Seq", new ThreeNoteSeq(drivetrain, team));
-    AutoChooser.addOption("2 Note + Amp Seq", new ThreeNoteSeq(drivetrain, -team));
+    AutoChooser.addOption("2 Note + Amp Seq", new TwoSpeakerAmpSeq(drivetrain, -team));
     SmartDashboard.putData(AutoChooser);
 
     configureBindings();

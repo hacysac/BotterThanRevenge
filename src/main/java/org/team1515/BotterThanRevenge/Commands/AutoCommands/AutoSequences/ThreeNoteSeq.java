@@ -18,9 +18,14 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 
 public class ThreeNoteSeq extends SequentialCommandGroup{
      public ThreeNoteSeq(Drivetrain drivetrain, int direction){
-        double finalPose = direction*(0.5*RobotMap.CHASSIS_WIDTH + 0.5*RobotMap.SUBWOOFER_LONG_WIDTH + RobotMap.BUMPER_WIDTH); //assuming red
-        Pose2d subwoofer = new Pose2d(new Translation2d(Units.inchesToMeters(RobotMap.SUBWOOFER_DEPTH + RobotMap.AUTO_OFFSET), Units.inchesToMeters(finalPose)), new Rotation2d(180.0));
-        //go negative direction
+        
+        double finalPoseY = direction*(0.5*RobotMap.CHASSIS_WIDTH + 0.5*RobotMap.SUBWOOFER_LONG_WIDTH + RobotMap.BUMPER_WIDTH); //assuming red
+        Pose2d subwoofer = new Pose2d(new Translation2d(Units.inchesToMeters(RobotMap.SUBWOOFER_DEPTH + RobotMap.AUTO_OFFSET), Units.inchesToMeters(finalPoseY)), new Rotation2d(180.0));
+        
+        double subwooferToNoteX = Units.inchesToMeters(RobotMap.SUBWOOFER_TO_NOTE - RobotMap.CHASSIS_WIDTH - (2*RobotMap.BUMPER_WIDTH) - RobotMap.INTAKE_OFFSET);
+        double subwooferToNoteY = Units.inchesToMeters(direction * -(RobotMap.NOTE_TO_NOTE - (0.5 * RobotMap.CHASSIS_WIDTH)));
+        double subwooferToCenter = Units.inchesToMeters(RobotMap.SUBWOOFER_TO_CENTER - RobotMap.CHASSIS_WIDTH - (2*RobotMap.BUMPER_WIDTH) - RobotMap.INTAKE_OFFSET);
+        
         Point[] path = {
             new Point(0, 0),
             new Point(Units.inchesToMeters(53.5), direction * Units.inchesToMeters(2.3)), 
@@ -30,44 +35,68 @@ public class ThreeNoteSeq extends SequentialCommandGroup{
         DoubleSupplier angle = () -> Units.degreesToRadians(180); //make sure shooter is forward
         
         //start shooter speed up
+        //BEZIER
         addCommands(new driveArcLength(drivetrain, path, 3.5, angle));
         //run indexer into shooter
         //wait 1 seconds + flip down intake
         
         angle = () -> Units.degreesToRadians(0);
-        double subwooferToNote = Units.inchesToMeters(RobotMap.SUBWOOFER_TO_NOTE - RobotMap.CHASSIS_WIDTH - (2*RobotMap.BUMPER_WIDTH) - RobotMap.INTAKE_OFFSET);
         double time = 1;
-        double speed = subwooferToNote/time;
+        double speed = subwooferToNoteX/time;
 
+        //DRIVE BACK
         Pose2d startPoint = subwoofer;
-        Point finalPoint = new Point(subwooferToNote, 0);
+        Point finalPoint = new Point(subwooferToNoteX, 0);
         addCommands(new driveSegment(drivetrain, angle, finalPoint, speed, startPoint, true));
         //run intake+indexer
-        startPoint = new Pose2d(new Translation2d(subwoofer.getX()+finalPoint.x, subwoofer.getY()+finalPoint.y), new Rotation2d(180.0));
-        finalPoint = new Point(-subwooferToNote, 0);
+
+
         addCommands(Commands.waitSeconds(0.5));
+
+
+        //DRIVE FORWARD
+        startPoint = new Pose2d(new Translation2d(subwoofer.getX()+finalPoint.x, subwoofer.getY()+finalPoint.y), new Rotation2d(180.0));
+        finalPoint = new Point(-subwooferToNoteX, 0);
         addCommands(new driveSegment(drivetrain, angle, finalPoint, speed, startPoint, true));
         //run indexer into shooter
-        angle = ()->Units.degreesToRadians(-30.0*direction);
-        startPoint = subwoofer;
-        finalPoint = new Point(subwooferToNote, Units.inchesToMeters(direction * -(RobotMap.NOTE_TO_NOTE - (0.5 * RobotMap.CHASSIS_WIDTH))));
+
+
         addCommands(Commands.waitSeconds(0.5));
+
+
+        angle = ()->Units.degreesToRadians(-30.0*direction);
+        double dist = Math.sqrt(Math.pow(subwooferToNoteX, 2)+Math.pow(subwooferToNoteY, 2));
+        time = 1;
+        speed = dist/time;
+
+        //DRIVE DIAGONAL BACKWARD
+        startPoint = subwoofer;
+        finalPoint = new Point(subwooferToNoteX, subwooferToNoteY);
         addCommands(new driveSegment(drivetrain, angle, finalPoint, speed, startPoint, true));
         //indexer+intake
-        angle = ()->Units.degreesToRadians(30.0*direction);
-        startPoint = new Pose2d(new Translation2d(subwoofer.getX()+finalPoint.x, subwoofer.getY()+finalPoint.y), new Rotation2d(150.0));
-        finalPoint = new Point(-subwooferToNote, Units.inchesToMeters(direction * (RobotMap.NOTE_TO_NOTE - (0.5 * RobotMap.CHASSIS_WIDTH))));
+
+
         addCommands(Commands.waitSeconds(0.5));
+
+
+        angle = ()->Units.degreesToRadians(30.0*direction);
+        
+        //DRIVE DIAGONAL FORWARD
+        startPoint = new Pose2d(new Translation2d(subwoofer.getX()+finalPoint.x, subwoofer.getY()+finalPoint.y), new Rotation2d(150.0));
+        finalPoint = new Point(-subwooferToNoteX, -subwooferToNoteY);
         addCommands(new driveSegment(drivetrain, angle, finalPoint, speed, startPoint, true));
+        
         //run indexer into shooter
+
         angle = ()->Units.degreesToRadians(0.0);
         time = 3;
-        double subwooferToCenter = Units.inchesToMeters(RobotMap.SUBWOOFER_TO_CENTER - RobotMap.CHASSIS_WIDTH - (2*RobotMap.BUMPER_WIDTH) - RobotMap.INTAKE_OFFSET);
         speed = subwooferToCenter/time;
 
+        addCommands(Commands.waitSeconds(0.5));
+
+        //DRIVE TO CENTER
         startPoint = subwoofer;
         finalPoint = new Point(subwooferToCenter, 0);
-        addCommands(Commands.waitSeconds(0.5));
         addCommands(new driveSegment(drivetrain, angle, finalPoint, speed, startPoint, true));
         //end all
     }
