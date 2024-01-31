@@ -11,6 +11,7 @@ public class Controls {
     public static final Trigger CLIMB_DOWN = new Trigger(RobotContainer.mainController::getAButton);
     public static final Trigger CLIMB_UP = new Trigger(RobotContainer.mainController::getYButton);
 
+    public static final Trigger AUTO_INTAKE = new Trigger(RobotContainer.secondController::getRightBumper);
     public static final Trigger INTAKE = new Trigger(RobotContainer.secondController::getRightBumper);
     public static final Trigger OUTTAKE = new Trigger(RobotContainer.secondController::getLeftBumper);
 

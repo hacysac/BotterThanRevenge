@@ -24,7 +24,7 @@ public class Intake extends SubsystemBase {
         bottomIntake = new CANSparkMax(RobotMap.BOTTOM_INTAKE_ID, MotorType.kBrushless);
         topIntake = new CANSparkMax(RobotMap.TOP_INTAKE_ID, MotorType.kBrushless);
 
-        flip = new CANSparkMax(RobotMap.FLIP_INTAKE_ID, MotorType.kBrushless);
+        //flip = new CANSparkMax(RobotMap.FLIP_INTAKE_ID, MotorType.kBrushless);
         canCoder.clearStickyFault_BadMagnet();
         canCoder.getConfigurator().apply(new CANcoderConfiguration());
 
