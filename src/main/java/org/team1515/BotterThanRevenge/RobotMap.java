@@ -29,8 +29,8 @@ public class RobotMap {
     public static final double CLIMBER_SPEED = -1; // TODO
 
     // Shooter
-    public static final int L_SHOOTER_ID = -1; // TODO
+    public static final int L_SHOOTER_ID = 10; // TODO
     public static final int R_SHOOTER_ID = -1; // TODO
-    public static final double SPEAKER_SPEED = -1; // TODO
-    public static final double AMP_SPEED = -1; // TODO
+    public static final double SPEAKER_SPEED = 0.5; // TODO
+    public static final double AMP_SPEED = 0.2; // TODO
 }

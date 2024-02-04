@@ -28,8 +28,8 @@ public class RobotContainer {
     mainController = new XboxController(0);
     secondController = new XboxController(1);
 
-    intake = new Intake();
-    indexer = new Indexer();
+    //intake = new Intake();
+    //indexer = new Indexer();
     //climber = new Climber();
     shooter = new Shooter();
 
@@ -39,16 +39,16 @@ public class RobotContainer {
 
   private void configureBindings() {
     
-    Controls.INDEXER_UP.whileTrue(new IndexerUp(indexer));
-    Controls.INDEXER_DOWN.whileTrue(new IndexerDown(indexer));
+    //Controls.INDEXER_UP.whileTrue(new IndexerUp(indexer));
+    //Controls.INDEXER_DOWN.whileTrue(new IndexerDown(indexer));
 
     //Controls.CLIMB_UP.whileTrue(new ClimberUp(climber));
     //Controls.CLIMB_DOWN.whileTrue(new ClimberDown(climber));
 
     //Controls.AUTO_INTAKE.onTrue(new SequentialCommandGroup(new InstantCommand(()->intake.setDown(!intake.getDone())), new AutoIntakeIn(intake, indexer)));
     //make command interuptable? TODO: test this
-    Controls.INTAKE.onTrue(new IntakeIn(intake));
-    Controls.OUTTAKE.whileTrue(new IntakeOut(intake));
+    //Controls.INTAKE.onTrue(new IntakeIn(intake));
+    //Controls.OUTTAKE.whileTrue(new IntakeOut(intake));
     //Controls.FLIP.onTrue(new Flip(intake));
 
     Controls.SHOOT_SPEAKER.whileTrue(new ShooterShoot(shooter, RobotMap.SPEAKER_SPEED));

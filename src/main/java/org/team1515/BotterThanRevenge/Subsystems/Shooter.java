@@ -14,8 +14,8 @@ public class Shooter extends SubsystemBase {
     
     public Shooter(){
         lShooter = new CANSparkMax(RobotMap.L_SHOOTER_ID, MotorType.kBrushless);
-        rShooter = new CANSparkMax(RobotMap.R_SHOOTER_ID, MotorType.kBrushless);
-        rShooter.follow(lShooter, true);
+        //rShooter = new CANSparkMax(RobotMap.R_SHOOTER_ID, MotorType.kBrushless);
+        //rShooter.follow(lShooter, true);
     }
 
     public void shoot(double speed){
