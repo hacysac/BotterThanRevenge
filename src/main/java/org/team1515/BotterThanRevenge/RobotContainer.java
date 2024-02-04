@@ -47,6 +47,8 @@ public class RobotContainer {
 
     //Controls.AUTO_INTAKE.onTrue(new SequentialCommandGroup(new InstantCommand(()->intake.setDown(!intake.getDone())), new AutoIntakeIn(intake, indexer)));
     //make command interuptable? TODO: test this
+    Controls.INTAKE.whileTrue(new IntakeIn(intake));
+    Controls.OUTTAKE.whileTrue(new IntakeOut(intake));
     //Controls.INTAKE.onTrue(new IntakeIn(intake));
     //Controls.OUTTAKE.whileTrue(new IntakeOut(intake));
     //Controls.FLIP.onTrue(new Flip(intake));
