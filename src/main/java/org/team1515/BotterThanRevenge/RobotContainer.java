@@ -49,8 +49,6 @@ public class RobotContainer {
     //make command interuptable? TODO: test this
     Controls.INTAKE.whileTrue(new IntakeIn(intake));
     Controls.OUTTAKE.whileTrue(new IntakeOut(intake));
-    //Controls.INTAKE.onTrue(new IntakeIn(intake));
-    //Controls.OUTTAKE.whileTrue(new IntakeOut(intake));
     //Controls.FLIP.onTrue(new Flip(intake));
 
     Controls.SHOOT_SPEAKER.whileTrue(new ShooterShoot(shooter, RobotMap.SPEAKER_SPEED));
