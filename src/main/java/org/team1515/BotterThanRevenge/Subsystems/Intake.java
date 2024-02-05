@@ -7,6 +7,7 @@ import com.ctre.phoenix6.configs.CANcoderConfiguration;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 
+import edu.wpi.first.wpilibj.DigitalOutput;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class Intake extends SubsystemBase {
@@ -16,6 +17,9 @@ public class Intake extends SubsystemBase {
 
     private CANSparkMax flip;
     private CANcoder canCoder;
+
+    private DigitalOutput upperSensor;
+    private DigitalOutput lowerSensor;
 
     private boolean done;
     private boolean down;
@@ -28,15 +32,18 @@ public class Intake extends SubsystemBase {
         canCoder.clearStickyFault_BadMagnet();
         canCoder.getConfigurator().apply(new CANcoderConfiguration());
 
+        //upperSensor = new DigitalOutput(RobotMap.INTAKE_UPPER_SENSOR_CHANNEL);
+        //lowerSensor = new DigitalOutput(RobotMap.INTAKE_LOWER_SENSOR_CHANNEL);
+
         down = false;
     }
 
     public boolean canCoderDown(){
-        return canCoder.getAbsolutePosition().getValueAsDouble() >= RobotMap.FLIP_DOWN_VALUE;
+        return canCoder.getAbsolutePosition().getValueAsDouble() >= RobotMap.FLIP_DOWN_VALUE || lowerSensor.get();
     }
 
     public boolean canCoderUp(){
-        return canCoder.getAbsolutePosition().getValueAsDouble() >= RobotMap.FLIP_UP_VALUE;
+        return canCoder.getAbsolutePosition().getValueAsDouble() >= RobotMap.FLIP_UP_VALUE || upperSensor.get();
     }
 
     public void in(){
