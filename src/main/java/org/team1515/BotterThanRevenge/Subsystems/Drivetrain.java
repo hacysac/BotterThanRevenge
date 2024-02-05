@@ -177,14 +177,15 @@ public class Drivetrain extends SubsystemBase {
         );
 
         // Compute the robot's field-relative position exclusively from vision measurements.
-        if(photonVision.getEstimatedGlobalPose(m_pose).isPresent()){
-            Pose3d visionMeasurement3d = photonVision.getEstimatedGlobalPose(m_pose).get().estimatedPose;
+        
+        // if(photonVision.getEstimatedGlobalPose(m_pose).isPresent()){
+        //     Pose3d visionMeasurement3d = photonVision.getEstimatedGlobalPose(m_pose).get().estimatedPose;
 
-            // Convert robot pose from Pose3d to Pose2d needed to apply vision measurements.
-            Pose2d visionMeasurement2d = visionMeasurement3d.toPose2d();
+        //     // Convert robot pose from Pose3d to Pose2d needed to apply vision measurements.
+        //     Pose2d visionMeasurement2d = visionMeasurement3d.toPose2d();
 
-            estimator.addVisionMeasurement(visionMeasurement2d, Timer.getFPGATimestamp());
-        }
+        //     estimator.addVisionMeasurement(visionMeasurement2d, Timer.getFPGATimestamp());
+        // }
 
 
 
