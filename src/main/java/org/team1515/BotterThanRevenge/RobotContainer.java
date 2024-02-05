@@ -28,8 +28,8 @@ public class RobotContainer {
     mainController = new XboxController(0);
     secondController = new XboxController(1);
 
-    //intake = new Intake();
-    //indexer = new Indexer();
+    intake = new Intake();
+    indexer = new Indexer();
     //climber = new Climber();
     shooter = new Shooter();
 
