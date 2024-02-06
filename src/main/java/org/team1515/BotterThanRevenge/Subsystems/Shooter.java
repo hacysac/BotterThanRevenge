@@ -19,11 +19,11 @@ public class Shooter extends SubsystemBase {
     }
 
     public void shoot(double speed){
-        lShooter.set(speed);
+        lShooter.set(-speed);
     }
     
     public void in(){
-        lShooter.set(-RobotMap.AMP_SPEED);
+        lShooter.set(RobotMap.AMP_SPEED);
     }
 
     public void end(){

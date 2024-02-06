@@ -29,8 +29,8 @@ public class Intake extends SubsystemBase {
         topIntake = new CANSparkMax(RobotMap.TOP_INTAKE_ID, MotorType.kBrushless);
 
         //flip = new CANSparkMax(RobotMap.FLIP_INTAKE_ID, MotorType.kBrushless);
-        canCoder.clearStickyFault_BadMagnet();
-        canCoder.getConfigurator().apply(new CANcoderConfiguration());
+        //canCoder.clearStickyFault_BadMagnet();
+        //canCoder.getConfigurator().apply(new CANcoderConfiguration());
 
         //upperSensor = new DigitalOutput(RobotMap.INTAKE_UPPER_SENSOR_CHANNEL);
         //lowerSensor = new DigitalOutput(RobotMap.INTAKE_LOWER_SENSOR_CHANNEL);
@@ -47,12 +47,12 @@ public class Intake extends SubsystemBase {
     }
 
     public void in(){
-        bottomIntake.set(RobotMap.INTAKE_SPEED);
+        bottomIntake.set(-RobotMap.INTAKE_SPEED);
         topIntake.set(RobotMap.INTAKE_SPEED);
     }
 
     public void out(){
-        bottomIntake.set(-RobotMap.INTAKE_SPEED);
+        bottomIntake.set(RobotMap.INTAKE_SPEED);
         topIntake.set(-RobotMap.INTAKE_SPEED);
     }
 
@@ -79,13 +79,5 @@ public class Intake extends SubsystemBase {
 
     public void setDown(boolean down){
         this.down = down;
-    }
-
-    public boolean getDone(){
-        return done;
-    }
-
-    public void setDone(boolean done){
-        this.done = done;
     }
 }

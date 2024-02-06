@@ -15,7 +15,7 @@ public class AutoIntakeIn extends Command {
         this.intake = intake;
         this.indexer = indexer;
         this.time = 1000; // 1000 seconds will not be reached
-        addRequirements(intake);
+        //addRequirements(intake);
         addRequirements(indexer);
     }
 
@@ -40,12 +40,12 @@ public class AutoIntakeIn extends Command {
 
     @Override
     public boolean isFinished() {
-        return indexer.isBlocked() || intake.getDone() || (System.currentTimeMillis()-startTime) >= time*1000;
+        return indexer.isBlocked() || (System.currentTimeMillis()-startTime) >= time*1000;
     }
 
     @Override
     public void end(boolean interrupted) {
         intake.endIntake();
-        intake.setDone(true);
+        indexer.end();
     }
 }

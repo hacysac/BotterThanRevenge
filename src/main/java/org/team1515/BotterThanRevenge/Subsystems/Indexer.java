@@ -21,15 +21,16 @@ public class Indexer extends SubsystemBase {
     }
 
     public boolean isBlocked(){
-        return !sensor.get(); // TODO inverted, false if is blocked?
+        //return !sensor.get(); // TODO inverted, false if is blocked?
+        return false;
     }
 
     public void up(){
-        topIndexer.set(RobotMap.INDEXER_SPEED);
+        topIndexer.set(-RobotMap.INDEXER_SPEED);
     }
 
     public void down(){
-        topIndexer.set(-RobotMap.INDEXER_SPEED);
+        topIndexer.set(RobotMap.INDEXER_SPEED);
     }
 
     public void end() {
