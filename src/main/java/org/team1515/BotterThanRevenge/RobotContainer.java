@@ -4,10 +4,13 @@
 
 package org.team1515.BotterThanRevenge;
 
+import org.team1515.BotterThanRevenge.Commands.DefaultDriveCommand;
+import org.team1515.BotterThanRevenge.Subsystems.Drivetrain;
 import org.team1515.BotterThanRevenge.Utils.*;
 import org.team1515.BotterThanRevenge.Commands.*;
 import org.team1515.BotterThanRevenge.Subsystems.*;
 
+import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
@@ -23,22 +26,34 @@ public class RobotContainer {
   public static Shooter shooter;
   private static Indexer indexer;
   private static Climber climber;
+  public static Gyroscope gyro;
+  private Drivetrain drivetrain;
 
   public RobotContainer() {
     mainController = new XboxController(0);
     secondController = new XboxController(1);
-
+    
     intake = new Intake();
     indexer = new Indexer();
     //climber = new Climber();
     shooter = new Shooter();
-
+    
+    gyro = new Gyroscope();
+    drivetrain = new Drivetrain(new Pose2d());
 
     configureBindings();
 
   }
 
   private void configureBindings() {
+    
+    drivetrain.setDefaultCommand(
+        new DefaultDriveCommand(drivetrain,
+            () -> -modifyAxis(-mainController.getLeftY() * getRobotSpeed()),
+            () -> -modifyAxis(-mainController.getLeftX() * getRobotSpeed()),
+            () -> modifyAxis(mainController.getRightX() * getRobotSpeed()),
+            () -> Controls.DRIVE_ROBOT_ORIENTED.getAsBoolean()));
+    Controls.RESET_GYRO.onTrue(new InstantCommand(()->drivetrain.zeroGyro()));
     
     Controls.INDEXER_UP.whileTrue(new IndexerUp(indexer));
     Controls.INDEXER_DOWN.whileTrue(new IndexerDown(indexer));
@@ -60,7 +75,7 @@ public class RobotContainer {
     Controls.SHOOT_SPEAKER.toggleOnTrue(new ShooterToggle(shooter, RobotMap.SPEAKER_SPEED));
     Controls.SHOOT_AMP.toggleOnTrue(new ShooterToggle(shooter, RobotMap.AMP_SPEED));
     Controls.SHOOTER_IN.whileTrue(new ShooterIn(shooter));
-
+    
   }
 
   public Command getAutonomousCommand() {
