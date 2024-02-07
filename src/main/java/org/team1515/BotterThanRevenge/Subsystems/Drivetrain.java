@@ -9,7 +9,6 @@ import com.team364.swervelib.util.SwerveModule;
 import edu.wpi.first.math.estimator.PoseEstimator;
 import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
 import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
@@ -26,9 +25,7 @@ public class Drivetrain extends SubsystemBase {
 
     private Rotation2d realZero;
     private double gyroOffset = 0;
-    private boolean gyroReset;
 
-    private SwerveDriveOdometry m_odometry;
     private Pose2d m_pose;
     private SwerveDrivePoseEstimator estimator;
     private PhotonVision photonVision;
@@ -47,16 +44,6 @@ public class Drivetrain extends SubsystemBase {
                 new SwerveModule(2, SwerveConstants.Swerve.Mod2.constants),
                 new SwerveModule(3, SwerveConstants.Swerve.Mod3.constants)
         };
-
-
-        m_odometry = new SwerveDriveOdometry(
-            SwerveConstants.Swerve.swerveKinematics, RobotContainer.gyro.getGyroscopeRotation(),
-            new SwerveModulePosition[] {
-            mSwerveMods[0].getPosition(),
-            mSwerveMods[1].getPosition(),
-            mSwerveMods[2].getPosition(),
-            mSwerveMods[3].getPosition()
-        }, initialPos);
 
         estimator = new SwerveDrivePoseEstimator(
             SwerveConstants.Swerve.swerveKinematics, RobotContainer.gyro.getGyroscopeRotation(),
@@ -148,11 +135,9 @@ public class Drivetrain extends SubsystemBase {
     public void flipGyro() {
         if(gyroOffset == 0) {
             gyroOffset = 180;
-            gyroReset = true;
         }
         else {
             gyroOffset = 0;
-            gyroReset = false;
         }
     }
 

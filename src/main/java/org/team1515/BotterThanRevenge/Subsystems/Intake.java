@@ -21,7 +21,6 @@ public class Intake extends SubsystemBase {
     private DigitalOutput upperSensor;
     private DigitalOutput lowerSensor;
 
-    private boolean done;
     private boolean down;
 
     public Intake(){
