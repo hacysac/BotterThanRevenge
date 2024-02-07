@@ -8,10 +8,10 @@ public class RobotMap {
     public static final int PDH_ID = -1; // TODO
 
     //field and robot measurements
-    public static final double CHASSIS_WIDTH = 30;
+    public static final double CHASSIS_WIDTH = 28;
     public static final double BUMPER_WIDTH = 2;
 
-    public static final double SUBWOOFER_DEPTH = 37; //TODO in inches
+    public static final double SUBWOOFER_DEPTH = 37;
     public static final double SUBWOOFER_LONG_WIDTH = 80;
     public static final double SUBWOOFER_TO_NOTE = 68.5;
     public static final double SUBWOOFER_TO_AMP = 63.5; //TODO get in inches

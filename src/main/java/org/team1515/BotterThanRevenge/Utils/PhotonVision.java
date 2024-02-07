@@ -26,10 +26,8 @@ public class PhotonVision {
     private Pose2d prevPose;
 
     public PhotonVision(){
-        camera = new PhotonCamera(RobotMap.CAMERA_NAME);
+        //camera = new PhotonCamera(RobotMap.CAMERA_NAME);
         prevPose = new Pose2d();
-
-
 
         //check that this recieves data
         try {

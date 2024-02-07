@@ -34,65 +34,62 @@ public class ThreeNoteSeq extends SequentialCommandGroup{
         path = bezierUtil.spacedPoints(path, 25);
         DoubleSupplier angle = () -> Units.degreesToRadians(180); //make sure shooter is forward
         
-        //start shooter speed up
+        //start shooter
         //BEZIER
         addCommands(new driveArcLength(drivetrain, path, 3.5, angle));
-        //run indexer into shooter
-        //wait 1 seconds + flip down intake
+        
+        //FEED PIECE: run indexer 0.5 seconds?
+        //end shooter and indexer
+        addCommands(Commands.waitSeconds(0.5));
         
         angle = () -> Units.degreesToRadians(0);
         double time = 1;
         double speed = subwooferToNoteX/time;
 
-        //DRIVE BACK
+        //DRIVE BACK + flip down
         Pose2d startPoint = subwoofer;
         Point finalPoint = new Point(subwooferToNoteX, 0);
         addCommands(new driveSegment(drivetrain, angle, finalPoint, speed, startPoint, true));
-        //run intake+indexer
-
-
+        
+        //PICK UP PIECE: run intake+indexer 1 second limit
         addCommands(Commands.waitSeconds(0.5));
 
-
-        //DRIVE FORWARD
+        //DRIVE FORWARD + flip up + start shooter
         startPoint = new Pose2d(new Translation2d(subwoofer.getX()+finalPoint.x, subwoofer.getY()+finalPoint.y), new Rotation2d(180.0));
         finalPoint = new Point(-subwooferToNoteX, 0);
         addCommands(new driveSegment(drivetrain, angle, finalPoint, speed, startPoint, true));
-        //run indexer into shooter
-
-
+        
+        //FEED PIECE: run indexer 0.5 seconds?
+        //end shooter and indexer
         addCommands(Commands.waitSeconds(0.5));
-
 
         angle = ()->Units.degreesToRadians(-30.0*direction);
         double dist = Math.sqrt(Math.pow(subwooferToNoteX, 2)+Math.pow(subwooferToNoteY, 2));
         time = 1;
         speed = dist/time;
 
-        //DRIVE DIAGONAL BACKWARD
+        //DRIVE DIAGONAL BACKWARD + flip down
         startPoint = subwoofer;
         finalPoint = new Point(subwooferToNoteX, subwooferToNoteY);
         addCommands(new driveSegment(drivetrain, angle, finalPoint, speed, startPoint, true));
-        //indexer+intake
 
-
+        //PICK UP PIECE: run intake+indexer 1 second limit
         addCommands(Commands.waitSeconds(0.5));
-
 
         angle = ()->Units.degreesToRadians(30.0*direction);
         
-        //DRIVE DIAGONAL FORWARD
+        //DRIVE DIAGONAL FORWARD + flip up + start shooter
         startPoint = new Pose2d(new Translation2d(subwoofer.getX()+finalPoint.x, subwoofer.getY()+finalPoint.y), new Rotation2d(150.0));
         finalPoint = new Point(-subwooferToNoteX, -subwooferToNoteY);
         addCommands(new driveSegment(drivetrain, angle, finalPoint, speed, startPoint, true));
         
-        //run indexer into shooter
+        //FEED PIECE: run indexer 0.5 seconds?
+        //end shooter and indexer
+        addCommands(Commands.waitSeconds(0.5));
 
         angle = ()->Units.degreesToRadians(0.0);
         time = 3;
         speed = subwooferToCenter/time;
-
-        addCommands(Commands.waitSeconds(0.5));
 
         //DRIVE TO CENTER
         startPoint = subwoofer;
