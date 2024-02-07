@@ -23,9 +23,10 @@ public class RobotContainer {
   public static XboxController secondController;
 
   public static Intake intake;
-  public static Shooter shooter;
   private static Indexer indexer;
   private static Climber climber;
+  public static Shooter shooter;
+  
   public static Gyroscope gyro;
   private Drivetrain drivetrain;
 
@@ -54,26 +55,29 @@ public class RobotContainer {
             () -> modifyAxis(mainController.getRightX() * getRobotSpeed()),
             () -> Controls.DRIVE_ROBOT_ORIENTED.getAsBoolean()));
     Controls.RESET_GYRO.onTrue(new InstantCommand(()->drivetrain.zeroGyro()));
-    
-    Controls.INDEXER_UP.whileTrue(new IndexerUp(indexer));
-    Controls.INDEXER_DOWN.whileTrue(new IndexerDown(indexer));
 
-    //Controls.CLIMB_UP.whileTrue(new ClimberUp(climber));
-    //Controls.CLIMB_DOWN.whileTrue(new ClimberDown(climber));
-
-    Controls.AUTO_INTAKE.toggleOnTrue(new AutoIntakeIn(intake, indexer));
-    //make command interuptable? TODO: test this
+    //Intake
+    Controls.AUTO_INTAKE.toggleOnTrue(new AutoIntakeIn(intake, indexer)); // infinite until sensor
     Controls.INTAKE.whileTrue(new IntakeIn(intake));
     Controls.OUTTAKE.whileTrue(new IntakeOut(intake));
     //Controls.FLIP.onTrue(new Flip(intake));
+    
+    //Indexer
+    Controls.INDEXER_UP.whileTrue(new IndexerUp(indexer));
+    Controls.INDEXER_DOWN.whileTrue(new IndexerDown(indexer));
 
-    //Hold Down
+    //Climber
+    //Controls.CLIMB_UP.whileTrue(new ClimberUp(climber));
+    //Controls.CLIMB_DOWN.whileTrue(new ClimberDown(climber));
+
+    //Shooter Hold Down
     // Controls.SHOOT_SPEAKER.whileTrue(new ShooterShoot(shooter, RobotMap.SPEAKER_SPEED));
     // Controls.SHOOT_AMP.whileTrue(new ShooterShoot(shooter, RobotMap.AMP_SPEED));
-    
+  
     //Shooter Toggle
     Controls.SHOOT_SPEAKER.toggleOnTrue(new ShooterToggle(shooter, RobotMap.SPEAKER_SPEED));
     Controls.SHOOT_AMP.toggleOnTrue(new ShooterToggle(shooter, RobotMap.AMP_SPEED));
+
     Controls.SHOOTER_IN.whileTrue(new ShooterIn(shooter));
     
   }
