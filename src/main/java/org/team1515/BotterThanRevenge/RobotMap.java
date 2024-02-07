@@ -9,12 +9,11 @@ public class RobotMap {
     // Indexer
     public static final int INDEXER_ID = 22; // TODO
     public static final int INDEX_SENSOR_CHANNEL = -1; // TODO
-    public static final double INDEXER_SPEED = 0.4;// TODO 
-
+    public static final double INDEXER_SPEED = 0.75;// TODO
     //Intake
     public static final int TOP_INTAKE_ID = 23; //TODO 
     public static final int BOTTOM_INTAKE_ID = 24; //TODO 
-    public static final double INTAKE_SPEED = 0.4; //TODO
+    public static final double INTAKE_SPEED = 0.5; //TODO
 
     public static final int FLIP_INTAKE_ID = 25; //TODO 
     public static final int FLIP_SPEED = -1; //TODO
@@ -31,6 +30,6 @@ public class RobotMap {
     // Shooter
     public static final int L_SHOOTER_ID = 20; // TODO
     public static final int R_SHOOTER_ID = 21; // TODO
-    public static final double SPEAKER_SPEED = 0.8; // TODO
+    public static final double SPEAKER_SPEED = 1.0; // TODO
     public static final double AMP_SPEED = 0.3; // TODO
 }

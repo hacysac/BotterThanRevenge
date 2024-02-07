@@ -15,7 +15,6 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
-import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 
 public class RobotContainer {
 
@@ -26,6 +25,7 @@ public class RobotContainer {
   public static Shooter shooter;
   private static Indexer indexer;
   private static Climber climber;
+
   public static Gyroscope gyro;
   private Drivetrain drivetrain;
 
@@ -36,7 +36,7 @@ public class RobotContainer {
     intake = new Intake();
     indexer = new Indexer();
     //climber = new Climber();
-    shooter = new Shooter();
+    //shooter = new Shooter();
     
     gyro = new Gyroscope();
     drivetrain = new Drivetrain(new Pose2d());
@@ -72,9 +72,9 @@ public class RobotContainer {
     // Controls.SHOOT_AMP.whileTrue(new ShooterShoot(shooter, RobotMap.AMP_SPEED));
     
     //Shooter Toggle
-    Controls.SHOOT_SPEAKER.toggleOnTrue(new ShooterToggle(shooter, RobotMap.SPEAKER_SPEED));
-    Controls.SHOOT_AMP.toggleOnTrue(new ShooterToggle(shooter, RobotMap.AMP_SPEED));
-    Controls.SHOOTER_IN.whileTrue(new ShooterIn(shooter));
+    // Controls.SHOOT_SPEAKER.toggleOnTrue(new ShooterToggle(shooter, RobotMap.SPEAKER_SPEED));
+    // Controls.SHOOT_AMP.toggleOnTrue(new ShooterToggle(shooter, RobotMap.AMP_SPEED));
+    // Controls.SHOOTER_IN.whileTrue(new ShooterIn(shooter));
     
   }
 
