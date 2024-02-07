@@ -5,6 +5,13 @@
 package org.team1515.BotterThanRevenge;
 
 import org.team1515.BotterThanRevenge.Commands.DefaultDriveCommand;
+import org.team1515.BotterThanRevenge.Commands.IndexerCommands.IndexerDown;
+import org.team1515.BotterThanRevenge.Commands.IndexerCommands.IndexerUp;
+import org.team1515.BotterThanRevenge.Commands.IntakeCommands.AutoIntakeIn;
+import org.team1515.BotterThanRevenge.Commands.IntakeCommands.IntakeIn;
+import org.team1515.BotterThanRevenge.Commands.IntakeCommands.IntakeOut;
+import org.team1515.BotterThanRevenge.Commands.ShooterCommands.ShooterIn;
+import org.team1515.BotterThanRevenge.Commands.ShooterCommands.ShooterToggle;
 import org.team1515.BotterThanRevenge.Subsystems.Drivetrain;
 import org.team1515.BotterThanRevenge.Utils.*;
 import org.team1515.BotterThanRevenge.Commands.*;
