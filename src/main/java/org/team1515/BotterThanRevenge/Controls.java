@@ -1,6 +1,4 @@
-
 package org.team1515.BotterThanRevenge;
-
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 
 public class Controls {
@@ -8,6 +6,12 @@ public class Controls {
     public static final Trigger RESET_GYRO = new Trigger(RobotContainer.mainController::getBackButton);
     public static final Trigger DRIVE_ROBOT_ORIENTED = new Trigger(RobotContainer.mainController::getLeftBumper);
     public static final Trigger CANCEL_ALL = new Trigger(RobotContainer.secondController::getBackButton);
+
+    public static final Trigger ZERO_ROBOT = new Trigger(RobotContainer.mainController::getXButton);
+    public static final Trigger FLIP_DRIVE_FORWARD = new Trigger(RobotContainer.mainController::getYButton);
+  
+    public static final Trigger ROTATE_ANGLE_TARGET = new Trigger(RobotContainer.mainController::getBButton);
+    public static final Trigger GET_DIST_TARGET = new Trigger(RobotContainer.mainController::getAButton);
 
     public static final Trigger CLIMB_DOWN = new Trigger(RobotContainer.mainController::getAButton);
     public static final Trigger CLIMB_UP = new Trigger(RobotContainer.mainController::getYButton);
