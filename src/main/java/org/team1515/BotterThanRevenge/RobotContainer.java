@@ -13,8 +13,18 @@ import org.team1515.BotterThanRevenge.Commands.AutoCommands.AutoSequences.TwoSpe
 import org.team1515.BotterThanRevenge.Commands.AutoCommands.AutoSequences.DriveBackSeq;
 import org.team1515.BotterThanRevenge.Commands.AutoCommands.AutoSequences.ThreeNoteSeq;
 import org.team1515.BotterThanRevenge.Commands.AutoCommands.AutoSequences.TwoNoteSeq;
+
+import org.team1515.BotterThanRevenge.Commands.IndexerCommands.IndexerDown;
+import org.team1515.BotterThanRevenge.Commands.IndexerCommands.IndexerUp;
+import org.team1515.BotterThanRevenge.Commands.IntakeCommands.AutoIntakeIn;
+import org.team1515.BotterThanRevenge.Commands.IntakeCommands.IntakeIn;
+import org.team1515.BotterThanRevenge.Commands.IntakeCommands.IntakeOut;
+import org.team1515.BotterThanRevenge.Commands.ShooterCommands.ShooterIn;
+import org.team1515.BotterThanRevenge.Commands.ShooterCommands.ShooterToggle;
+
 import org.team1515.BotterThanRevenge.Subsystems.Drivetrain;
 import org.team1515.BotterThanRevenge.Utils.*;
+import org.team1515.BotterThanRevenge.Subsystems.*;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -32,6 +42,11 @@ public class RobotContainer {
   public static XboxController mainController;
   public static XboxController secondController;
 
+  public static Intake intake;
+  private static Indexer indexer;
+  private static Climber climber;
+  public static Shooter shooter;
+  
   public static Gyroscope gyro;
   private Drivetrain drivetrain;
   public static PhotonVision photon;
@@ -41,7 +56,12 @@ public class RobotContainer {
   public RobotContainer() {
     mainController = new XboxController(0);
     secondController = new XboxController(1);
-
+    
+    intake = new Intake();
+    indexer = new Indexer();
+    //climber = new Climber();
+    shooter = new Shooter();
+    
     gyro = new Gyroscope();
     photon = new PhotonVision();
 
@@ -65,9 +85,11 @@ public class RobotContainer {
     SmartDashboard.putData(AutoChooser);
 
     configureBindings();
+
   }
 
   private void configureBindings() {
+    
     drivetrain.setDefaultCommand(
       //potential solution to inverted controls while driving
         new DefaultDriveCommand(drivetrain,
@@ -82,8 +104,30 @@ public class RobotContainer {
     Controls.ROTATE_ANGLE_TARGET.onTrue(new RotateAngle(drivetrain, angle));
     Controls.GET_DIST_TARGET.onTrue(new InstantCommand(()->System.out.println(photon.getDist())));
 
+    //Intake
+    Controls.AUTO_INTAKE.toggleOnTrue(new AutoIntakeIn(intake, indexer)); // infinite until sensor
+    Controls.INTAKE.whileTrue(new IntakeIn(intake));
+    Controls.OUTTAKE.whileTrue(new IntakeOut(intake));
+    //Controls.FLIP.onTrue(new Flip(intake));
     
+    //Indexer
+    Controls.INDEXER_UP.whileTrue(new IndexerUp(indexer));
+    Controls.INDEXER_DOWN.whileTrue(new IndexerDown(indexer));
 
+    //Climber
+    //Controls.CLIMB_UP.whileTrue(new ClimberUp(climber));
+    //Controls.CLIMB_DOWN.whileTrue(new ClimberDown(climber));
+
+    //Shooter Hold Down
+    // Controls.SHOOT_SPEAKER.whileTrue(new ShooterShoot(shooter, RobotMap.SPEAKER_SPEED));
+    // Controls.SHOOT_AMP.whileTrue(new ShooterShoot(shooter, RobotMap.AMP_SPEED));
+  
+    //Shooter Toggle
+    Controls.SHOOT_SPEAKER.toggleOnTrue(new ShooterToggle(shooter, RobotMap.SPEAKER_SPEED));
+    Controls.SHOOT_AMP.toggleOnTrue(new ShooterToggle(shooter, RobotMap.AMP_SPEED));
+
+    Controls.SHOOTER_IN.whileTrue(new ShooterIn(shooter));
+    
   }
 
   public Command getAutonomousCommand() {

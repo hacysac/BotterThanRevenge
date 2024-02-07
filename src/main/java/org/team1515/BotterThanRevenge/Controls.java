@@ -1,5 +1,4 @@
 package org.team1515.BotterThanRevenge;
-
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 
 public class Controls {
@@ -10,9 +9,25 @@ public class Controls {
 
     public static final Trigger ZERO_ROBOT = new Trigger(RobotContainer.mainController::getXButton);
     public static final Trigger FLIP_DRIVE_FORWARD = new Trigger(RobotContainer.mainController::getYButton);
-
+  
     public static final Trigger ROTATE_ANGLE_TARGET = new Trigger(RobotContainer.mainController::getBButton);
     public static final Trigger GET_DIST_TARGET = new Trigger(RobotContainer.mainController::getAButton);
+
+    public static final Trigger CLIMB_DOWN = new Trigger(RobotContainer.mainController::getAButton);
+    public static final Trigger CLIMB_UP = new Trigger(RobotContainer.mainController::getYButton);
+
+    public static final Trigger AUTO_INTAKE = new Trigger(RobotContainer.secondController::getYButton);
+    public static final Trigger INTAKE = new Trigger(RobotContainer.secondController::getRightBumper);
+    public static final Trigger OUTTAKE = new Trigger(RobotContainer.secondController::getLeftBumper);
+
+    public static final Trigger FLIP = new Trigger(RobotContainer.secondController::getYButton);
+
+    public static final Trigger INDEXER_UP = new Trigger(Controls::getRightTriggerSecond);
+    public static final Trigger INDEXER_DOWN = new Trigger(Controls::getLeftTriggerSecond);
+
+    public static final Trigger SHOOT_SPEAKER = new Trigger(RobotContainer.secondController::getXButton);
+    public static final Trigger SHOOT_AMP = new Trigger(RobotContainer.secondController::getBButton);
+    public static final Trigger SHOOTER_IN = new Trigger(RobotContainer.secondController::getAButton);
 
     public static boolean getLeftTriggerMain() {
         return RobotContainer.mainController.getLeftTriggerAxis() >= 0.250;
