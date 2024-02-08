@@ -3,19 +3,24 @@ package org.team1515.BotterThanRevenge.Subsystems;
 import org.team1515.BotterThanRevenge.RobotMap;
 
 import com.revrobotics.CANSparkMax;
+import com.revrobotics.RelativeEncoder;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj.DigitalOutput;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class Indexer extends SubsystemBase {
     
     private CANSparkMax topIndexer;
+    private RelativeEncoder encoder;
 
     private DigitalOutput sensor;
 
     public Indexer(){
         topIndexer = new CANSparkMax(RobotMap.INDEXER_ID, MotorType.kBrushless);
+
+        encoder = topIndexer.getEncoder();
 
         //sensor = new DigitalOutput(RobotMap.INDEX_SENSOR_CHANNEL);
     }
@@ -35,5 +40,9 @@ public class Indexer extends SubsystemBase {
 
     public void end() {
         topIndexer.set(0);
+    }
+    @Override
+    public void periodic(){
+        SmartDashboard.putNumber("Indexer RPM", encoder.getVelocity());
     }
 }

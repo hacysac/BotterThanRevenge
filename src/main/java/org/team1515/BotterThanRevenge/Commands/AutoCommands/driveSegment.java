@@ -91,7 +91,7 @@ public class driveSegment extends Command {
         i = dx/mag; //unit vector i component
         j = dy/mag; //unit vector j component
 
-        this.t = (mag/speed) *1000;
+        this.t = (mag/speed) * 1000;
         angleController.setSetpoint(MathUtil.angleModulus(getAngle()));
         //System.out.println("Start: " + MathUtil.angleModulus(getAngle()));
     }
@@ -114,10 +114,11 @@ public class driveSegment extends Command {
 
     @Override
     public void end(boolean interrupted) {
+        //System.out.println(RobotContainer.gyro.getGyroscopeRotation().getRadians() + " " + getAngle());
         //double xoff = drivetrain.getOdometry().getX()-originalPose.getX();
         //double yoff = drivetrain.getOdometry().getY()-originalPose.getY();
         //System.out.println("x: " + xoff + " y:" + yoff);
-        //System.out.print("t: " + (System.currentTimeMillis()-startTime));
+        //System.out.println("t: " + (System.currentTimeMillis()-startTime));
         //System.out.println(" Speed: " + speed);
         //System.out.println("start pose: " + start.x + ", " + start.y + " end pose: " + end.x + ", " + end.y + "\n");
         //System.out.println("odem x: " + drivetrain.getOdometry().getX() + " odem y: " + drivetrain.getOdometry().getY() + "\n");

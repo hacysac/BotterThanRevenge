@@ -8,6 +8,9 @@ import org.team1515.BotterThanRevenge.Utils.Point;
 import org.team1515.BotterThanRevenge.Utils.bezierUtil;
 import org.team1515.BotterThanRevenge.Utils.calcUtil;
 
+import com.revrobotics.CANEncoder;
+import com.revrobotics.RelativeEncoder;
+
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
@@ -24,7 +27,7 @@ public class driveArcLength extends SequentialCommandGroup {
   
   //error correction
   public driveArcLength(Drivetrain drivetrain, Point[] points, double t, DoubleSupplier theta) {
-    
+  
     double startAngle = RobotContainer.gyro.getGyroscopeRotation().getRadians();
     Pose2d startPose = new Pose2d();
     DoubleSupplier turnAmount = () -> theta.getAsDouble() - (RobotContainer.gyro.getGyroscopeRotation().getRadians() - startAngle);
@@ -33,10 +36,12 @@ public class driveArcLength extends SequentialCommandGroup {
     double speed = bezierUtil.bezierLength(points)/t; // check this
     
     //starting odometry
-    //addCommands(new InstantCommand(()->System.out.println("odem x: " + drivetrain.getOdometry().getX() + " odem y: " + drivetrain.getOdometry().getY() + "\n")));
 
     //double [] rampArr = calcUtil.rampArr(points.length, 0.5, 1.5);
     for(int i = 0; i<points.length-1;i++){
+        final int j = i;
+        //addCommands(new InstantCommand(() -> System.out.println("i: " + j)));
+        //addCommands(new InstantCommand(() -> System.out.println("Speed: " + speed + " t: " + t + " points: " + bezierUtil.bezierLength(points))));
         addCommands(new driveSegment(drivetrain, turnAmount, points[i+1], speed, startPose));
     }
 

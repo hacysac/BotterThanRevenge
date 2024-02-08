@@ -9,6 +9,7 @@ import java.util.function.DoubleSupplier;
 
 import org.team1515.BotterThanRevenge.Commands.DefaultDriveCommand;
 import org.team1515.BotterThanRevenge.Commands.AutoCommands.RotateAngle;
+import org.team1515.BotterThanRevenge.Commands.AutoCommands.driveArcLength;
 import org.team1515.BotterThanRevenge.Commands.AutoCommands.AutoSequences.TwoSpeakerAmpSeq;
 import org.team1515.BotterThanRevenge.Commands.AutoCommands.AutoSequences.DriveBackSeq;
 import org.team1515.BotterThanRevenge.Commands.AutoCommands.AutoSequences.ThreeNoteSeq;
@@ -21,14 +22,13 @@ import org.team1515.BotterThanRevenge.Commands.IntakeCommands.IntakeIn;
 import org.team1515.BotterThanRevenge.Commands.IntakeCommands.IntakeOut;
 import org.team1515.BotterThanRevenge.Commands.ShooterCommands.ShooterIn;
 import org.team1515.BotterThanRevenge.Commands.ShooterCommands.ShooterToggle;
-
-import org.team1515.BotterThanRevenge.Subsystems.Drivetrain;
 import org.team1515.BotterThanRevenge.Utils.*;
 import org.team1515.BotterThanRevenge.Subsystems.*;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
@@ -92,8 +92,8 @@ public class RobotContainer {
     drivetrain.setDefaultCommand(
       //potential solution to inverted controls while driving
         new DefaultDriveCommand(drivetrain,
-            () -> modifyAxis(-mainController.getLeftY() * getRobotSpeed()),
-            () -> modifyAxis(-mainController.getLeftX() * getRobotSpeed()),
+            () -> -modifyAxis(mainController.getLeftY() * getRobotSpeed()),
+            () -> -modifyAxis(mainController.getLeftX() * getRobotSpeed()),
             () -> -modifyAxis(mainController.getRightX() * getRobotSpeed()),
             () -> Controls.DRIVE_ROBOT_ORIENTED.getAsBoolean()));
             
@@ -130,6 +130,15 @@ public class RobotContainer {
   }
 
   public Command getAutonomousCommand() {
+    Point[] path = {
+        new Point(0, 0),
+        new Point(0.5, 1), 
+        new Point(1, 0),
+        new Point(1.5, -1)
+    };
+    path = bezierUtil.spacedPoints(path, 10);
+    DoubleSupplier db = () -> 0.0;
+    //return new driveArcLength(drivetrain, path, 3, db);
     return AutoChooser.getSelected();
   }
 
