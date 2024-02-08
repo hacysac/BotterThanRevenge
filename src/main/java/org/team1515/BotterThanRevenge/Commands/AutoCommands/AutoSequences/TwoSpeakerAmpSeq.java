@@ -34,7 +34,7 @@ public class TwoSpeakerAmpSeq extends SequentialCommandGroup{
             new Point(subwoofer.getX(), subwoofer.getY())
         };
         path = bezierUtil.spacedPoints(path, 25);
-        DoubleSupplier angle = () -> Units.degreesToRadians(180); //make sure shooter is forward
+        DoubleSupplier angle = () -> Units.degreesToRadians(0.0); //make sure shooter is forward
         
         //start shooter speed up
         //BEZIER
