@@ -67,13 +67,13 @@ public class RobotContainer {
     drivetrain = new Drivetrain(new Pose2d(), photon);
 
     Optional<Alliance> ally = DriverStation.getAlliance();
-    int team = -1; // default blue
+    int team = 1; // default blue
     if (ally.isPresent()) {
         if (ally.get() == Alliance.Red) {
-            team = 1;
+            team = -1;
         }
         else if (ally.get() == Alliance.Blue) {
-            team = -1;
+            team = 1;
         }
     }
 
@@ -130,15 +130,6 @@ public class RobotContainer {
   }
 
   public Command getAutonomousCommand() {
-    Point[] path = {
-        new Point(0, 0),
-        new Point(0.5, 1), 
-        new Point(1, 0),
-        new Point(1.5, -1)
-    };
-    path = bezierUtil.spacedPoints(path, 10);
-    DoubleSupplier db = () -> 0.0;
-    //return new driveArcLength(drivetrain, path, 3, db);
     return AutoChooser.getSelected();
   }
 

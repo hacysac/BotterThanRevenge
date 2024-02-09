@@ -104,7 +104,7 @@ public class driveSegment extends Command {
         double rotation = (MathUtil.clamp(angleController.calculate(error + angleController.getSetpoint(), angleController.getSetpoint()) + (ff * Math.signum(-error)),
                 -maxRotate, maxRotate)); //setpoint can't be zero, addsetpoint to error
         //System.out.println("rotation: " + Units.radiansToDegrees(rotation));
-        drivetrain.drive(new Translation2d(speed*i,speed*j), rotation,true,true);
+        drivetrain.drive(new Translation2d(speed*i,speed*j), -rotation,true,true);
     }
 
     @Override
