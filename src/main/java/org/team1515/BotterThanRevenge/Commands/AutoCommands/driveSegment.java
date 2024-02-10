@@ -93,7 +93,6 @@ public class driveSegment extends Command {
 
         this.t = (mag/speed) * 1000;
         angleController.setSetpoint(MathUtil.angleModulus(getAngle()));
-        //System.out.println("Start: " + MathUtil.angleModulus(getAngle()));
     }
 
     @Override

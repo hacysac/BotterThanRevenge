@@ -13,6 +13,7 @@ import org.team1515.BotterThanRevenge.Commands.AutoCommands.driveArcLength;
 import org.team1515.BotterThanRevenge.Commands.AutoCommands.AutoSequences.TwoSpeakerAmpSeq;
 import org.team1515.BotterThanRevenge.Commands.AutoCommands.AutoSequences.DriveBackSeq;
 import org.team1515.BotterThanRevenge.Commands.AutoCommands.AutoSequences.ThreeNoteSeq;
+import org.team1515.BotterThanRevenge.Commands.AutoCommands.AutoSequences.TwoAmpSeq;
 import org.team1515.BotterThanRevenge.Commands.AutoCommands.AutoSequences.TwoNoteSeq;
 
 import org.team1515.BotterThanRevenge.Commands.IndexerCommands.IndexerDown;
@@ -80,6 +81,7 @@ public class RobotContainer {
     AutoChooser.setDefaultOption("Drive Back", new DriveBackSeq(drivetrain));
     AutoChooser.addOption("2 Note Seq", new TwoNoteSeq(drivetrain, team));
     AutoChooser.addOption("3 Note Seq", new ThreeNoteSeq(drivetrain, team));
+    AutoChooser.addOption("2 Amp Seq", new TwoAmpSeq(drivetrain, -team));
     AutoChooser.addOption("2 Note + Amp Seq", new TwoSpeakerAmpSeq(drivetrain, -team));
     SmartDashboard.putData(AutoChooser);
 
@@ -90,7 +92,6 @@ public class RobotContainer {
   private void configureBindings() {
     
     drivetrain.setDefaultCommand(
-      //potential solution to inverted controls while driving
         new DefaultDriveCommand(drivetrain,
             () -> -modifyAxis(mainController.getLeftY() * getRobotSpeed()),
             () -> -modifyAxis(mainController.getLeftX() * getRobotSpeed()),

@@ -23,9 +23,9 @@ public class TwoSpeakerAmpSeq extends SequentialCommandGroup{
         Pose2d subwoofer = new Pose2d(new Translation2d(Units.inchesToMeters(RobotMap.SUBWOOFER_DEPTH + RobotMap.AUTO_OFFSET), Units.inchesToMeters(finalPoseY)), new Rotation2d(180.0));
         
         double subwooferToNoteX = Units.inchesToMeters(RobotMap.SUBWOOFER_TO_NOTE - RobotMap.CHASSIS_WIDTH - (2*RobotMap.BUMPER_WIDTH) - RobotMap.INTAKE_OFFSET);
-        double subwooferToNoteY = Units.inchesToMeters(direction * -(RobotMap.NOTE_TO_NOTE - (0.5 * RobotMap.CHASSIS_WIDTH)));
+        double subwooferToNoteY = -direction * Units.inchesToMeters(RobotMap.NOTE_TO_NOTE - (0.5 * RobotMap.CHASSIS_WIDTH));
         double noteToAmpX = -Units.inchesToMeters(RobotMap.NOTE_TO_AMP_X);
-        double noteToAmpY = Units.inchesToMeters(RobotMap.NOTE_TO_AMP_Y);
+        double noteToAmpY = direction * Units.inchesToMeters(RobotMap.NOTE_TO_AMP_Y - RobotMap.CHASSIS_WIDTH - 2*RobotMap.BUMPER_WIDTH); // TODO
         double ampToCenter = Units.inchesToMeters(RobotMap.SUBWOOFER_TO_CENTER - RobotMap.CHASSIS_WIDTH - (2*RobotMap.BUMPER_WIDTH) - RobotMap.INTAKE_OFFSET); //TODO find
         
         Point[] path = {
@@ -52,9 +52,7 @@ public class TwoSpeakerAmpSeq extends SequentialCommandGroup{
         addCommands(new driveSegment(drivetrain, angle, finalPoint, speed, startPoint, true));
         //run intake+indexer
 
-
         addCommands(Commands.waitSeconds(0.5));
-
 
         //DRIVE FORWARD
         startPoint = new Pose2d(new Translation2d(subwoofer.getX()+finalPoint.x, subwoofer.getY()+finalPoint.y), new Rotation2d(180.0));
@@ -62,9 +60,7 @@ public class TwoSpeakerAmpSeq extends SequentialCommandGroup{
         addCommands(new driveSegment(drivetrain, angle, finalPoint, speed, startPoint, true));
         //run indexer into shooter
 
-
         addCommands(Commands.waitSeconds(0.5));
-
 
         angle = ()->Units.degreesToRadians(-30.0*direction);
         double dist = Math.sqrt(Math.pow(subwooferToNoteX, 2)+Math.pow(subwooferToNoteY, 2));
@@ -76,18 +72,19 @@ public class TwoSpeakerAmpSeq extends SequentialCommandGroup{
         finalPoint = new Point(subwooferToNoteX, subwooferToNoteY);
         addCommands(new driveSegment(drivetrain, angle, finalPoint, speed, startPoint, true));
 
+        addCommands(Commands.waitSeconds(0.5));
+
         angle = ()->Units.degreesToRadians(direction*120.0);
         dist = Math.sqrt(Math.pow(noteToAmpX, 2)+Math.pow(noteToAmpY, 2));
         time = 1;
         speed = dist/time;
 
-        addCommands(Commands.waitSeconds(0.5));
-
         //DRIVE TO AMP
         startPoint = new Pose2d(new Translation2d(subwoofer.getX()+finalPoint.x, subwoofer.getY()+finalPoint.y), new Rotation2d(150.0));
         finalPoint = new Point(noteToAmpX, noteToAmpY);
-        addCommands(Commands.waitSeconds(0.5));
         addCommands(new driveSegment(drivetrain, angle, finalPoint, speed, startPoint, true));
+
+        addCommands(Commands.waitSeconds(0.5));
 
         angle = ()->Units.degreesToRadians(0.0);
         time = 3;
@@ -96,8 +93,7 @@ public class TwoSpeakerAmpSeq extends SequentialCommandGroup{
         //DRIVE TO CENTER
         startPoint = subwoofer;
         finalPoint = new Point(ampToCenter, 0);
-        addCommands(Commands.waitSeconds(0.5));
-        //addCommands(new driveSegment(drivetrain, angle, finalPoint, speed, startPoint, true));
+        addCommands(new driveSegment(drivetrain, angle, finalPoint, speed, startPoint, true));
         //end all
     }
 }
