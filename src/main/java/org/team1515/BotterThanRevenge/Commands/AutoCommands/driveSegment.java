@@ -3,7 +3,6 @@ package org.team1515.BotterThanRevenge.Commands.AutoCommands;
 import java.util.function.DoubleSupplier;
 
 import org.team1515.BotterThanRevenge.Subsystems.Drivetrain;
-import org.team1515.BotterThanRevenge.Robot;
 import org.team1515.BotterThanRevenge.RobotContainer;
 import org.team1515.BotterThanRevenge.Utils.Point;
 
@@ -65,8 +64,8 @@ public class driveSegment extends Command {
         this.maxRotate = 0.5 * SwerveConstants.Swerve.maxAngularVelocity;
         this.startAngle = () -> RobotContainer.gyro.getGyroscopeRotation().getRadians();
         angleController = new PIDController(2, 1, 0);
-        this.speed = speed;
         // TODO retune PID
+        this.speed = speed;
         angleController.setTolerance(Units.degreesToRadians(3));
         angleController.enableContinuousInput(-Math.PI, Math.PI);
 

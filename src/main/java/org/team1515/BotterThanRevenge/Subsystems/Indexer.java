@@ -12,15 +12,15 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class Indexer extends SubsystemBase {
     
-    private CANSparkMax topIndexer;
+    private CANSparkMax indexer;
     private RelativeEncoder encoder;
 
     private DigitalInput sensor;
 
     public Indexer(){
-        topIndexer = new CANSparkMax(RobotMap.INDEXER_ID, MotorType.kBrushless);
+        indexer = new CANSparkMax(RobotMap.INDEXER_ID, MotorType.kBrushless);
 
-        encoder = topIndexer.getEncoder();
+        encoder = indexer.getEncoder();
 
         //sensor = new DigitalInput(RobotMap.INDEX_SENSOR_CHANNEL);
     }
@@ -31,15 +31,15 @@ public class Indexer extends SubsystemBase {
     }
 
     public void up(){
-        topIndexer.set(-RobotMap.INDEXER_SPEED);
+        indexer.set(-RobotMap.INDEXER_SPEED);
     }
 
     public void down(){
-        topIndexer.set(RobotMap.INDEXER_SPEED);
+        indexer.set(RobotMap.INDEXER_SPEED);
     }
 
     public void end() {
-        topIndexer.set(0);
+        indexer.set(0);
     }
     @Override
     public void periodic(){
