@@ -6,10 +6,6 @@ import org.team1515.BotterThanRevenge.RobotContainer;
 import org.team1515.BotterThanRevenge.Subsystems.Drivetrain;
 import org.team1515.BotterThanRevenge.Utils.Point;
 import org.team1515.BotterThanRevenge.Utils.bezierUtil;
-import org.team1515.BotterThanRevenge.Utils.calcUtil;
-
-import com.revrobotics.CANEncoder;
-import com.revrobotics.RelativeEncoder;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Translation2d;

@@ -6,7 +6,7 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 
-import edu.wpi.first.wpilibj.DigitalOutput;
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
@@ -15,14 +15,14 @@ public class Indexer extends SubsystemBase {
     private CANSparkMax topIndexer;
     private RelativeEncoder encoder;
 
-    private DigitalOutput sensor;
+    private DigitalInput sensor;
 
     public Indexer(){
         topIndexer = new CANSparkMax(RobotMap.INDEXER_ID, MotorType.kBrushless);
 
         encoder = topIndexer.getEncoder();
 
-        //sensor = new DigitalOutput(RobotMap.INDEX_SENSOR_CHANNEL);
+        //sensor = new DigitalInput(RobotMap.INDEX_SENSOR_CHANNEL);
     }
 
     public boolean isBlocked(){
