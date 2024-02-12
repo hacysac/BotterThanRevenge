@@ -115,8 +115,8 @@ public class RobotContainer {
     Controls.INDEXER_DOWN.whileTrue(new IndexerDown(indexer));
 
     //Climber
-    //Controls.CLIMB_UP.whileTrue(new ClimberUp(climber));
-    //Controls.CLIMB_DOWN.whileTrue(new ClimberDown(climber));
+    //Controls.CLIMBER_UP.whileTrue(new ClimberUp(climber));
+    //Controls.CLIMBER_DOWN.whileTrue(new ClimberDown(climber));
 
     //Shooter Hold Down
     // Controls.SHOOT_SPEAKER.whileTrue(new ShooterShoot(shooter, RobotMap.SPEAKER_SPEED));
