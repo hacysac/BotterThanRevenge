@@ -29,6 +29,9 @@ public class Controls {
     public static final Trigger SHOOT_AMP = new Trigger(RobotContainer.secondController::getBButton);
     public static final Trigger SHOOTER_IN = new Trigger(RobotContainer.secondController::getAButton);
 
+    public static final Trigger CLIMBER_UP = new Trigger(Controls::getFirstDpadUp);
+    public static final Trigger CLIMBER_DOWN = new Trigger(Controls::getFirstDpadDown);
+
     public static boolean getLeftTriggerMain() {
         return RobotContainer.mainController.getLeftTriggerAxis() >= 0.250;
     }
@@ -63,6 +66,13 @@ public class Controls {
 
     public static boolean getRightStickDown() {
         return RobotContainer.secondController.getLeftY() < 0;
+    }
+
+    public static boolean getFirstDpadUp(){
+        return RobotContainer.secondController.getPOV()<90 || RobotContainer.secondController.getPOV()>270;
+    }
+    public static boolean getFirstDpadDown(){
+        return RobotContainer.secondController.getPOV()>90 && RobotContainer.secondController.getPOV()<270;
     }
 
     public enum DPadButton {
