@@ -9,6 +9,8 @@ public class ShooterIn extends Command {
 
     public ShooterIn(Shooter shooter) {
         this.shooter = shooter;
+        shooter.setAmp(false);
+        shooter.setSpeaker(false);
         addRequirements(shooter);
     }
 

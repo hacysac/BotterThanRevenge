@@ -22,7 +22,8 @@ import org.team1515.BotterThanRevenge.Commands.IntakeCommands.AutoIntakeIn;
 import org.team1515.BotterThanRevenge.Commands.IntakeCommands.IntakeIn;
 import org.team1515.BotterThanRevenge.Commands.IntakeCommands.IntakeOut;
 import org.team1515.BotterThanRevenge.Commands.ShooterCommands.ShooterIn;
-import org.team1515.BotterThanRevenge.Commands.ShooterCommands.ShooterToggle;
+import org.team1515.BotterThanRevenge.Commands.ShooterCommands.ToggleAmp;
+import org.team1515.BotterThanRevenge.Commands.ShooterCommands.ToggleSpeaker;
 import org.team1515.BotterThanRevenge.Utils.*;
 import org.team1515.BotterThanRevenge.Subsystems.*;
 
@@ -58,9 +59,9 @@ public class RobotContainer {
     secondController = new XboxController(1);
     
     intake = new Intake();
-    indexer = new Indexer();
+    //indexer = new Indexer();
     //climber = new Climber();
-    shooter = new Shooter();
+    //shooter = new Shooter();
     
     gyro = new Gyroscope();
     photon = new PhotonVision();
@@ -91,18 +92,17 @@ public class RobotContainer {
 
   private void configureBindings() {
     
-    drivetrain.setDefaultCommand(
-        new DefaultDriveCommand(drivetrain,
-            () -> -modifyAxis(mainController.getLeftY() * getRobotSpeed()),
-            () -> -modifyAxis(mainController.getLeftX() * getRobotSpeed()),
-            () -> -modifyAxis(mainController.getRightX() * getRobotSpeed()),
-            () -> Controls.DRIVE_ROBOT_ORIENTED.getAsBoolean()));
-            
-    Controls.RESET_GYRO.onTrue(new InstantCommand(()->drivetrain.zeroGyro()));
-    Controls.ZERO_ROBOT.onTrue(new InstantCommand(()->drivetrain.setOdometry(new Pose2d(new Translation2d(0,0), new Rotation2d(0.0)))));
+    // drivetrain.setDefaultCommand(
+    //     new DefaultDriveCommand(drivetrain,
+    //         () -> -modifyAxis(mainController.getLeftY() * getRobotSpeed()),
+    //         () -> -modifyAxis(mainController.getLeftX() * getRobotSpeed()),
+    //         () -> -modifyAxis(mainController.getRightX() * getRobotSpeed()),
+    //         () -> Controls.DRIVE_ROBOT_ORIENTED.getAsBoolean()));
+    
     DoubleSupplier angle = () -> -photon.getAngle();
-    Controls.ROTATE_ANGLE_TARGET.onTrue(new RotateAngle(drivetrain, angle));
-    Controls.GET_DIST_TARGET.onTrue(new InstantCommand(()->System.out.println(photon.getDist())));
+    //Controls.RESET_GYRO.onTrue(new InstantCommand(()->drivetrain.zeroGyro()));
+    //Controls.ROTATE_ANGLE_TARGET.onTrue(new RotateAngle(drivetrain, angle));
+    //Controls.ZERO_ROBOT.onTrue(new InstantCommand(()->drivetrain.setOdometry(new Pose2d(new Translation2d(0,0), new Rotation2d(0.0)))));
 
     //Intake
     Controls.AUTO_INTAKE.toggleOnTrue(new AutoIntakeIn(intake, indexer)); // infinite until sensor
@@ -123,8 +123,8 @@ public class RobotContainer {
     // Controls.SHOOT_AMP.whileTrue(new ShooterShoot(shooter, RobotMap.AMP_SPEED));
   
     //Shooter Toggle
-    Controls.SHOOT_SPEAKER.toggleOnTrue(new ShooterToggle(shooter, RobotMap.SPEAKER_SPEED));
-    Controls.SHOOT_AMP.toggleOnTrue(new ShooterToggle(shooter, RobotMap.AMP_SPEED));
+    Controls.SHOOT_SPEAKER.toggleOnTrue(new ToggleSpeaker(shooter));
+    Controls.SHOOT_AMP.toggleOnTrue(new ToggleAmp(shooter));
 
     Controls.SHOOTER_IN.whileTrue(new ShooterIn(shooter));
     

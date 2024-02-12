@@ -37,7 +37,14 @@ public class RobotMap {
     public static int L_AMP_TAG_ID = 2;
     public static int R_AMP_TAG_ID = 2;
     
-    // Subsystems
+    /* Subsystems */
+
+    // Shooter
+    public static final int L_SHOOTER_ID = 20;
+    public static final int R_SHOOTER_ID = 21;
+    public static final double SPEAKER_SPEED = 0.7; // TODO
+    public static final double AMP_SPEED = 0.175; // TODO
+
     // Indexer
     public static final int INDEXER_ID = 22;
     public static final int INDEX_SENSOR_CHANNEL = -1; // TODO
@@ -59,10 +66,6 @@ public class RobotMap {
     public static final int L_CLIMBER_ID = 26;
     public static final int R_CLIMBER_ID = 27;
     public static final double CLIMBER_SPEED = -1; // TODO
-
-    // Shooter
-    public static final int L_SHOOTER_ID = 20;
-    public static final int R_SHOOTER_ID = 21;
-    public static final double SPEAKER_SPEED = 0.7; // TODO
-    public static final double AMP_SPEED = 0.175; // TODO
+    public static final int L_CLIMBER_SENSOR_CHANNEL = -1; //TODO
+    public static final int R_CLIMBER_SENSOR_CHANNEL = -1; //TODO
 }
