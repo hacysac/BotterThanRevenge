@@ -13,8 +13,10 @@ public class Controls {
     public static final Trigger ROTATE_ANGLE_TARGET = new Trigger(RobotContainer.mainController::getBButton);
     public static final Trigger GET_DIST_TARGET = new Trigger(RobotContainer.mainController::getAButton);
 
-    public static final Trigger CLIMB_DOWN = new Trigger(RobotContainer.mainController::getAButton);
-    public static final Trigger CLIMB_UP = new Trigger(RobotContainer.mainController::getYButton);
+    public static final Trigger CLIMBER_UP = new Trigger(Controls::getFirstDpadUp);
+    public static final Trigger CLIMBER_DOWN = new Trigger(Controls::getFirstDpadDown);
+    public static final Trigger LEFT_CLIMBER_DOWN = new Trigger(Controls::getFirstDpadLeft);
+    public static final Trigger RIGHT_CLIMBER_DOWN = new Trigger(Controls::getFirstDpadRight);
 
     public static final Trigger AUTO_INTAKE = new Trigger(RobotContainer.secondController::getYButton);
     public static final Trigger INTAKE = new Trigger(RobotContainer.secondController::getRightBumper);
@@ -28,9 +30,6 @@ public class Controls {
     public static final Trigger SHOOT_SPEAKER = new Trigger(RobotContainer.secondController::getXButton);
     public static final Trigger SHOOT_AMP = new Trigger(RobotContainer.secondController::getBButton);
     public static final Trigger SHOOTER_IN = new Trigger(RobotContainer.secondController::getAButton);
-
-    public static final Trigger CLIMBER_UP = new Trigger(Controls::getFirstDpadUp);
-    public static final Trigger CLIMBER_DOWN = new Trigger(Controls::getFirstDpadDown);
 
     public static boolean getLeftTriggerMain() {
         return RobotContainer.mainController.getLeftTriggerAxis() >= 0.250;
@@ -69,10 +68,16 @@ public class Controls {
     }
 
     public static boolean getFirstDpadUp(){
-        return RobotContainer.secondController.getPOV()<90 || RobotContainer.secondController.getPOV()>270;
+        return RobotContainer.mainController.getPOV()>=315 || RobotContainer.secondController.getPOV()<45;
+    }
+    public static boolean getFirstDpadRight(){
+        return RobotContainer.mainController.getPOV()>=45 || RobotContainer.secondController.getPOV()<135;
     }
     public static boolean getFirstDpadDown(){
-        return RobotContainer.secondController.getPOV()>90 && RobotContainer.secondController.getPOV()<270;
+        return RobotContainer.mainController.getPOV()>=135 && RobotContainer.secondController.getPOV()<225;
+    }
+    public static boolean getFirstDpadLeft(){
+        return RobotContainer.mainController.getPOV()>=225 && RobotContainer.secondController.getPOV()<315;
     }
 
     public enum DPadButton {

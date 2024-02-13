@@ -28,7 +28,7 @@ public class Intake extends SubsystemBase {
         bottomIntake = new CANSparkMax(RobotMap.BOTTOM_INTAKE_ID, MotorType.kBrushless);
         topIntake = new CANSparkMax(RobotMap.TOP_INTAKE_ID, MotorType.kBrushless);
 
-        //flip = new CANSparkMax(RobotMap.FLIP_INTAKE_ID, MotorType.kBrushless);
+        flip = new CANSparkMax(RobotMap.FLIP_INTAKE_ID, MotorType.kBrushless);
         //canCoder.clearStickyFault_BadMagnet();
         //canCoder.getConfigurator().apply(new CANcoderConfiguration());
 
@@ -81,8 +81,9 @@ public class Intake extends SubsystemBase {
         this.down = down;
     }
 
-    @Override
-    public void periodic(){
-        SmartDashboard.putBoolean("Intake Down", getDown());
-    }
+    // @Override
+    // public void periodic(){
+    //     SmartDashboard.putBoolean("Intake Down?", getDown());
+    //     SmartDashboard.putNumber("Intake Angle", canCoder.getAbsolutePosition().getValueAsDouble());
+    // }
 }

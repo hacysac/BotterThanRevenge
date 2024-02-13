@@ -19,8 +19,10 @@ import org.team1515.BotterThanRevenge.Commands.AutoCommands.AutoSequences.TwoNot
 import org.team1515.BotterThanRevenge.Commands.IndexerCommands.IndexerDown;
 import org.team1515.BotterThanRevenge.Commands.IndexerCommands.IndexerUp;
 import org.team1515.BotterThanRevenge.Commands.IntakeCommands.AutoIntakeIn;
+import org.team1515.BotterThanRevenge.Commands.IntakeCommands.Flip;
 import org.team1515.BotterThanRevenge.Commands.IntakeCommands.IntakeIn;
 import org.team1515.BotterThanRevenge.Commands.IntakeCommands.IntakeOut;
+import org.team1515.BotterThanRevenge.Commands.IntakeCommands.ManualFlip;
 import org.team1515.BotterThanRevenge.Commands.ShooterCommands.ShooterIn;
 import org.team1515.BotterThanRevenge.Commands.ShooterCommands.ToggleAmp;
 import org.team1515.BotterThanRevenge.Commands.ShooterCommands.ToggleSpeaker;
@@ -66,7 +68,7 @@ public class RobotContainer {
     gyro = new Gyroscope();
     photon = new PhotonVision();
 
-    drivetrain = new Drivetrain(new Pose2d(), photon);
+    //drivetrain = new Drivetrain(new Pose2d(), photon);
 
     Optional<Alliance> ally = DriverStation.getAlliance();
     int team = 1; // default blue
@@ -79,12 +81,12 @@ public class RobotContainer {
         }
     }
 
-    AutoChooser.setDefaultOption("Drive Back", new DriveBackSeq(drivetrain));
-    AutoChooser.addOption("2 Note Seq", new TwoNoteSeq(drivetrain, team));
-    AutoChooser.addOption("3 Note Seq", new ThreeNoteSeq(drivetrain, team));
-    AutoChooser.addOption("2 Amp Seq", new TwoAmpSeq(drivetrain, -team));
-    AutoChooser.addOption("2 Note + Amp Seq", new TwoSpeakerAmpSeq(drivetrain, -team));
-    SmartDashboard.putData(AutoChooser);
+    // AutoChooser.setDefaultOption("Drive Back", new DriveBackSeq(drivetrain));
+    // AutoChooser.addOption("2 Note Seq", new TwoNoteSeq(drivetrain, team));
+    // AutoChooser.addOption("3 Note Seq", new ThreeNoteSeq(drivetrain, team));
+    // AutoChooser.addOption("2 Amp Seq", new TwoAmpSeq(drivetrain, -team));
+    // AutoChooser.addOption("2 Note + Amp Seq", new TwoSpeakerAmpSeq(drivetrain, -team));
+    // SmartDashboard.putData(AutoChooser);
 
     configureBindings();
 
@@ -105,14 +107,17 @@ public class RobotContainer {
     //Controls.ZERO_ROBOT.onTrue(new InstantCommand(()->drivetrain.setOdometry(new Pose2d(new Translation2d(0,0), new Rotation2d(0.0)))));
 
     //Intake
-    Controls.AUTO_INTAKE.toggleOnTrue(new AutoIntakeIn(intake, indexer)); // infinite until sensor
+    //Controls.AUTO_INTAKE.toggleOnTrue(new AutoIntakeIn(intake, indexer)); // infinite until sensor
     Controls.INTAKE.whileTrue(new IntakeIn(intake));
     Controls.OUTTAKE.whileTrue(new IntakeOut(intake));
     //Controls.FLIP.onTrue(new Flip(intake));
+
+    Controls.SHOOT_AMP.whileTrue(new ManualFlip(intake, false)); //DOWN
+    Controls.SHOOT_SPEAKER.whileTrue(new ManualFlip(intake, true)); //UP
     
     //Indexer
-    Controls.INDEXER_UP.whileTrue(new IndexerUp(indexer));
-    Controls.INDEXER_DOWN.whileTrue(new IndexerDown(indexer));
+    // Controls.INDEXER_UP.whileTrue(new IndexerUp(indexer));
+    // Controls.INDEXER_DOWN.whileTrue(new IndexerDown(indexer));
 
     //Climber
     //Controls.CLIMBER_UP.whileTrue(new ClimberUp(climber));
@@ -123,10 +128,10 @@ public class RobotContainer {
     // Controls.SHOOT_AMP.whileTrue(new ShooterShoot(shooter, RobotMap.AMP_SPEED));
   
     //Shooter Toggle
-    Controls.SHOOT_SPEAKER.toggleOnTrue(new ToggleSpeaker(shooter));
-    Controls.SHOOT_AMP.toggleOnTrue(new ToggleAmp(shooter));
+    // Controls.SHOOT_SPEAKER.toggleOnTrue(new ToggleSpeaker(shooter));
+    // Controls.SHOOT_AMP.toggleOnTrue(new ToggleAmp(shooter));
 
-    Controls.SHOOTER_IN.whileTrue(new ShooterIn(shooter));
+    // Controls.SHOOTER_IN.whileTrue(new ShooterIn(shooter));
     
   }
 
