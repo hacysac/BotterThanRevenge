@@ -66,4 +66,8 @@ public class Climber extends SubsystemBase {
         SmartDashboard.putNumber("Left Climber Extenion", lEncoder.getPosition());
         SmartDashboard.putNumber("Right Climber Extenion", rEncoder.getPosition());
     }
+
+    public boolean getDown() {
+        return (lSensor.get() && rSensor.get());
+    }
 }
