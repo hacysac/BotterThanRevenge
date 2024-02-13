@@ -46,12 +46,14 @@ public class Climber extends SubsystemBase {
             lClimber.set(-RobotMap.CLIMBER_SPEED);
         }
         else{
+            lClimber.set(0);
             lEncoder.setPosition(0);
         }
         if(!rSensor.get()){
             rClimber.set(-RobotMap.CLIMBER_SPEED);
         }
         else{
+            rClimber.set(0);
             rEncoder.setPosition(0);
         }
     }
