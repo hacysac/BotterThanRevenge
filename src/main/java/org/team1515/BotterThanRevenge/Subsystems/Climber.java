@@ -36,8 +36,14 @@ public class Climber extends SubsystemBase {
         if (!lSensor.get() && lEncoder.getPosition() < RobotMap.CLIMBER_EXTENTION_LIMIT){
             lClimber.set(RobotMap.CLIMBER_SPEED);
         }
+        else{
+            lClimber.set(0);
+        }
         if (!rSensor.get() && rEncoder.getPosition() < RobotMap.CLIMBER_EXTENTION_LIMIT){
             rClimber.set(RobotMap.CLIMBER_SPEED);
+        }
+        else{
+            rClimber.set(0);
         }
     }
 
@@ -68,13 +74,13 @@ public class Climber extends SubsystemBase {
         rEncoder.setPosition(0);
     } 
 
+    public boolean getDown() {
+        return (lSensor.get() && rSensor.get());
+    }
+
     @Override
     public void periodic(){
         SmartDashboard.putNumber("Left Climber Extenion", lEncoder.getPosition());
         SmartDashboard.putNumber("Right Climber Extenion", rEncoder.getPosition());
-    }
-
-    public boolean getDown() {
-        return (lSensor.get() && rSensor.get());
     }
 }

@@ -22,6 +22,7 @@ public class Intake extends SubsystemBase {
     private DigitalInput upperSensor;
     private DigitalInput lowerSensor;
 
+
     private boolean down;
 
     public Intake(){
@@ -29,11 +30,12 @@ public class Intake extends SubsystemBase {
         topIntake = new CANSparkMax(RobotMap.TOP_INTAKE_ID, MotorType.kBrushless);
 
         flip = new CANSparkMax(RobotMap.FLIP_INTAKE_ID, MotorType.kBrushless);
+        //canCoder = new CANcoder(RobotMap.FLIP_CANCODER_ID);
         //canCoder.clearStickyFault_BadMagnet();
         //canCoder.getConfigurator().apply(new CANcoderConfiguration());
 
-        //upperSensor = new DigitalInput(RobotMap.INTAKE_UPPER_SENSOR_CHANNEL);
-        //lowerSensor = new DigitalInput(RobotMap.INTAKE_LOWER_SENSOR_CHANNEL);
+        //upperSensor = new DigitalInput(RobotMap.FLIP_UPPER_SENSOR_CHANNEL);
+        //lowerSensor = new DigitalInput(RobotMap.FLIP_LOWER_SENSOR_CHANNEL);
 
         down = false;
     }
