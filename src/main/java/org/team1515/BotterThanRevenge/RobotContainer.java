@@ -68,7 +68,7 @@ public class RobotContainer {
     gyro = new Gyroscope();
     photon = new PhotonVision();
 
-    //drivetrain = new Drivetrain(new Pose2d(), photon);
+    drivetrain = new Drivetrain(new Pose2d(), photon);
 
     Optional<Alliance> ally = DriverStation.getAlliance();
     int team = 1; // default blue
@@ -81,12 +81,12 @@ public class RobotContainer {
         }
     }
 
-    // AutoChooser.setDefaultOption("Drive Back", new DriveBackSeq(drivetrain));
-    // AutoChooser.addOption("2 Note Seq", new TwoNoteSeq(drivetrain, team));
-    // AutoChooser.addOption("3 Note Seq", new ThreeNoteSeq(drivetrain, team));
-    // AutoChooser.addOption("2 Amp Seq", new TwoAmpSeq(drivetrain, -team));
-    // AutoChooser.addOption("2 Note + Amp Seq", new TwoSpeakerAmpSeq(drivetrain, -team));
-    // SmartDashboard.putData(AutoChooser);
+    AutoChooser.setDefaultOption("Drive Back", new DriveBackSeq(drivetrain));
+    AutoChooser.addOption("2 Note Seq", new TwoNoteSeq(drivetrain, team));
+    AutoChooser.addOption("3 Note Seq", new ThreeNoteSeq(drivetrain, team));
+    AutoChooser.addOption("2 Amp Seq", new TwoAmpSeq(drivetrain, -team));
+    AutoChooser.addOption("2 Note + Amp Seq", new TwoSpeakerAmpSeq(drivetrain, -team));
+    SmartDashboard.putData(AutoChooser);
 
     configureBindings();
 
@@ -94,16 +94,16 @@ public class RobotContainer {
 
   private void configureBindings() {
     
-    // drivetrain.setDefaultCommand(
-    //     new DefaultDriveCommand(drivetrain,
-    //         () -> -modifyAxis(mainController.getLeftY() * getRobotSpeed()),
-    //         () -> -modifyAxis(mainController.getLeftX() * getRobotSpeed()),
-    //         () -> -modifyAxis(mainController.getRightX() * getRobotSpeed()),
-    //         () -> Controls.DRIVE_ROBOT_ORIENTED.getAsBoolean()));
+    drivetrain.setDefaultCommand(
+        new DefaultDriveCommand(drivetrain,
+            () -> -modifyAxis(mainController.getLeftY() * getRobotSpeed()),
+            () -> -modifyAxis(mainController.getLeftX() * getRobotSpeed()),
+            () -> -modifyAxis(mainController.getRightX() * getRobotSpeed()),
+            () -> Controls.DRIVE_ROBOT_ORIENTED.getAsBoolean()));
     
     DoubleSupplier angle = () -> -photon.getAngle();
-    //Controls.RESET_GYRO.onTrue(new InstantCommand(()->drivetrain.zeroGyro()));
-    //Controls.ROTATE_ANGLE_TARGET.onTrue(new RotateAngle(drivetrain, angle));
+    Controls.RESET_GYRO.onTrue(new InstantCommand(()->drivetrain.zeroGyro()));
+    Controls.ROTATE_ANGLE_TARGET.onTrue(new RotateAngle(drivetrain, angle));
 
     //Intake
     //Controls.AUTO_INTAKE.toggleOnTrue(new AutoIntakeIn(intake, indexer)); // infinite until sensor
