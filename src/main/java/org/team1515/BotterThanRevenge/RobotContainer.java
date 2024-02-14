@@ -104,7 +104,6 @@ public class RobotContainer {
     DoubleSupplier angle = () -> -photon.getAngle();
     //Controls.RESET_GYRO.onTrue(new InstantCommand(()->drivetrain.zeroGyro()));
     //Controls.ROTATE_ANGLE_TARGET.onTrue(new RotateAngle(drivetrain, angle));
-    //Controls.ZERO_ROBOT.onTrue(new InstantCommand(()->drivetrain.setOdometry(new Pose2d(new Translation2d(0,0), new Rotation2d(0.0)))));
 
     //Intake
     //Controls.AUTO_INTAKE.toggleOnTrue(new AutoIntakeIn(intake, indexer)); // infinite until sensor
