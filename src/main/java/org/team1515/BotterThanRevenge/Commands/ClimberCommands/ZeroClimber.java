@@ -25,6 +25,7 @@ public class ZeroClimber extends Command {
 
     @Override
     public void end(boolean interrupted) {
+        climber.zeroEncoders();
         climber.end();
     }
 }

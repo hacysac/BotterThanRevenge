@@ -63,6 +63,11 @@ public class Climber extends SubsystemBase {
         rClimber.set(0);
     } 
 
+    public void zeroEncoders() {
+        lEncoder.setPosition(0);
+        rEncoder.setPosition(0);
+    } 
+
     @Override
     public void periodic(){
         SmartDashboard.putNumber("Left Climber Extenion", lEncoder.getPosition());
