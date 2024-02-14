@@ -113,7 +113,7 @@ public class RobotContainer {
     //Controls.FLIP.onTrue(new Flip(intake));
 
     Controls.SHOOT_AMP.whileTrue(new ManualFlip(intake, false)); //DOWN
-    Controls.SHOOT_SPEAKER.whileTrue(new ManualFlip(intake, true)); //UP
+    Controls.SHOOT_SPEAKER.whileTrue(new ManualFlip(intake, true));; //UP
     
     //Indexer
     // Controls.INDEXER_UP.whileTrue(new IndexerUp(indexer));

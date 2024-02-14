@@ -56,7 +56,7 @@ public class RobotMap {
     public static final double INTAKE_SPEED = 0.5; //TODO
 
     public static final int FLIP_INTAKE_ID = 25;
-    public static final double FLIP_SPEED = 0.2; //TODO
+    public static final double FLIP_SPEED = 0.3; //TODO
     public static final double FLIP_DOWN_VALUE = -1; //TODO
     public static final double FLIP_UP_VALUE = -1; //TODO
     public static final int INTAKE_UPPER_SENSOR_CHANNEL = -1; //TODO
