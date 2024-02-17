@@ -45,7 +45,7 @@ public class AutoIntakeIn extends Command {
 
     @Override
     public void end(boolean interrupted) {
-        intake.endIntake();
+        intake.end();
         indexer.end();
     }
 }

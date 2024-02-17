@@ -19,7 +19,6 @@ import org.team1515.BotterThanRevenge.Commands.AutoCommands.AutoSequences.TwoNot
 import org.team1515.BotterThanRevenge.Commands.IndexerCommands.IndexerDown;
 import org.team1515.BotterThanRevenge.Commands.IndexerCommands.IndexerUp;
 import org.team1515.BotterThanRevenge.Commands.IntakeCommands.AutoIntakeIn;
-import org.team1515.BotterThanRevenge.Commands.IntakeCommands.Flip;
 import org.team1515.BotterThanRevenge.Commands.IntakeCommands.IntakeIn;
 import org.team1515.BotterThanRevenge.Commands.IntakeCommands.IntakeOut;
 import org.team1515.BotterThanRevenge.Commands.IntakeCommands.ManualFlip;
@@ -46,6 +45,7 @@ public class RobotContainer {
   public static XboxController secondController;
 
   public static Intake intake;
+  public static Flip flip;
   private static Indexer indexer;
   private static Climber climber;
   public static Shooter shooter;
@@ -61,6 +61,7 @@ public class RobotContainer {
     secondController = new XboxController(1);
     
     intake = new Intake();
+    flip = new Flip();
     //indexer = new Indexer();
     //climber = new Climber();
     //shooter = new Shooter();
@@ -109,10 +110,10 @@ public class RobotContainer {
     //Controls.AUTO_INTAKE.toggleOnTrue(new AutoIntakeIn(intake, indexer)); // infinite until sensor
     Controls.INTAKE.whileTrue(new IntakeIn(intake));
     Controls.OUTTAKE.whileTrue(new IntakeOut(intake));
-    //Controls.FLIP.onTrue(new Flip(intake));
+    //Controls.FLIP.onTrue(new Flip(flip));
 
-    Controls.SHOOT_AMP.whileTrue(new ManualFlip(intake, false)); //DOWN
-    Controls.SHOOT_SPEAKER.whileTrue(new ManualFlip(intake, true));; //UP
+    Controls.SHOOT_AMP.whileTrue(new ManualFlip(flip, false)); //DOWN
+    Controls.SHOOT_SPEAKER.whileTrue(new ManualFlip(flip, true));; //UP
     
     //Indexer
     // Controls.INDEXER_UP.whileTrue(new IndexerUp(indexer));
