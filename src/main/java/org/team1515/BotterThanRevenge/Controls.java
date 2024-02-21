@@ -18,6 +18,8 @@ public class Controls {
     public static final Trigger OUTTAKE = new Trigger(RobotContainer.secondController::getLeftBumper);
 
     public static final Trigger FLIP = new Trigger(RobotContainer.secondController::getYButton);
+    public static final Trigger FLIP_UP = new Trigger(Controls::getSecondDpadUp);
+    public static final Trigger FLIP_DOWN = new Trigger(Controls::getSecondDpadDown);
 
     public static final Trigger INDEXER_UP = new Trigger(Controls::getRightTriggerSecond);
     public static final Trigger INDEXER_DOWN = new Trigger(Controls::getLeftTriggerSecond);
@@ -63,16 +65,28 @@ public class Controls {
     }
 
     public static boolean getFirstDpadUp(){
-        return RobotContainer.mainController.getPOV()>=315 || RobotContainer.secondController.getPOV()<45;
+        return RobotContainer.mainController.getPOV()>=315 || RobotContainer.mainController.getPOV()<45;
     }
     public static boolean getFirstDpadRight(){
-        return RobotContainer.mainController.getPOV()>=45 || RobotContainer.secondController.getPOV()<135;
+        return RobotContainer.mainController.getPOV()>=45 && RobotContainer.mainController.getPOV()<135;
     }
     public static boolean getFirstDpadDown(){
-        return RobotContainer.mainController.getPOV()>=135 && RobotContainer.secondController.getPOV()<225;
+        return RobotContainer.mainController.getPOV()>=135 && RobotContainer.mainController.getPOV()<225;
     }
     public static boolean getFirstDpadLeft(){
-        return RobotContainer.mainController.getPOV()>=225 && RobotContainer.secondController.getPOV()<315;
+        return RobotContainer.mainController.getPOV()>=225 && RobotContainer.mainController.getPOV()<315;
+    }
+    public static boolean getSecondDpadUp(){
+        return RobotContainer.secondController.getPOV()>=315 || RobotContainer.secondController.getPOV()<45;
+    }
+    public static boolean getSecondDpadRight(){
+        return RobotContainer.secondController.getPOV()>=45 && RobotContainer.secondController.getPOV()<135;
+    }
+    public static boolean getSecondDpadDown(){
+        return RobotContainer.secondController.getPOV()>=135 && RobotContainer.secondController.getPOV()<225;
+    }
+    public static boolean getSecondDpadLeft(){
+        return RobotContainer.secondController.getPOV()>=225 && RobotContainer.secondController.getPOV()<315;
     }
 
     public enum DPadButton {
