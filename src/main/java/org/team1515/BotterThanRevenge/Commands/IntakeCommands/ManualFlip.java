@@ -27,6 +27,11 @@ public class ManualFlip extends Command {
     }
 
     @Override
+    public boolean isFinished(){
+        return (up && flip.getUp()) || (!up && flip.getDown());
+    }
+
+    @Override
     public void end(boolean interrupted) {
         flip.end();
     }

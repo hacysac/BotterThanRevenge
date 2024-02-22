@@ -59,6 +59,16 @@ public class Flip extends SubsystemBase{
     //     return canCoder.getAbsolutePosition().getValueAsDouble() >= RobotMap.FLIP_UP_VALUE;// || upperSensor.get();
     // }
 
+    public boolean getDown(){
+        //return lowerSensor.get();
+        return false;
+    }
+
+    public boolean getUp(){
+        //return upperSensor.get();
+        return false;
+    }
+
     public void flipUp(){
         offset = -RobotMap.FLIP_UP_SPEED;
     }
