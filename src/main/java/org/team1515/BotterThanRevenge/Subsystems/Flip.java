@@ -27,7 +27,8 @@ public class Flip extends SubsystemBase{
 
     private PIDController angleController;
     private double maxRotate;
-    private double ff = 0.05; // retune
+    private double ff = -0.05; // flip motor is inverted, negative goes up
+    private double offset = 0.0; //this is how u apply additional speed to added to the ff
 
     public Flip(){
 
@@ -59,11 +60,11 @@ public class Flip extends SubsystemBase{
     // }
 
     public void flipUp(){
-        flip.set(-RobotMap.FLIP_SPEED);
+        offset = -RobotMap.FLIP_UP_SPEED;
     }
 
     public void flipDown(){
-        flip.set(RobotMap.FLIP_SPEED);
+        offset = RobotMap.FLIP_DOWN_SPEED;
     }
 
     // public void setFlipDown(){
@@ -75,7 +76,7 @@ public class Flip extends SubsystemBase{
     // }
 
     public void end(){
-        flip.set(0);
+        offset = 0;
     }
 
     // public boolean getDown(){
@@ -92,7 +93,14 @@ public class Flip extends SubsystemBase{
         // double error = MathUtil.angleModulus(currentAngle - angleController.getSetpoint());
         // double rotation = (MathUtil.clamp(angleController.calculate(error + angleController.getSetpoint(), angleController.getSetpoint()) + (ff * Math.signum(-error)),
         //             -maxRotate, maxRotate)); // change setpoint?
-        flip.set(flip.get()+ff);
+
+        //if (upperSensor.get() || lowerSensor.get()){
+        //flip.set(offset+0.0);
+        //}
+        // else{
+        flip.set(offset+ff);
+        // }
+
         //SmartDashboard.putBoolean("Intake Down?", getDown());
         //SmartDashboard.putNumber("Intake Angle", canCoder.getAbsolutePosition().getValueAsDouble());
     }
