@@ -22,6 +22,8 @@ import org.team1515.BotterThanRevenge.Commands.AutoCommands.AutoSequences.TwoNot
 import org.team1515.BotterThanRevenge.Commands.IndexerCommands.IndexerDown;
 import org.team1515.BotterThanRevenge.Commands.IndexerCommands.IndexerUp;
 import org.team1515.BotterThanRevenge.Commands.IntakeCommands.AutoIntakeIn;
+import org.team1515.BotterThanRevenge.Commands.IntakeCommands.FlipDown;
+import org.team1515.BotterThanRevenge.Commands.IntakeCommands.FlipUp;
 import org.team1515.BotterThanRevenge.Commands.IntakeCommands.IntakeIn;
 import org.team1515.BotterThanRevenge.Commands.IntakeCommands.IntakeOut;
 import org.team1515.BotterThanRevenge.Commands.IntakeCommands.ManualFlip;
@@ -118,8 +120,8 @@ public class RobotContainer {
 
     //Flip
     //Controls.FLIP.onTrue(new SetFlip(flip));
-    Controls.FLIP_UP.whileTrue(new ManualFlip(flip, true));
-    Controls.FLIP_DOWN.whileTrue(new ManualFlip(flip, false));
+    Controls.FLIP_UP.whileTrue(new FlipUp(flip));
+    Controls.FLIP_DOWN.whileTrue(new FlipDown(flip));
     
     // Indexer
     Controls.INDEXER_UP.whileTrue(new IndexerUp(indexer));

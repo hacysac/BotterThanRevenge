@@ -5,30 +5,22 @@ import edu.wpi.first.wpilibj2.command.Command;
 import org.team1515.BotterThanRevenge.Subsystems.Flip;
 import org.team1515.BotterThanRevenge.Subsystems.Intake;
 
-public class ManualFlip extends Command {
+public class FlipDown extends Command {
     private final Flip flip; 
 
-    private final boolean up; //check if final fixes
-
-    public ManualFlip(Flip flip, boolean up) {
+    public FlipDown(Flip flip) {
         this.flip = flip;
-        this.up = up;
         addRequirements(flip);
     }
 
     @Override
     public void execute() {
-        if (up){
-            flip.flipUp();
-        }
-        else{
-            flip.flipDown();
-        }
+        flip.flipDown();
     }
 
     @Override
     public boolean isFinished(){
-        return (up && flip.getUp()) || (!up && flip.getDown());
+        return flip.getDown();
     }
 
     @Override
