@@ -22,12 +22,12 @@ public class Indexer extends SubsystemBase {
 
         encoder = indexer.getEncoder();
 
-        //sensor = new DigitalInput(RobotMap.INDEX_SENSOR_CHANNEL);
+        sensor = new DigitalInput(RobotMap.INDEX_SENSOR_CHANNEL);
     }
 
     public boolean isBlocked(){
-        //return !sensor.get(); // TODO inverted, false if is blocked?
-        return false;
+        return !sensor.get(); // TODO inverted, false if is blocked?
+        //return false;
     }
 
     public void up(){

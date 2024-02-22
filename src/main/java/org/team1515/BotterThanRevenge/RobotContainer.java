@@ -13,6 +13,7 @@ import org.team1515.BotterThanRevenge.Commands.AutoCommands.driveArcLength;
 import org.team1515.BotterThanRevenge.Commands.AutoCommands.AutoSequences.TwoSpeakerAmpSeq;
 import org.team1515.BotterThanRevenge.Commands.ClimberCommands.ClimberDown;
 import org.team1515.BotterThanRevenge.Commands.ClimberCommands.ClimberUp;
+import org.team1515.BotterThanRevenge.Commands.ClimberCommands.SingleClimber;
 import org.team1515.BotterThanRevenge.Commands.AutoCommands.AutoSequences.DriveBackSeq;
 import org.team1515.BotterThanRevenge.Commands.AutoCommands.AutoSequences.ThreeNoteSeq;
 import org.team1515.BotterThanRevenge.Commands.AutoCommands.AutoSequences.TwoAmpSeq;
@@ -24,7 +25,7 @@ import org.team1515.BotterThanRevenge.Commands.IntakeCommands.AutoIntakeIn;
 import org.team1515.BotterThanRevenge.Commands.IntakeCommands.IntakeIn;
 import org.team1515.BotterThanRevenge.Commands.IntakeCommands.IntakeOut;
 import org.team1515.BotterThanRevenge.Commands.IntakeCommands.ManualFlip;
-import org.team1515.BotterThanRevenge.Commands.IntakeCommands.SetFlip;
+//import org.team1515.BotterThanRevenge.Commands.IntakeCommands.SetFlip;
 import org.team1515.BotterThanRevenge.Commands.ShooterCommands.ShooterIn;
 import org.team1515.BotterThanRevenge.Commands.ShooterCommands.ShooterShoot;
 import org.team1515.BotterThanRevenge.Commands.ShooterCommands.ToggleAmp;
@@ -73,7 +74,7 @@ public class RobotContainer {
     gyro = new Gyroscope();
     photon = new PhotonVision();
 
-    // drivetrain = new Drivetrain(new Pose2d(), photon);
+    drivetrain = new Drivetrain(new Pose2d(), photon);
 
     Optional<Alliance> ally = DriverStation.getAlliance();
     int team = 1; // default blue
@@ -99,16 +100,16 @@ public class RobotContainer {
 
   private void configureBindings() {
     
-    // drivetrain.setDefaultCommand(
-    //     new DefaultDriveCommand(drivetrain,
-    //         () -> -modifyAxis(mainController.getLeftY() * getRobotSpeed()),
-    //         () -> -modifyAxis(mainController.getLeftX() * getRobotSpeed()),
-    //         () -> -modifyAxis(mainController.getRightX() * getRobotSpeed()),
-    //         () -> Controls.DRIVE_ROBOT_ORIENTED.getAsBoolean()));
+    drivetrain.setDefaultCommand(
+        new DefaultDriveCommand(drivetrain,
+            () -> -modifyAxis(mainController.getLeftY() * getRobotSpeed()),
+            () -> -modifyAxis(mainController.getLeftX() * getRobotSpeed()),
+            () -> -modifyAxis(mainController.getRightX() * getRobotSpeed()),
+            () -> Controls.DRIVE_ROBOT_ORIENTED.getAsBoolean()));
     
-    // DoubleSupplier angle = () -> -photon.getAngle();
-    // Controls.RESET_GYRO.onTrue(new InstantCommand(()->drivetrain.zeroGyro()));
-    // Controls.ROTATE_ANGLE_TARGET.onTrue(new RotateAngle(drivetrain, angle));
+    DoubleSupplier angle = () -> -photon.getAngle();
+    Controls.RESET_GYRO.onTrue(new InstantCommand(()->drivetrain.zeroGyro()));
+    Controls.ROTATE_ANGLE_TARGET.onTrue(new RotateAngle(drivetrain, angle));
 
     //Intake
     Controls.AUTO_INTAKE.toggleOnTrue(new AutoIntakeIn(intake, indexer)); // infinite until sensor
@@ -116,12 +117,9 @@ public class RobotContainer {
     Controls.OUTTAKE.whileTrue(new IntakeOut(intake));
 
     //Flip
-    Controls.FLIP.onTrue(new SetFlip(flip));
-    Controls.FLIP_UP.onTrue(new ManualFlip(flip, true));
-    Controls.FLIP_DOWN.onTrue(new ManualFlip(flip, true));
-
-    Controls.SHOOT_AMP.whileTrue(new ManualFlip(flip, false)); //DOWN
-    Controls.SHOOT_SPEAKER.whileTrue(new ManualFlip(flip, true));; //UP
+    //Controls.FLIP.onTrue(new SetFlip(flip));
+    Controls.FLIP_UP.whileTrue(new ManualFlip(flip, true));
+    Controls.FLIP_DOWN.whileTrue(new ManualFlip(flip, false));
     
     // Indexer
     Controls.INDEXER_UP.whileTrue(new IndexerUp(indexer));
@@ -130,16 +128,19 @@ public class RobotContainer {
     //Climber
     Controls.CLIMBER_UP.whileTrue(new ClimberUp(climber));
     Controls.CLIMBER_DOWN.whileTrue(new ClimberDown(climber));
+    Controls.LEFT_CLIMBER_DOWN.whileTrue(new SingleClimber(climber, true));
+    Controls.RIGHT_CLIMBER_DOWN.whileTrue(new SingleClimber(climber, false));
 
     //Shooter Hold Down
-    Controls.SHOOT_SPEAKER.whileTrue(new ShooterShoot(shooter, RobotMap.SPEAKER_SPEED));
-    Controls.SHOOT_AMP.whileTrue(new ShooterShoot(shooter, RobotMap.AMP_SPEED));
+    //Controls.SHOOT_SPEAKER.whileTrue(new ShooterShoot(shooter, RobotMap.SPEAKER_SPEED));
+    //Controls.SHOOT_AMP.whileTrue(new ShooterShoot(shooter, RobotMap.AMP_SPEED));
+    Controls.SHOOTER_IN.whileTrue(new ShooterIn(shooter));
   
     //Shooter Toggle
-    // Controls.SHOOT_SPEAKER.toggleOnTrue(new ToggleSpeaker(shooter));
-    // Controls.SHOOT_AMP.toggleOnTrue(new ToggleAmp(shooter));
+    Controls.SHOOT_SPEAKER.toggleOnTrue(new ToggleSpeaker(shooter));
+    Controls.SHOOT_AMP.toggleOnTrue(new ToggleAmp(shooter));
 
-    Controls.SHOOTER_IN.whileTrue(new ShooterIn(shooter));
+
     
   }
 

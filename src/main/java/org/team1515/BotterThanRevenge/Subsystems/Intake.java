@@ -20,13 +20,13 @@ public class Intake extends SubsystemBase {
     }
 
     public void in(){
-        bottomIntake.set(-RobotMap.INTAKE_SPEED);
-        topIntake.set(RobotMap.INTAKE_SPEED);
+        bottomIntake.set(RobotMap.INTAKE_SPEED);
+        topIntake.set(-RobotMap.INTAKE_SPEED);
     }
 
     public void out(){
-        bottomIntake.set(RobotMap.INTAKE_SPEED);
-        topIntake.set(-RobotMap.INTAKE_SPEED);
+        bottomIntake.set(-RobotMap.INTAKE_SPEED);
+        topIntake.set(RobotMap.INTAKE_SPEED);
     }
 
     public void end(){

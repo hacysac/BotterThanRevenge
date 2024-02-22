@@ -65,7 +65,7 @@ public class Controls {
     }
 
     public static boolean getFirstDpadUp(){
-        return RobotContainer.mainController.getPOV()>=315 || RobotContainer.mainController.getPOV()<45;
+        return RobotContainer.mainController.getPOV()>=315 || (RobotContainer.mainController.getPOV()<45 &&RobotContainer.mainController.getPOV()>=0);
     }
     public static boolean getFirstDpadRight(){
         return RobotContainer.mainController.getPOV()>=45 && RobotContainer.mainController.getPOV()<135;
@@ -77,7 +77,7 @@ public class Controls {
         return RobotContainer.mainController.getPOV()>=225 && RobotContainer.mainController.getPOV()<315;
     }
     public static boolean getSecondDpadUp(){
-        return RobotContainer.secondController.getPOV()>=315 || RobotContainer.secondController.getPOV()<45;
+        return RobotContainer.secondController.getPOV()>=315 || (RobotContainer.secondController.getPOV()<45 &&RobotContainer.secondController.getPOV()>=0);
     }
     public static boolean getSecondDpadRight(){
         return RobotContainer.secondController.getPOV()>=45 && RobotContainer.secondController.getPOV()<135;
