@@ -24,8 +24,8 @@ public class Climber extends SubsystemBase {
         lClimber = new CANSparkMax(RobotMap.L_CLIMBER_ID, MotorType.kBrushless);
         rClimber = new CANSparkMax(RobotMap.R_CLIMBER_ID, MotorType.kBrushless);
 
-        lSensor = new DigitalInput(RobotMap.L_CLIMBER_SENSOR_CHANNEL);
-        rSensor = new DigitalInput(RobotMap.R_CLIMBER_SENSOR_CHANNEL);
+        // lSensor = new DigitalInput(RobotMap.L_CLIMBER_SENSOR_CHANNEL);
+        // rSensor = new DigitalInput(RobotMap.R_CLIMBER_SENSOR_CHANNEL);
 
         lEncoder = lClimber.getEncoder();
         rEncoder = rClimber.getEncoder();
@@ -33,12 +33,12 @@ public class Climber extends SubsystemBase {
     } 
 
     public void up(){
-        if (lEncoder.getPosition() < RobotMap.CLIMBER_EXTENTION_LIMIT){
+        // if (lEncoder.getPosition() < RobotMap.CLIMBER_EXTENTION_LIMIT){
             lClimber.set(RobotMap.CLIMBER_SPEED);
-        }
-        else{
-            lClimber.set(0);
-        }
+        // }
+        // else{
+            //lClimber.set(0);
+        // }
         if (rEncoder.getPosition() < RobotMap.CLIMBER_EXTENTION_LIMIT){
             rClimber.set(RobotMap.CLIMBER_SPEED);
         }
@@ -48,40 +48,40 @@ public class Climber extends SubsystemBase {
     }
 
     public void down(){
-        if (!lSensor.get()){
+        // if (!lSensor.get()){
             lClimber.set(-RobotMap.CLIMBER_SPEED);
-        }
-        else{
-            lClimber.set(0);
-            lEncoder.setPosition(0);
-        }
-        if(!rSensor.get()){
+        // }
+        // else{
+        //     lClimber.set(0);
+        //     lEncoder.setPosition(0);
+        // }
+        // if(!rSensor.get()){
             rClimber.set(-RobotMap.CLIMBER_SPEED);
-        }
-        else{
-            rClimber.set(0);
-            rEncoder.setPosition(0);
-        }
+        // }
+        // else{
+        //     rClimber.set(0);
+        //     rEncoder.setPosition(0);
+        // }
     }
 
     public void lDown(){
-        if (!lSensor.get()){
+        // if (!lSensor.get()){
             lClimber.set(-RobotMap.CLIMBER_SPEED);
-        }
-        else{
-            lClimber.set(0);
-            lEncoder.setPosition(0);
-        }
+        // }
+        // else{
+        //     lClimber.set(0);
+        //     lEncoder.setPosition(0);
+        // }
     }
 
     public void rDown(){
-        if (!rSensor.get()){
+        // if (!rSensor.get()){
             rClimber.set(-RobotMap.CLIMBER_SPEED);
-        }
-        else{
-            rClimber.set(0);
-            rEncoder.setPosition(0);
-        }
+        // }
+        // else{
+        //     rClimber.set(0);
+        //     rEncoder.setPosition(0);
+        // }
     }
 
     public void end() {

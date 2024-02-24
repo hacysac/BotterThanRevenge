@@ -42,8 +42,8 @@ public class RobotMap {
     // Shooter
     public static final int L_SHOOTER_ID = 20;
     public static final int R_SHOOTER_ID = 21;
-    public static final double SPEAKER_SPEED = 0.7; // TODO
-    public static final double AMP_SPEED = 0.175; // TODO
+    public static final double SPEAKER_SPEED = 0.8; // TODO
+    public static final double AMP_SPEED = 0.15; // TODO
 
     // Indexer
     public static final int INDEXER_ID = 22;
@@ -53,14 +53,15 @@ public class RobotMap {
     //Intake
     public static final int TOP_INTAKE_ID = 23;
     public static final int BOTTOM_INTAKE_ID = 24;
-    public static final double INTAKE_SPEED = 0.5; //TODO
+    public static final double LOWER_INTAKE_SPEED = 0.4; //TODO
+    public static final double UPPER_INTAKE_SPEED = 0.5; //TODO
 
     public static final int FLIP_INTAKE_ID = 25;
     public static final int FLIP_UPPER_SENSOR_CHANNEL = -1; //TODO
     public static final int FLIP_LOWER_SENSOR_CHANNEL = -1; // TODO
     public static final int FLIP_CANCODER_ID = 30; //TODO
     public static final double FLIP_UP_SPEED = 0.2; //TODO
-    public static final double FLIP_DOWN_SPEED = 0.04; //TODO should be less than ff value
+    public static final double FLIP_DOWN_SPEED = 0.05; //TODO should be less than ff value
     public static final double FLIP_DOWN_VALUE = -1; //TODO
     public static final double FLIP_UP_VALUE = -1; //TODO
 

@@ -33,9 +33,9 @@ public class Flip extends SubsystemBase{
     public Flip(){
 
         flip = new CANSparkMax(RobotMap.FLIP_INTAKE_ID, MotorType.kBrushless);
-        // canCoder = new CANcoder(RobotMap.FLIP_CANCODER_ID);
-        // canCoder.clearStickyFault_BadMagnet();
-        // canCoder.getConfigurator().apply(new CANcoderConfiguration());
+        canCoder = new CANcoder(RobotMap.FLIP_CANCODER_ID);
+        canCoder.clearStickyFault_BadMagnet();
+        canCoder.getConfigurator().apply(new CANcoderConfiguration());
 
         // upperSensor = new DigitalInput(RobotMap.FLIP_UPPER_SENSOR_CHANNEL);
         // lowerSensor = new DigitalInput(RobotMap.FLIP_LOWER_SENSOR_CHANNEL);
@@ -67,19 +67,39 @@ public class Flip extends SubsystemBase{
     public boolean getUp(){
         //return upperSensor.get();
         return false;
+        //return Math.abs(canCoder.getAbsolutePosition().getValueAsDouble()) < 0.25;
     }
 
     public void flipUp(){
-        offset = -RobotMap.FLIP_UP_SPEED;
+        if (getCANCoderValue()<0.95){
+            offset = -RobotMap.FLIP_UP_SPEED;
+        }
+        else{
+            offset = 0;
+        }
     }
 
     public void flipDown(){
-        offset = RobotMap.FLIP_DOWN_SPEED;
+        if (getCANCoderValue()>0.5){
+            offset = RobotMap.FLIP_DOWN_SPEED;
+        }
+        else{
+            offset = 0;
+        }
     }
 
-    // public void setFlipDown(){
-    //     angleController.setSetpoint(Units.rotationsToRadians(RobotMap.FLIP_DOWN_VALUE));
+    // public void setCurrentSetpoint(){
+    //     angleController.setSetpoint(getCANCoderValue());
     // }
+
+    public double getCANCoderValue(){
+        if (canCoder.getAbsolutePosition().getValueAsDouble() < 0){
+            return 1 + canCoder.getAbsolutePosition().getValueAsDouble();
+        }
+        else{
+            return canCoder.getAbsolutePosition().getValueAsDouble();
+        }
+    }
 
     // public void setFlipUp(){
     //     angleController.setSetpoint(Units.rotationsToRadians(RobotMap.FLIP_UP_VALUE));
@@ -99,19 +119,30 @@ public class Flip extends SubsystemBase{
 
     @Override
     public void periodic(){
-        // double currentAngle = canCoder.getAbsolutePosition().getValueAsDouble();
-        // double error = MathUtil.angleModulus(currentAngle - angleController.getSetpoint());
-        // double rotation = (MathUtil.clamp(angleController.calculate(error + angleController.getSetpoint(), angleController.getSetpoint()) + (ff * Math.signum(-error)),
-        //             -maxRotate, maxRotate)); // change setpoint?
 
         //if (upperSensor.get() || lowerSensor.get()){
-        //flip.set(offset+0.0);
+        //if (Math.abs(canCoder.getAbsolutePosition().getValueAsDouble()) < 0.25 && offset<0){
+            //flip.set(0.0);
         //}
-        // else{
-        flip.set(offset+ff);
+        //else if (Math.abs(canCoder.getAbsolutePosition().getValueAsDouble()) < 0.30){
+            //flip.set(offset);
+        //}
+        //else{
+        // if (offset!=0){
+        //     flip.set(offset);
         // }
+        // else{
+        //     double currentAngle = getCANCoderValue();
+        //     double error = MathUtil.angleModulus(currentAngle - angleController.getSetpoint());
+        //     double rotation = (MathUtil.clamp(angleController.calculate(error + angleController.getSetpoint(), angleController.getSetpoint()) + (ff * Math.signum(-error)),
+        //                 -maxRotate, maxRotate)); // change setpoint?
+        //     flip.set(rotation);
+        // }
+        flip.set(offset);
+        //}
 
-        //SmartDashboard.putBoolean("Intake Down?", getDown());
-        //SmartDashboard.putNumber("Intake Angle", canCoder.getAbsolutePosition().getValueAsDouble());
+        SmartDashboard.putBoolean("Intake Down?", getDown());
+        SmartDashboard.putNumber("Calulated Intake Angle", getCANCoderValue());
+        SmartDashboard.putNumber("Absolute Intake Angle", canCoder.getAbsolutePosition().getValueAsDouble());
     }
 }
