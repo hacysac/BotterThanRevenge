@@ -25,6 +25,5 @@ public class FlipDown extends Command {
     @Override
     public void end(boolean interrupted) {
         flip.end();
-        //flip.setCurrentSetpoint();
     }
 }

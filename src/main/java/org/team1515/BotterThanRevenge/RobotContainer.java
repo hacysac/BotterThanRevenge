@@ -67,16 +67,16 @@ public class RobotContainer {
     mainController = new XboxController(0);
     secondController = new XboxController(1);
     
-    //intake = new Intake();
+    intake = new Intake();
     flip = new Flip();
     indexer = new Indexer();
-    //climber = new Climber();
+    climber = new Climber();
     //shooter = new Shooter();
     
     gyro = new Gyroscope();
     photon = new PhotonVision();
 
-    //drivetrain = new Drivetrain(new Pose2d(), photon);
+    drivetrain = new Drivetrain(new Pose2d(), photon);
 
     Optional<Alliance> ally = DriverStation.getAlliance();
     int team = 1; // default blue
@@ -89,12 +89,12 @@ public class RobotContainer {
         }
     }
 
-    // AutoChooser.setDefaultOption("Drive Back", new DriveBackSeq(drivetrain));
-    // AutoChooser.addOption("2 Note Seq", new TwoNoteSeq(drivetrain, team));
-    // AutoChooser.addOption("3 Note Seq", new ThreeNoteSeq(drivetrain, team));
-    // AutoChooser.addOption("2 Amp Seq", new TwoAmpSeq(drivetrain, -team));
-    // AutoChooser.addOption("2 Note + Amp Seq", new TwoSpeakerAmpSeq(drivetrain, -team));
-    // SmartDashboard.putData(AutoChooser);
+    AutoChooser.setDefaultOption("Drive Back", new DriveBackSeq(drivetrain));
+    AutoChooser.addOption("2 Note Seq", new TwoNoteSeq(drivetrain, team));
+    AutoChooser.addOption("3 Note Seq", new ThreeNoteSeq(drivetrain, team));
+    AutoChooser.addOption("2 Amp Seq", new TwoAmpSeq(drivetrain, -team));
+    AutoChooser.addOption("2 Note + Amp Seq", new TwoSpeakerAmpSeq(drivetrain, -team));
+    SmartDashboard.putData(AutoChooser);
 
     configureBindings();
 
@@ -102,21 +102,21 @@ public class RobotContainer {
 
   private void configureBindings() {
     
-    // drivetrain.setDefaultCommand(
-    //     new DefaultDriveCommand(drivetrain,
-    //         () -> -modifyAxis(mainController.getLeftY() * getRobotSpeed()),
-    //         () -> -modifyAxis(mainController.getLeftX() * getRobotSpeed()),
-    //         () -> -modifyAxis(mainController.getRightX() * getRobotSpeed()),
-    //         () -> Controls.DRIVE_ROBOT_ORIENTED.getAsBoolean()));
+    drivetrain.setDefaultCommand(
+        new DefaultDriveCommand(drivetrain,
+            () -> -modifyAxis(mainController.getLeftY() * getRobotSpeed()),
+            () -> -modifyAxis(mainController.getLeftX() * getRobotSpeed()),
+            () -> modifyAxis(mainController.getRightX() * getRobotSpeed()),
+            () -> Controls.DRIVE_ROBOT_ORIENTED.getAsBoolean()));
     
-    // DoubleSupplier angle = () -> -photon.getAngle();
-    // Controls.RESET_GYRO.onTrue(new InstantCommand(()->drivetrain.zeroGyro()));
-    // Controls.ROTATE_ANGLE_TARGET.onTrue(new RotateAngle(drivetrain, angle));
+    DoubleSupplier angle = () -> -photon.getAngle();
+    Controls.RESET_GYRO.onTrue(new InstantCommand(()->drivetrain.zeroGyro()));
+    Controls.ROTATE_ANGLE_TARGET.onTrue(new RotateAngle(drivetrain, angle));
 
     //Intake
-    // Controls.AUTO_INTAKE.toggleOnTrue(new AutoIntakeIn(intake, indexer)); // infinite until sensor
-    // Controls.INTAKE.whileTrue(new IntakeIn(intake));
-    // Controls.OUTTAKE.whileTrue(new IntakeOut(intake));
+    Controls.AUTO_INTAKE.toggleOnTrue(new AutoIntakeIn(intake, indexer)); // infinite until sensor
+    Controls.INTAKE.whileTrue(new IntakeIn(intake));
+    Controls.OUTTAKE.whileTrue(new IntakeOut(intake));
 
     //Flip
     //Controls.FLIP.onTrue(new SetFlip(flip));
@@ -128,10 +128,10 @@ public class RobotContainer {
     Controls.INDEXER_DOWN.whileTrue(new IndexerDown(indexer));
 
     //Climber
-    // Controls.CLIMBER_UP.whileTrue(new ClimberUp(climber));
-    // Controls.CLIMBER_DOWN.whileTrue(new ClimberDown(climber));
-    // Controls.LEFT_CLIMBER_DOWN.whileTrue(new SingleClimber(climber, true));
-    // Controls.RIGHT_CLIMBER_DOWN.whileTrue(new SingleClimber(climber, false));
+    Controls.CLIMBER_UP.whileTrue(new ClimberUp(climber));
+    Controls.CLIMBER_DOWN.whileTrue(new ClimberDown(climber));
+    Controls.LEFT_CLIMBER_DOWN.whileTrue(new SingleClimber(climber, true));
+    Controls.RIGHT_CLIMBER_DOWN.whileTrue(new SingleClimber(climber, false));
 
     //Shooter Hold Down
     //Controls.SHOOT_SPEAKER.whileTrue(new ShooterShoot(shooter, RobotMap.SPEAKER_SPEED));
@@ -147,8 +147,8 @@ public class RobotContainer {
   }
 
   public Command getAutonomousCommand() {
-    //return AutoChooser.getSelected();
-    return new InstantCommand(()-> System.out.println("pain"));
+    return AutoChooser.getSelected();
+    //return new InstantCommand(()-> System.out.println("pain"));
   }
 
   public static double getRobotSpeed() {
