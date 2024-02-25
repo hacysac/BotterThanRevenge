@@ -59,6 +59,9 @@ public class RobotContainer {
   private Drivetrain drivetrain;
   public static PhotonVision photon;
 
+  public DoubleSupplier getDirection;
+  public double direction = 1;
+
   public static SendableChooser<Command> AutoChooser = new SendableChooser<>();
 
   public RobotContainer() {
@@ -73,6 +76,8 @@ public class RobotContainer {
     
     gyro = new Gyroscope();
     photon = new PhotonVision();
+
+    getDirection = () -> direction;
 
     drivetrain = new Drivetrain(new Pose2d(), photon);
 
@@ -99,16 +104,16 @@ public class RobotContainer {
   }
 
   private void configureBindings() {
-    
     drivetrain.setDefaultCommand(
         new DefaultDriveCommand(drivetrain,
-            () -> -modifyAxis(mainController.getLeftY() * getRobotSpeed()),
-            () -> -modifyAxis(mainController.getLeftX() * getRobotSpeed()),
+            () -> getDirection.getAsDouble()*-modifyAxis(mainController.getLeftY() * getRobotSpeed()),
+            () -> getDirection.getAsDouble()*-modifyAxis(mainController.getLeftX() * getRobotSpeed()),
             () -> modifyAxis(mainController.getRightX() * getRobotSpeed()),
             () -> Controls.DRIVE_ROBOT_ORIENTED.getAsBoolean()));
     
     DoubleSupplier angle = () -> -photon.getAngle();
     Controls.RESET_GYRO.onTrue(new InstantCommand(()->drivetrain.zeroGyro()));
+    Controls.CHANGE_DIRECTION.onTrue(new InstantCommand(()->direction = -direction));
     Controls.ROTATE_ANGLE_TARGET.onTrue(new RotateAngle(drivetrain, angle));
 
     //Intake
