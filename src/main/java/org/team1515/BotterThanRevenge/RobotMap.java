@@ -47,19 +47,19 @@ public class RobotMap {
 
     // Indexer
     public static final int INDEXER_ID = 22;
-    public static final int INDEX_SENSOR_CHANNEL = 2; // TODO
-    public static final double INDEXER_SPEED = 0.5;// TODO 
+    public static final int INDEX_SENSOR_CHANNEL = 2; 
+    public static final double INDEXER_SPEED = 0.5;
 
     //Intake
     public static final int TOP_INTAKE_ID = 23;
     public static final int BOTTOM_INTAKE_ID = 24;
-    public static final double LOWER_INTAKE_SPEED = 0.4; //TODO
-    public static final double UPPER_INTAKE_SPEED = 0.5; //TODO
+    public static final double LOWER_INTAKE_SPEED = 0.4; 
+    public static final double UPPER_INTAKE_SPEED = 0.5; 
 
     public static final int FLIP_INTAKE_ID = 25;
     public static final int FLIP_UPPER_SENSOR_CHANNEL = -1; //TODO
     public static final int FLIP_LOWER_SENSOR_CHANNEL = -1; // TODO
-    public static final int FLIP_CANCODER_ID = 30; //TODO
+    public static final int FLIP_CANCODER_ID = 30; 
     public static final double FLIP_UP_SPEED = 0.15; //TODO
     public static final double FLIP_DOWN_SPEED = 0.05; //TODO should be less than ff value
     public static final double FLIP_DOWN_VALUE = 0.43; //TODO
@@ -70,10 +70,10 @@ public class RobotMap {
     //Climber
     public static final int L_CLIMBER_ID = 27;
     public static final int R_CLIMBER_ID = 26;
-    public static final int L_CLIMBER_SENSOR_CHANNEL = 0; //TODO
-    public static final int R_CLIMBER_SENSOR_CHANNEL = 1; //TODO
+    public static final int L_CLIMBER_SENSOR_CHANNEL = 0; 
+    public static final int R_CLIMBER_SENSOR_CHANNEL = 1; 
     public static final double CLIMBER_UP_SPEED = 0.35; // TODO
     public static final double CLIMBER_DOWN_SPEED = 0.5; // TODO
     public static final double CLIMBER_EXTENTION_LIMIT = 23.5; //TODO
-    public static final int CLIMBER_CURRENT_LIMIT = 0; //TODO in amps
+    public static final int CLIMBER_CURRENT_LIMIT = 30; 
 }
