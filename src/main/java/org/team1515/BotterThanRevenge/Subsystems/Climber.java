@@ -26,6 +26,8 @@ public class Climber extends SubsystemBase {
         rClimber = new CANSparkMax(RobotMap.R_CLIMBER_ID, MotorType.kBrushless);
         lClimber.setIdleMode(CANSparkBase.IdleMode.kBrake);
         rClimber.setIdleMode(CANSparkBase.IdleMode.kBrake);
+        lClimber.setSmartCurrentLimit(RobotMap.CLIMBER_CURRENT_LIMIT);
+        rClimber.setSmartCurrentLimit(RobotMap.CLIMBER_CURRENT_LIMIT);
 
         // lSensor = new DigitalInput(RobotMap.L_CLIMBER_SENSOR_CHANNEL);
         // rSensor = new DigitalInput(RobotMap.R_CLIMBER_SENSOR_CHANNEL);

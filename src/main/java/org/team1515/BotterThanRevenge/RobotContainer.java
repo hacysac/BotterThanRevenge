@@ -26,8 +26,6 @@ import org.team1515.BotterThanRevenge.Commands.IntakeCommands.FlipDown;
 import org.team1515.BotterThanRevenge.Commands.IntakeCommands.FlipUp;
 import org.team1515.BotterThanRevenge.Commands.IntakeCommands.IntakeIn;
 import org.team1515.BotterThanRevenge.Commands.IntakeCommands.IntakeOut;
-import org.team1515.BotterThanRevenge.Commands.IntakeCommands.ManualFlip;
-//import org.team1515.BotterThanRevenge.Commands.IntakeCommands.SetFlip;
 import org.team1515.BotterThanRevenge.Commands.ShooterCommands.ShooterIn;
 import org.team1515.BotterThanRevenge.Commands.ShooterCommands.ShooterShoot;
 import org.team1515.BotterThanRevenge.Commands.ShooterCommands.ToggleAmp;

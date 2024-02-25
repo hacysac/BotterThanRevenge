@@ -75,4 +75,5 @@ public class RobotMap {
     public static final double CLIMBER_UP_SPEED = 0.35; // TODO
     public static final double CLIMBER_DOWN_SPEED = 0.5; // TODO
     public static final double CLIMBER_EXTENTION_LIMIT = 23.5; //TODO
+    public static final int CLIMBER_CURRENT_LIMIT = 0; //TODO in amps
 }
