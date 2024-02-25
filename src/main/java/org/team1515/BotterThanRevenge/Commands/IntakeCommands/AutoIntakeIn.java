@@ -15,7 +15,7 @@ public class AutoIntakeIn extends Command {
         this.intake = intake;
         this.indexer = indexer;
         this.time = 1000; // 1000 seconds will not be reached
-        //addRequirements(intake);
+        addRequirements(intake);
         addRequirements(indexer);
     }
 
