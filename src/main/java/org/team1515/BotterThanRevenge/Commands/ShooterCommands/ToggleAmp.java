@@ -12,9 +12,13 @@ public class ToggleAmp extends Command {
     public ToggleAmp(Shooter shooter) {
         this.shooter = shooter;
         this.speed = RobotMap.AMP_SPEED;
+        addRequirements(shooter);
+    }
+
+    @Override
+    public void initialize(){
         shooter.setAmp(true);
         shooter.setSpeaker(false);
-        addRequirements(shooter);
     }
 
     @Override
@@ -30,6 +34,5 @@ public class ToggleAmp extends Command {
     @Override
     public void end(boolean interrupted) {
         shooter.end();
-        shooter.setAmp(false);
     }
 }

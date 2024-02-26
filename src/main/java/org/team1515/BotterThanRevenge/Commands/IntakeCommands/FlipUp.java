@@ -24,6 +24,8 @@ public class FlipUp extends Command {
 
     @Override
     public void end(boolean interrupted) {
+        flip.setCurrentTopValue();
+        flip.setUp(true);
         flip.end();
     }
 }

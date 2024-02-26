@@ -15,6 +15,7 @@ import org.team1515.BotterThanRevenge.Commands.ClimberCommands.ClimberDown;
 import org.team1515.BotterThanRevenge.Commands.ClimberCommands.ClimberUp;
 import org.team1515.BotterThanRevenge.Commands.ClimberCommands.SingleClimber;
 import org.team1515.BotterThanRevenge.Commands.AutoCommands.AutoSequences.DriveBackSeq;
+import org.team1515.BotterThanRevenge.Commands.AutoCommands.AutoSequences.FourNoteSeq;
 import org.team1515.BotterThanRevenge.Commands.AutoCommands.AutoSequences.ThreeNoteSeq;
 import org.team1515.BotterThanRevenge.Commands.AutoCommands.AutoSequences.TwoAmpSeq;
 import org.team1515.BotterThanRevenge.Commands.AutoCommands.AutoSequences.TwoNoteSeq;
@@ -43,6 +44,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 
 public class RobotContainer {
@@ -59,7 +61,6 @@ public class RobotContainer {
   private Drivetrain drivetrain;
   public static PhotonVision photon;
 
-  public DoubleSupplier getDirection;
   public double direction = 1;
 
   public static SendableChooser<Command> AutoChooser = new SendableChooser<>();
@@ -72,31 +73,35 @@ public class RobotContainer {
     flip = new Flip();
     indexer = new Indexer();
     climber = new Climber();
-    //shooter = new Shooter();
+    shooter = new Shooter();
     
     gyro = new Gyroscope();
     photon = new PhotonVision();
 
-    getDirection = () -> direction;
 
     drivetrain = new Drivetrain(new Pose2d(), photon);
 
-    Optional<Alliance> ally = DriverStation.getAlliance();
+    //Optional<Alliance> ally = DriverStation.getAlliance();
     int team = 1; // default blue
-    if (ally.isPresent()) {
-        if (ally.get() == Alliance.Red) {
-            team = -1;
-        }
-        else if (ally.get() == Alliance.Blue) {
-            team = 1;
-        }
-    }
+    // if (ally.isPresent()) {
+    //     if (ally.get() == Alliance.Red) {
+    //         team = -1;
+    //     }
+    //     else if (ally.get() == Alliance.Blue) {
+    //         team = 1;
+    //     }
+    // }
 
     AutoChooser.setDefaultOption("Drive Back", new DriveBackSeq(drivetrain));
-    AutoChooser.addOption("2 Note Seq", new TwoNoteSeq(drivetrain, team));
-    AutoChooser.addOption("3 Note Seq", new ThreeNoteSeq(drivetrain, team));
-    AutoChooser.addOption("2 Amp Seq", new TwoAmpSeq(drivetrain, -team));
-    AutoChooser.addOption("2 Note + Amp Seq", new TwoSpeakerAmpSeq(drivetrain, -team));
+    //AutoChooser.addOption("2 Note Seq", new TwoNoteSeq(drivetrain, shooter, indexer, intake, flip, false, team));
+    AutoChooser.addOption("Blue 3 Note Seq", new ThreeNoteSeq(drivetrain, shooter, indexer, intake, flip, false, team));
+    AutoChooser.addOption("Red 3 Note Seq", new ThreeNoteSeq(drivetrain, shooter, indexer, intake, flip, false, -team));
+    AutoChooser.addOption("Blue 4 Note Seq", new FourNoteSeq(drivetrain, shooter, indexer, intake, flip, team));
+    AutoChooser.addOption("Red 4 Note Seq", new FourNoteSeq(drivetrain, shooter, indexer, intake, flip, -team));
+    AutoChooser.addOption("Blue 2 Amp Seq", new TwoAmpSeq(drivetrain, shooter, indexer, intake, flip, -team));
+    AutoChooser.addOption("Red 2 Amp Seq", new TwoAmpSeq(drivetrain, shooter, indexer, intake, flip, team));
+    AutoChooser.addOption("Blue 2 Note + Amp Seq", new TwoSpeakerAmpSeq(drivetrain, shooter, indexer, intake, flip, false, -team));
+    AutoChooser.addOption("Red 2 Note + Amp Seq", new TwoSpeakerAmpSeq(drivetrain, shooter, indexer, intake, flip, false, team));
     SmartDashboard.putData(AutoChooser);
 
     configureBindings();
@@ -106,15 +111,16 @@ public class RobotContainer {
   private void configureBindings() {
     drivetrain.setDefaultCommand(
         new DefaultDriveCommand(drivetrain,
-            () -> getDirection.getAsDouble()*-modifyAxis(mainController.getLeftY() * getRobotSpeed()),
-            () -> getDirection.getAsDouble()*-modifyAxis(mainController.getLeftX() * getRobotSpeed()),
+            () -> -modifyAxis(mainController.getLeftY() * getRobotSpeed()),
+            () -> -modifyAxis(mainController.getLeftX() * getRobotSpeed()),
             () -> modifyAxis(mainController.getRightX() * getRobotSpeed()),
+            () -> direction,
             () -> Controls.DRIVE_ROBOT_ORIENTED.getAsBoolean()));
     
-    DoubleSupplier angle = () -> -photon.getAngle();
+    //DoubleSupplier angle = () -> -photon.getAngle();
     Controls.RESET_GYRO.onTrue(new InstantCommand(()->drivetrain.zeroGyro()));
     Controls.CHANGE_DIRECTION.onTrue(new InstantCommand(()->direction = -direction));
-    Controls.ROTATE_ANGLE_TARGET.onTrue(new RotateAngle(drivetrain, angle));
+    //Controls.ROTATE_ANGLE_TARGET.onTrue(new RotateAngle(drivetrain, angle));
 
     //Intake
     Controls.AUTO_INTAKE.toggleOnTrue(new AutoIntakeIn(intake, indexer)); // infinite until sensor
@@ -123,11 +129,12 @@ public class RobotContainer {
 
     //Flip
     //Controls.FLIP.onTrue(new SetFlip(flip));
-    Controls.FLIP_UP.whileTrue(new FlipUp(flip));
-    Controls.FLIP_DOWN.whileTrue(new FlipDown(flip));
+    Controls.FLIP_UP.onTrue(new FlipUp(flip));
+    Controls.FLIP_DOWN.onTrue(new FlipDown(flip));
     
     // Indexer
-    Controls.INDEXER_UP.whileTrue(new IndexerUp(indexer));
+    Controls.INDEXER_UP.whileTrue(Commands.parallel(new IndexerUp(indexer), new FlipDown(flip, false)));
+    //force the intake back down
     Controls.INDEXER_DOWN.whileTrue(new IndexerDown(indexer));
 
     //Climber
@@ -139,11 +146,11 @@ public class RobotContainer {
     //Shooter Hold Down
     //Controls.SHOOT_SPEAKER.whileTrue(new ShooterShoot(shooter, RobotMap.SPEAKER_SPEED));
     //Controls.SHOOT_AMP.whileTrue(new ShooterShoot(shooter, RobotMap.AMP_SPEED));
-    //Controls.SHOOTER_IN.whileTrue(new ShooterIn(shooter));
+    Controls.SHOOTER_IN.whileTrue(new ShooterIn(shooter));
   
     //Shooter Toggle
-    // Controls.SHOOT_SPEAKER.toggleOnTrue(new ToggleSpeaker(shooter));
-    // Controls.SHOOT_AMP.toggleOnTrue(new ToggleAmp(shooter));
+    Controls.SHOOT_SPEAKER.toggleOnTrue(new ToggleSpeaker(shooter));
+    Controls.SHOOT_AMP.toggleOnTrue(new ToggleAmp(shooter));
 
 
     

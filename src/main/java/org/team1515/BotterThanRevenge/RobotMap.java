@@ -1,6 +1,9 @@
 package org.team1515.BotterThanRevenge;
 
+import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.util.Units;
+import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.DriverStation.Alliance;
 
 public class RobotMap {
 
@@ -13,6 +16,10 @@ public class RobotMap {
 
     public static final double AUTO_OFFSET = 3; //TODO check robot
     public static final double INTAKE_OFFSET = 4; // TODO check robot
+    public static final double AUTO_NOTE_ANGLE_OFFSET = 40.0; //TODO check robot
+    public static final double AUTO_AMP_ANGLE_OFFSET = 120.0; //TODO check robot
+    public static final double AUTO_INTAKE_TIME = 1.75; //TODO check robot
+    public static final double AUTO_FEED_TIME = 0.75; //TODO check robot
 
     public static final double SUBWOOFER_DEPTH = 37;
     public static final double SUBWOOFER_LONG_WIDTH = 80;
@@ -21,10 +28,11 @@ public class RobotMap {
     public static final double NOTE_TO_NOTE = 57;
     public static final double WALL_TO_AMP = 73;
     public static final double WALL_TO_CENTER = 325.5;
+    public static final double ROBOT_STARTING_ZONE_WIDTH = 76;
     public static final double SUBWOOFER_TO_CENTER = (WALL_TO_CENTER-SUBWOOFER_DEPTH) - 7; // -7 for note TODO check
     public static final double AMP_TO_CENTER = (WALL_TO_CENTER-WALL_TO_AMP) - 7; // -7 for note TODO check
-    public static final double NOTE_TO_AMP_Y = (SUBWOOFER_TO_AMP + (0.5 * SUBWOOFER_LONG_WIDTH)) - NOTE_TO_NOTE;
-    public static final double NOTE_TO_AMP_X = (SUBWOOFER_DEPTH + SUBWOOFER_TO_NOTE) - WALL_TO_AMP;
+    public static final double NOTE_TO_AMP_Y = 47.64;
+    public static final double NOTE_TO_AMP_X = 40;
 
     //Vision
     public static final String CAMERA_NAME = "camera3";
@@ -32,17 +40,32 @@ public class RobotMap {
     public static final double AMP_TARGET_HEIGHT_METERS = -1.0; //TODO: to center or bottom?
     public static final double SPEAKER_TARGET_HEIGHT_METERS = 0.85; //TODO: to center or bottom?
     public static final double CAMERA_PITCH_RADIANS = Units.degreesToRadians(18.0); //TODO
+    public static final Translation2d CAMERA_TO_BUMPER = new Translation2d(0.1146, 0);
+<<<<<<< HEAD
+
+
+    public static final Translation2d TAG_TO_AMP = new Translation2d(0.22, 0);
+    public static final Translation2d CTR_TAG_TO_SUBWOOFER = new Translation2d(0.1146, 0);
+    public static final Translation2d LEFT_TAG_TO_SUBWOOFER = new Translation2d(0.1146, 0);
+    public static int CTR_SPEAKER_TAG_ID = DriverStation.getAlliance().get() == Alliance.Red ? 4 : 7;
+    public static int RIGHT_SPEAKER_TAG_ID = DriverStation.getAlliance().get() == Alliance.Red ? 3 : 8;
+    public static int AMP_TAG_ID = DriverStation.getAlliance().get() == Alliance.Red ? 5 : 6;
+=======
+    public static final Translation2d TAG_TO_AMP = new Translation2d(0.005, 0);
+    public static final Translation2d CTR_TAG_TO_SUBWOOFER = new Translation2d(0.956, 0);
+    public static final Translation2d LEFT_TAG_TO_SUBWOOFER = new Translation2d(0.956, 0.565);
+    public static final int CTR_SPEAKER_TAG_ID = DriverStation.getAlliance().get() == Alliance.Red ? 4 : 7;
+    public static final int RIGHT_SPEAKER_TAG_ID = DriverStation.getAlliance().get() == Alliance.Red ? 3 : 8;
+    public static final int AMP_TAG_ID = DriverStation.getAlliance().get() == Alliance.Red ? 5 : 6;
     
-    public static int SPEAKER_TAG_ID = 3;
-    public static int L_AMP_TAG_ID = 2;
-    public static int R_AMP_TAG_ID = 2;
-    
+>>>>>>> 566c7d7 (added visiont strafe and rotate commands to test)
     /* Subsystems */
 
     // Shooter
     public static final int L_SHOOTER_ID = 20;
     public static final int R_SHOOTER_ID = 21;
-    public static final double SPEAKER_SPEED = 0.7; // TODO
+    public static final int SHOOTER_CURRENT_LIMIT = 35;
+    public static final double SPEAKER_SPEED = 1; // TODO
     public static final double AMP_SPEED = 0.175; // TODO
 
     // Indexer
@@ -53,22 +76,30 @@ public class RobotMap {
     //Intake
     public static final int TOP_INTAKE_ID = 23;
     public static final int BOTTOM_INTAKE_ID = 24;
-    public static final double INTAKE_SPEED = 0.5; //TODO
+    public static final double UPPER_INTAKE_SPEED = 0.5;
+    public static final double LOWER_INTAKE_SPEED = 0.4;
+    public static final int INTAKE_CURRENT_LIMIT = 20;
 
+    //Flip
     public static final int FLIP_INTAKE_ID = 25;
     public static final int FLIP_UPPER_SENSOR_CHANNEL = -1; //TODO
     public static final int FLIP_LOWER_SENSOR_CHANNEL = -1; // TODO
-    public static final int FLIP_CANCODER_ID = 30; //TODO
-    public static final double FLIP_UP_SPEED = 0.2; //TODO
-    public static final double FLIP_DOWN_SPEED = 0.04; //TODO should be less than ff value
-    public static final double FLIP_DOWN_VALUE = -1; //TODO
-    public static final double FLIP_UP_VALUE = -1; //TODO
+    public static final int FLIP_CANCODER_ID = 30; 
+    public static final double FLIP_UP_SPEED = 0.15; //TODO
+    public static final double FLIP_DOWN_SPEED = 0.05; //TODO should be less than ff value
+    public static final double FLIP_DOWN_VALUE = -1000; //TODO
+    public static final double FLIP_UP_VALUE = 1000; //TODO
+    public static final double FLIP_TOP_VALUE = 1000; //TODO
+    public static final double FLIP_MID_VALUE = 0.5; //TODO
 
     //Climber
     public static final int L_CLIMBER_ID = 26;
     public static final int R_CLIMBER_ID = 27;
     public static final int L_CLIMBER_SENSOR_CHANNEL = 0; //TODO
     public static final int R_CLIMBER_SENSOR_CHANNEL = 1; //TODO
-    public static final double CLIMBER_SPEED = 0.25; // TODO
+    public static final double CLIMBER_UP_SPEED = .7;
+    public static final double CLIMBER_DOWN_SPEED = .5;
     public static final double CLIMBER_EXTENTION_LIMIT = 23.5; //TODO
+    public static final int CLIMBER_CURRENT_LIMIT = 30;
+
 }

@@ -43,6 +43,8 @@ public class Indexer extends SubsystemBase {
     }
     @Override
     public void periodic(){
-        SmartDashboard.putNumber("Indexer RPM", encoder.getVelocity());
+        SmartDashboard.putNumber("Indexer RPM", indexer.getEncoder().getVelocity());
+        SmartDashboard.putNumber("Indexer Current", indexer.getOutputCurrent());
+        SmartDashboard.putNumber("Indexer Voltage", indexer.getBusVoltage());
     }
 }

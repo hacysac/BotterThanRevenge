@@ -11,8 +11,8 @@ public class Controls {
 
     public static final Trigger CLIMBER_UP = new Trigger(Controls::getFirstDpadUp);
     public static final Trigger CLIMBER_DOWN = new Trigger(Controls::getFirstDpadDown);
-    public static final Trigger LEFT_CLIMBER_DOWN = new Trigger(Controls::getFirstDpadLeft);
-    public static final Trigger RIGHT_CLIMBER_DOWN = new Trigger(Controls::getFirstDpadRight);
+    public static final Trigger RIGHT_CLIMBER_DOWN = new Trigger(Controls::getFirstDpadLeft);
+    public static final Trigger LEFT_CLIMBER_DOWN = new Trigger(Controls::getFirstDpadRight);
 
     public static final Trigger AUTO_INTAKE = new Trigger(RobotContainer.secondController::getYButton);
     public static final Trigger INTAKE = new Trigger(RobotContainer.secondController::getRightBumper);

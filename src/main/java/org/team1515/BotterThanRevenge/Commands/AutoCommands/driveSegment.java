@@ -99,7 +99,7 @@ public class driveSegment extends Command {
         double currentAngle = RobotContainer.gyro.getGyroscopeRotation().getRadians();
         double error = MathUtil.angleModulus(currentAngle - angleController.getSetpoint());
         //System.out.println("error: " + Units.radiansToDegrees(error));
-        double rotation = (MathUtil.clamp(angleController.calculate(error + angleController.getSetpoint(), angleController.getSetpoint()) + (ff * Math.signum(-error)),
+        double rotation = (MathUtil.clamp(angleController.calculate(error + angleController.getSetpoint(), angleController.getSetpoint()) + (ff * Math.signum(error)),
                 -maxRotate, maxRotate)); //setpoint can't be zero, addsetpoint to error
         //System.out.println("rotation: " + Units.radiansToDegrees(rotation));
         drivetrain.drive(new Translation2d(speed*i,speed*j), -rotation,true,true);

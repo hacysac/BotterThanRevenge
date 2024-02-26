@@ -12,9 +12,13 @@ public class ToggleSpeaker extends Command {
     public ToggleSpeaker(Shooter shooter) {
         this.shooter = shooter;
         this.speed = RobotMap.SPEAKER_SPEED;
+        addRequirements(shooter);
+    }
+
+    @Override
+    public void initialize(){
         shooter.setAmp(false);
         shooter.setSpeaker(true);
-        addRequirements(shooter);
     }
 
     @Override
@@ -30,6 +34,5 @@ public class ToggleSpeaker extends Command {
     @Override
     public void end(boolean interrupted) {
         shooter.end();
-        shooter.setSpeaker(false);
     }
 }
