@@ -40,7 +40,7 @@ public class FourNoteSeq extends SequentialCommandGroup{
         
         //FEED PIECE + FLIP DOWN: run indexer 0.5 seconds?
         addCommands(Commands.parallel(
-                new AutoFeed(indexer, 1.5),
+                new AutoFeed(indexer, RobotMap.AUTO_FEED_TIME),
                 new FlipDown(flip)
         ));
         //end shooter and indexer
