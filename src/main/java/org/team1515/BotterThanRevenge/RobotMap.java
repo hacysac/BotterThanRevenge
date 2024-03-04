@@ -41,7 +41,6 @@ public class RobotMap {
     public static final double SPEAKER_TARGET_HEIGHT_METERS = 0.85; //TODO: to center or bottom?
     public static final double CAMERA_PITCH_RADIANS = Units.degreesToRadians(18.0); //TODO
     public static final Translation2d CAMERA_TO_BUMPER = new Translation2d(0.1146, 0);
-<<<<<<< HEAD
 
 
     public static final Translation2d TAG_TO_AMP = new Translation2d(0.22, 0);
@@ -50,15 +49,6 @@ public class RobotMap {
     public static int CTR_SPEAKER_TAG_ID = DriverStation.getAlliance().get() == Alliance.Red ? 4 : 7;
     public static int RIGHT_SPEAKER_TAG_ID = DriverStation.getAlliance().get() == Alliance.Red ? 3 : 8;
     public static int AMP_TAG_ID = DriverStation.getAlliance().get() == Alliance.Red ? 5 : 6;
-=======
-    public static final Translation2d TAG_TO_AMP = new Translation2d(0.005, 0);
-    public static final Translation2d CTR_TAG_TO_SUBWOOFER = new Translation2d(0.956, 0);
-    public static final Translation2d LEFT_TAG_TO_SUBWOOFER = new Translation2d(0.956, 0.565);
-    public static final int CTR_SPEAKER_TAG_ID = DriverStation.getAlliance().get() == Alliance.Red ? 4 : 7;
-    public static final int RIGHT_SPEAKER_TAG_ID = DriverStation.getAlliance().get() == Alliance.Red ? 3 : 8;
-    public static final int AMP_TAG_ID = DriverStation.getAlliance().get() == Alliance.Red ? 5 : 6;
-    
->>>>>>> 566c7d7 (added visiont strafe and rotate commands to test)
     /* Subsystems */
 
     // Shooter
