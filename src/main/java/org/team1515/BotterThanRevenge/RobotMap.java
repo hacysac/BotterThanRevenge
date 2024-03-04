@@ -75,14 +75,10 @@ public class RobotMap {
     public static final int FLIP_UPPER_SENSOR_CHANNEL = -1; //TODO
     public static final int FLIP_LOWER_SENSOR_CHANNEL = -1; // TODO
     public static final int FLIP_CANCODER_ID = 30; 
-    public static final double FLIP_UP_SPEED = 0.15; //TODO
-    public static final double FLIP_DOWN_SPEED = 0.05; //TODO should be less than ff value
-    public static final double FLIP_DOWN_VALUE = -1000; //TODO
-    public static final double FLIP_UP_VALUE = 1000; //TODO
-    public static final double FLIP_TOP_VALUE = 1000; //TODO
-    public static final double FLIP_MID_VALUE = 0.5; //TODO
+    public static final double FLIP_UP_SPEED = 0.3; //TODO
+    public static final double FLIP_DOWN_SPEED = 0.1; //TODO should be less than ff value
     public static final double FLIP_MID_OFFSET = 0.24; //TODO
-    public static final double FLIP_DOWN_OFFSET = 0.49; //TODO
+    public static final double FLIP_DOWN_OFFSET = 0.47; //TODO
 
     //Climber
     public static final int L_CLIMBER_ID = 26;

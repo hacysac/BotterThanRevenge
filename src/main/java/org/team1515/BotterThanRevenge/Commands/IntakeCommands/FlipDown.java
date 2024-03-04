@@ -19,6 +19,7 @@ public class FlipDown extends Command {
 
     @Override
     public void execute() {
+        flip.flipDown();
     }
 
     @Override
