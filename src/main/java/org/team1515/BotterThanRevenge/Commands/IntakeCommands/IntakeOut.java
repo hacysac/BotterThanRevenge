@@ -1,4 +1,4 @@
-package org.team1515.BotterThanRevenge.Commands;
+package org.team1515.BotterThanRevenge.Commands.IntakeCommands;
 
 import edu.wpi.first.wpilibj2.command.Command;
 
@@ -19,6 +19,6 @@ public class IntakeOut extends Command {
 
     @Override
     public void end(boolean interrupted) {
-        intake.endIntake();
+        intake.end();
     }
 }

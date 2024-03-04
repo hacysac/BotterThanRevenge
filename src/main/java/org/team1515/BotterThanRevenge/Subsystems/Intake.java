@@ -2,82 +2,69 @@ package org.team1515.BotterThanRevenge.Subsystems;
 
 import org.team1515.BotterThanRevenge.RobotMap;
 
-import com.ctre.phoenix6.hardware.CANcoder;
-import com.ctre.phoenix6.configs.CANcoderConfiguration;
-import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkLowLevel.MotorType;
+import com.revrobotics.CANSparkMax;
 
-import edu.wpi.first.wpilibj.DigitalOutput;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class Intake extends SubsystemBase {
     
     private CANSparkMax bottomIntake;
     private CANSparkMax topIntake;
+    private double upMax;
+    private double downMax;
 
-    private CANSparkMax flip;
-    private CANcoder canCoder;
-
-    private DigitalOutput upperSensor;
-    private DigitalOutput lowerSensor;
-
-    private boolean done;
-    private boolean down;
 
     public Intake(){
         bottomIntake = new CANSparkMax(RobotMap.BOTTOM_INTAKE_ID, MotorType.kBrushless);
         topIntake = new CANSparkMax(RobotMap.TOP_INTAKE_ID, MotorType.kBrushless);
+        topIntake.setSmartCurrentLimit(RobotMap.INTAKE_CURRENT_LIMIT);
+        bottomIntake.setSmartCurrentLimit(RobotMap.INTAKE_CURRENT_LIMIT);
+        topIntake.burnFlash();
+        bottomIntake.burnFlash();
+        // upMax = 0.0;
+        // downMax = 0.0;
 
-        //flip = new CANSparkMax(RobotMap.FLIP_INTAKE_ID, MotorType.kBrushless);
-        //canCoder.clearStickyFault_BadMagnet();
-        //canCoder.getConfigurator().apply(new CANcoderConfiguration());
-
-        //upperSensor = new DigitalOutput(RobotMap.INTAKE_UPPER_SENSOR_CHANNEL);
-        //lowerSensor = new DigitalOutput(RobotMap.INTAKE_LOWER_SENSOR_CHANNEL);
-
-        down = false;
-    }
-
-    public boolean canCoderDown(){
-        return canCoder.getAbsolutePosition().getValueAsDouble() >= RobotMap.FLIP_DOWN_VALUE || lowerSensor.get();
-    }
-
-    public boolean canCoderUp(){
-        return canCoder.getAbsolutePosition().getValueAsDouble() >= RobotMap.FLIP_UP_VALUE || upperSensor.get();
     }
 
     public void in(){
-        bottomIntake.set(-RobotMap.INTAKE_SPEED);
-        topIntake.set(RobotMap.INTAKE_SPEED);
+        bottomIntake.set(RobotMap.LOWER_INTAKE_SPEED);
+        topIntake.set(-RobotMap.UPPER_INTAKE_SPEED);
     }
 
     public void out(){
-        bottomIntake.set(RobotMap.INTAKE_SPEED);
-        topIntake.set(-RobotMap.INTAKE_SPEED);
+        bottomIntake.set(-RobotMap.LOWER_INTAKE_SPEED);
+        topIntake.set(RobotMap.UPPER_INTAKE_SPEED);
     }
 
-    public void endIntake(){
+    public void end(){
         bottomIntake.set(0);
         topIntake.set(0);
     }
 
-    public void flipUp(){
-        flip.set(-RobotMap.FLIP_SPEED);
+    public void resetDash(){
+        downMax = 0.0;
+        upMax = 0.0;
     }
 
-    public void flipDown(){
-        flip.set(RobotMap.FLIP_SPEED);
-    }
-
-    public void endFlip(){
-        flip.set(0);
-    }
-
-    public boolean getDown(){
-        return down;
-    }
-
-    public void setDown(boolean down){
-        this.down = down;
+    @Override
+    public void periodic(){
+        SmartDashboard.putNumber("Top Intake RPM", topIntake.getEncoder().getVelocity());
+        SmartDashboard.putNumber("Bottom Intake RPM", bottomIntake.getEncoder().getVelocity());
+        SmartDashboard.putNumber("Top Intake Current", topIntake.getOutputCurrent());
+        SmartDashboard.putNumber("Bottom Intake Current", bottomIntake.getOutputCurrent());
+        SmartDashboard.putNumber("Top Intake Voltage", topIntake.getBusVoltage());
+        SmartDashboard.putNumber("Bottom Intake Voltage", bottomIntake.getBusVoltage());
+        // SmartDashboard.putBoolean("Intake Down?", getDown());
+        // SmartDashboard.putNumber("Intake Angle", canCoder.getAbsolutePosition().getValueAsDouble());
+        // double currentUp = topIntake.getOutputCurrent();
+        // double currentDown = bottomIntake.getOutputCurrent();
+        // if (currentDown>downMax){
+        //     downMax = currentDown;
+        // }
+        // if (currentUp>upMax){
+        //     upMax = currentUp;
+        // }
     }
 }

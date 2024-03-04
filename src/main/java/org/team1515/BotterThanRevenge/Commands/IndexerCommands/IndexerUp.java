@@ -1,4 +1,4 @@
-package org.team1515.BotterThanRevenge.Commands;
+package org.team1515.BotterThanRevenge.Commands.IndexerCommands;
 
 import edu.wpi.first.wpilibj2.command.Command;
 

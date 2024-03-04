@@ -1,4 +1,4 @@
-package org.team1515.BotterThanRevenge.Commands;
+package org.team1515.BotterThanRevenge.Commands.IntakeCommands;
 
 import edu.wpi.first.wpilibj2.command.Command;
 
@@ -15,7 +15,7 @@ public class AutoIntakeIn extends Command {
         this.intake = intake;
         this.indexer = indexer;
         this.time = 1000; // 1000 seconds will not be reached
-        //addRequirements(intake);
+        addRequirements(intake);
         addRequirements(indexer);
     }
 
@@ -45,7 +45,7 @@ public class AutoIntakeIn extends Command {
 
     @Override
     public void end(boolean interrupted) {
-        intake.endIntake();
+        intake.end();
         indexer.end();
     }
 }

@@ -15,16 +15,18 @@ public class DefaultDriveCommand extends Command {
     private DoubleSupplier translationSup;
     private DoubleSupplier strafeSup;
     private DoubleSupplier rotationSup;
+    private DoubleSupplier directionSup;
     private BooleanSupplier robotCentricSup;
 
     public DefaultDriveCommand(Drivetrain drivetrain, DoubleSupplier translationSup, DoubleSupplier strafeSup,
-            DoubleSupplier rotationSup, BooleanSupplier robotCentricSup) {
+            DoubleSupplier rotationSup, DoubleSupplier directionSup, BooleanSupplier robotCentricSup) {
         this.drivetrain = drivetrain;
         addRequirements(drivetrain);
 
         this.translationSup = translationSup;
         this.strafeSup = strafeSup;
         this.rotationSup = rotationSup;
+        this.directionSup = directionSup;
         this.robotCentricSup = robotCentricSup;
     }
 
@@ -34,11 +36,22 @@ public class DefaultDriveCommand extends Command {
         double translationVal = translationSup.getAsDouble();
         double strafeVal = strafeSup.getAsDouble();
         double rotationVal = rotationSup.getAsDouble();
+        double direction = directionSup.getAsDouble();
         /* Drive */
-        drivetrain.drive(
-                new Translation2d(translationVal, strafeVal).times(SwerveConstants.Swerve.maxSpeed),
+        //only change direction if driving robot centric
+        if (robotCentricSup.getAsBoolean()){
+            drivetrain.drive(
+                new Translation2d(direction*translationVal, direction*strafeVal).times(SwerveConstants.Swerve.maxSpeed),
                 rotationVal * SwerveConstants.Swerve.maxAngularVelocity,
                 !robotCentricSup.getAsBoolean(),
                 true);
+        }
+        else{
+            drivetrain.drive(
+                    new Translation2d(translationVal, strafeVal).times(SwerveConstants.Swerve.maxSpeed),
+                    rotationVal * SwerveConstants.Swerve.maxAngularVelocity,
+                    !robotCentricSup.getAsBoolean(),
+                    true);
+        }
     }
 }
