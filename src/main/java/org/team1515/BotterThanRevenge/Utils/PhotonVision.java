@@ -106,7 +106,7 @@ public class PhotonVision {
     public double getAngle(){
         var result = camera.getLatestResult();
         if (result.hasTargets()){
-            return result.getBestTarget().getYaw();
+            return Units.degreesToRadians(result.getBestTarget().getYaw());
         }
         return 0.0;
     }

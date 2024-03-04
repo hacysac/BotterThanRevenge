@@ -37,7 +37,6 @@ public class driveSegment extends Command {
         this.drivetrain = drivetrain;
         this.originalPose = startPose;
         this.end = end;
-        //this.ramp = ramp;
         this.speed = speed;
 
         this.angle = theta;
