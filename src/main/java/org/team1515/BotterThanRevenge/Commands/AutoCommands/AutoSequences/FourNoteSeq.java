@@ -68,13 +68,8 @@ public class FourNoteSeq extends SequentialCommandGroup{
         
         //FEED PIECE: run indexer 0.5 seconds?
         addCommands(Commands.parallel(
-<<<<<<< HEAD
-                new AutoFeed(indexer, 0.75),
-                new FlipDown(flip, false)
-=======
                 new AutoFeed(indexer, RobotMap.AUTO_FEED_TIME),
                 new FlipDown(flip)
->>>>>>> b3c20e7 (variables exsist)
         ));
         //end shooter and indexer
         
@@ -105,13 +100,8 @@ public class FourNoteSeq extends SequentialCommandGroup{
 
         //FEED PIECE: run indexer 0.5 seconds?
         addCommands(Commands.parallel(
-<<<<<<< HEAD
-                new AutoFeed(indexer, 0.75),
-                new FlipDown(flip, false)
-=======
                 new AutoFeed(indexer, RobotMap.AUTO_FEED_TIME),
                 new FlipDown(flip)
->>>>>>> b3c20e7 (variables exsist)
         ));
         //end shooter and indexer
         

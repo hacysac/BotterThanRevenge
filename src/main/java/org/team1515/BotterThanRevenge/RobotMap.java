@@ -81,6 +81,8 @@ public class RobotMap {
     public static final double FLIP_UP_VALUE = 1000; //TODO
     public static final double FLIP_TOP_VALUE = 1000; //TODO
     public static final double FLIP_MID_VALUE = 0.5; //TODO
+    public static final double FLIP_MID_OFFSET = 0.24; //TODO
+    public static final double FLIP_DOWN_OFFSET = 0.49; //TODO
 
     //Climber
     public static final int L_CLIMBER_ID = 26;
