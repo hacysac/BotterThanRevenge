@@ -132,7 +132,7 @@ public class RobotContainer {
     Controls.FLIP_UP.onTrue(new FlipUp(flip));
     Controls.FLIP_DOWN.onTrue(new FlipDown(flip));
     // Indexer
-    Controls.INDEXER_UP.whileTrue(Commands.parallel(new IndexerUp(indexer), new FlipDown(flip, false)));
+    Controls.INDEXER_UP.whileTrue(new IndexerUp(indexer));
     Controls.INDEXER_DOWN.whileTrue(new IndexerDown(indexer));
 
     //Climber

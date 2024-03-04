@@ -6,32 +6,19 @@ import org.team1515.BotterThanRevenge.Subsystems.Flip;
 
 public class FlipDown extends Command {
     private final Flip flip; 
-    private boolean runWhileUp;
 
     public FlipDown(Flip flip) {
         this.flip = flip;
-        this.runWhileUp = true;
-        addRequirements(flip);
-    }
-
-    public FlipDown(Flip flip, boolean runWhileUp) {
-        this.flip = flip;
-        this.runWhileUp = runWhileUp;
         addRequirements(flip);
     }
 
     @Override
     public void initialize() {
-        if (runWhileUp){
-            flip.setUp(false);
-        }
+        flip.setUp(false);
     }
 
     @Override
     public void execute() {
-        if (runWhileUp || !flip.getUpState()){
-            flip.flipDown();
-        }
     }
 
     @Override
