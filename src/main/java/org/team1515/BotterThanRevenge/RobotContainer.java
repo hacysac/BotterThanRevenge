@@ -64,7 +64,7 @@ public class RobotContainer {
   public double direction = 1;
 
   public static SendableChooser<Command> AutoChooser = new SendableChooser<>();
-
+  
   public RobotContainer() {
     mainController = new XboxController(0);
     secondController = new XboxController(1);
@@ -131,10 +131,8 @@ public class RobotContainer {
     //Controls.FLIP.onTrue(new SetFlip(flip));
     Controls.FLIP_UP.onTrue(new FlipUp(flip));
     Controls.FLIP_DOWN.onTrue(new FlipDown(flip));
-    
     // Indexer
     Controls.INDEXER_UP.whileTrue(Commands.parallel(new IndexerUp(indexer), new FlipDown(flip, false)));
-    //force the intake back down
     Controls.INDEXER_DOWN.whileTrue(new IndexerDown(indexer));
 
     //Climber

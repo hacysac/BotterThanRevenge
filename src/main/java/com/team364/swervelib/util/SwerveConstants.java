@@ -1,4 +1,4 @@
-package com.team364.swervelib.util;
+    package com.team364.swervelib.util;
 
 import com.ctre.phoenix6.signals.InvertedValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
