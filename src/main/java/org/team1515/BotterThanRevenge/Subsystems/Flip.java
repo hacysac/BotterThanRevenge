@@ -84,29 +84,34 @@ public class Flip extends SubsystemBase{
     }
 
     public void flipUp(){
-        if (belowMid()){
+        if (getCANCoderValue() < topValue-0.3){
             offset = -RobotMap.FLIP_UP_SPEED;
         }
         else{
-            offset = -RobotMap.FLIP_UP_SPEED/2;
+            offset = -RobotMap.FLIP_UP_SPEED/2.5;
         }
     }
 
     public void flipDown(){
-        offset = RobotMap.FLIP_DOWN_SPEED;
+        if (getCANCoderValue() > lowValue+0.25){
+            offset = RobotMap.FLIP_DOWN_SPEED;
+        }
+        else{
+            offset = RobotMap.FLIP_DOWN_SPEED/2.5;
+        }
     }
 
     public double getCANCoderValue(){
         //looping
-        //return 0.5+canCoder.getAbsolutePosition().getValueAsDouble();
+        return 0.5+canCoder.getAbsolutePosition().getValueAsDouble();
 
         //no looping
-        if (canCoder.getAbsolutePosition().getValueAsDouble() < 0){
-            return 1+canCoder.getAbsolutePosition().getValueAsDouble();
-        }
-        else{
-            return canCoder.getAbsolutePosition().getValueAsDouble();
-        }
+        // if (canCoder.getAbsolutePosition().getValueAsDouble() < 0){
+        //     return 1+canCoder.getAbsolutePosition().getValueAsDouble();
+        // }
+        // else{
+        //     return canCoder.getAbsolutePosition().getValueAsDouble();
+        // }
     }
 
     public void end(){

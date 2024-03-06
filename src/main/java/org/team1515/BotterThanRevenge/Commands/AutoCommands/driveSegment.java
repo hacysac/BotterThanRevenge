@@ -90,6 +90,7 @@ public class driveSegment extends Command {
         j = dy/mag; //unit vector j component
 
         this.t = (mag/speed) * 1000;
+        System.out.println(speed);
         angleController.setSetpoint(MathUtil.angleModulus(getAngle()));
     }
 

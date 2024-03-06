@@ -31,7 +31,7 @@ public class TwoAmpSeq extends SequentialCommandGroup{
         double finalPoseY = direction*(RobotMap.SUBWOOFER_TO_AMP - (RobotMap.CHASSIS_WIDTH + 2*RobotMap.BUMPER_WIDTH)); //assuming red
         Pose2d amp = new Pose2d(new Translation2d(Units.inchesToMeters(RobotMap.WALL_TO_AMP + RobotMap.AUTO_OFFSET - (0.5*RobotMap.CHASSIS_WIDTH + RobotMap.BUMPER_WIDTH)), Units.inchesToMeters(finalPoseY)), new Rotation2d(0.0));
         
-        double noteToAmpX = -(Units.inchesToMeters(RobotMap.NOTE_TO_AMP_X) - 0.5*RobotMap.CHASSIS_WIDTH);
+        double noteToAmpX = -Units.inchesToMeters(RobotMap.NOTE_TO_AMP_X - 0.5*RobotMap.CHASSIS_WIDTH);
         double noteToAmpY = -direction * (Units.inchesToMeters(RobotMap.NOTE_TO_AMP_Y - 0.5*RobotMap.CHASSIS_WIDTH - 2*RobotMap.BUMPER_WIDTH)+10); // TODO
         double ampToCenter = Units.inchesToMeters(RobotMap.AMP_TO_CENTER - RobotMap.CHASSIS_WIDTH - (2*RobotMap.BUMPER_WIDTH) - RobotMap.INTAKE_OFFSET); //TODO find
         

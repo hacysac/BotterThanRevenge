@@ -4,6 +4,7 @@ package org.team1515.BotterThanRevenge.Commands.AutoCommands.AutoSequences;
 import java.util.function.DoubleSupplier;
 
 import org.team1515.BotterThanRevenge.RobotMap;
+import org.team1515.BotterThanRevenge.Commands.AutoCommands.driveArcLength;
 import org.team1515.BotterThanRevenge.Commands.AutoCommands.driveSegment;
 import org.team1515.BotterThanRevenge.Commands.IndexerCommands.AutoFeed;
 import org.team1515.BotterThanRevenge.Commands.IntakeCommands.AutoIntakeIn;
@@ -15,6 +16,7 @@ import org.team1515.BotterThanRevenge.Subsystems.Indexer;
 import org.team1515.BotterThanRevenge.Subsystems.Intake;
 import org.team1515.BotterThanRevenge.Subsystems.Shooter;
 import org.team1515.BotterThanRevenge.Utils.Point;
+import org.team1515.BotterThanRevenge.Utils.bezierUtil;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -140,13 +142,19 @@ public class FourNoteSeq extends SequentialCommandGroup{
 
         angle = ()->Units.degreesToRadians(0.0);
         time = 3;
-        speed = subwooferToCenter/time;
 
         //DRIVE TO CENTER + end shooter
         addCommands(new InstantCommand(()->shooter.end()));
         startPoint = subwoofer;
         finalPoint = new Point(subwooferToCenter, 0);
         //addCommands(new driveSegment(drivetrain, angle, finalPoint, speed, startPoint, true));
+        Point[] centerPath = {
+                new Point(0, 0),
+                new Point(Units.inchesToMeters(subwooferToCenter/2), direction * Units.inchesToMeters(24)), 
+                finalPoint
+            };
+        centerPath = bezierUtil.spacedPoints(centerPath, 50);
+        addCommands(new driveArcLength(drivetrain, centerPath, time, angle, startPoint));   
         //end all
     }
 }
