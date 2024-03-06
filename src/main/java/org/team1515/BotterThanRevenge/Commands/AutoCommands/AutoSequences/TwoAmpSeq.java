@@ -35,18 +35,14 @@ public class TwoAmpSeq extends SequentialCommandGroup{
         double noteToAmpY = -direction * (Units.inchesToMeters(RobotMap.NOTE_TO_AMP_Y - 0.5*RobotMap.CHASSIS_WIDTH - 2*RobotMap.BUMPER_WIDTH)+10); // TODO
         double ampToCenter = Units.inchesToMeters(RobotMap.AMP_TO_CENTER - RobotMap.CHASSIS_WIDTH - (2*RobotMap.BUMPER_WIDTH) - RobotMap.INTAKE_OFFSET); //TODO find
         
-        Point[] path = {
-            new Point(0, 0),
-            new Point(Units.inchesToMeters(53.5), direction * Units.inchesToMeters(2.3)), 
-            new Point(amp.getX(), amp.getY())
-        };
-        path = bezierUtil.spacedPoints(path, 25);
         DoubleSupplier angle = () -> Units.degreesToRadians(direction*90.0); //make sure intake is forward
         
         //start shooter speed up
-        //BEZIER
+        //GO TO AMP
+        Pose2d startPoint = new Pose2d();
+        Point finalPoint = new Point(RobotMap.WALL_TO_AMP, RobotMap.SUBWOOFER_TO_AMP);
         addCommands(Commands.parallel(
-            new driveArcLength(drivetrain, path, 3.5, angle),
+            new driveSegment(drivetrain, angle, finalPoint, ampToCenter, startPoint),
             new InstantCommand(()->shooter.shoot(RobotMap.AMP_SPEED)),
             new FlipUp(flip)
         ));
@@ -66,8 +62,8 @@ public class TwoAmpSeq extends SequentialCommandGroup{
         double speed = dist/time;
 
         //DRIVE BACK
-        Pose2d startPoint = amp;
-        Point finalPoint = new Point(-noteToAmpX, -noteToAmpY);
+        startPoint = amp;
+        finalPoint = new Point(-noteToAmpX, -noteToAmpY);
         addCommands(Commands.parallel(
             new driveSegment(drivetrain, angle, finalPoint, speed, startPoint, true),
             new AutoIntakeIn(intake, indexer, RobotMap.AUTO_INTAKE_TIME)
