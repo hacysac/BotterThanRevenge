@@ -154,7 +154,7 @@ public class FourNoteSeq extends SequentialCommandGroup{
                 finalPoint
             };
         centerPath = bezierUtil.spacedPoints(centerPath, 50);
-        addCommands(new driveArcLength(drivetrain, centerPath, time, angle, startPoint));   
+        //addCommands(new driveArcLength(drivetrain, centerPath, time, angle, startPoint));   
         //end all
     }
 }
