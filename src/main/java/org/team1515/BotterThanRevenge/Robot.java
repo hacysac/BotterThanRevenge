@@ -4,6 +4,8 @@
 
 package org.team1515.BotterThanRevenge;
 
+import org.team1515.BotterThanRevenge.Commands.IntakeCommands.FlipUp;
+
 import com.team364.swervelib.util.CTREConfigs;
 
 import edu.wpi.first.wpilibj.TimedRobot;
@@ -58,6 +60,10 @@ public class Robot extends TimedRobot {
     if (m_autonomousCommand != null) {
       m_autonomousCommand.cancel();
     }
+
+    //schedual an initial flip up command
+    FlipUp flipUpCommand = new FlipUp(RobotContainer.flip);
+    flipUpCommand.schedule();
   }
 
   @Override

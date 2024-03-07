@@ -122,6 +122,9 @@ public class RobotContainer {
     Controls.CHANGE_DIRECTION.onTrue(new InstantCommand(()->direction = -direction));
     //Controls.ROTATE_ANGLE_TARGET.onTrue(new RotateAngle(drivetrain, angle));
 
+    DoubleSupplier zeroAngle = () -> -Units.degreesToRadians(gyro.getYaw());
+    Controls.ZERO_ROBOT.onTrue(new RotateAngle(drivetrain, zeroAngle));
+
     //Intake
     Controls.AUTO_INTAKE.toggleOnTrue(new AutoIntakeIn(intake, indexer)); // infinite until sensor
     Controls.INTAKE.whileTrue(new IntakeIn(intake));

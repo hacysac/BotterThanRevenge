@@ -9,6 +9,7 @@ public class Controls {
     public static final Trigger DRIVE_ROBOT_ORIENTED = new Trigger(RobotContainer.mainController::getLeftBumper);
     public static final Trigger CANCEL_ALL = new Trigger(RobotContainer.secondController::getBackButton);
     public static final Trigger ROTATE_ANGLE_TARGET = new Trigger(RobotContainer.mainController::getBButton);
+    public static final Trigger ZERO_ROBOT = new Trigger(RobotContainer.mainController::getAButton);
 
     public static final Trigger CLIMBER_UP = new Trigger(Controls::getFirstDpadUp);
     public static final Trigger CLIMBER_DOWN = new Trigger(Controls::getFirstDpadDown);
