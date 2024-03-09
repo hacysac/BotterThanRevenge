@@ -80,12 +80,12 @@ public class Shooter extends SubsystemBase {
     }
     @Override
     public void periodic(){
-        SmartDashboard.putNumber("Shooter Left RPM", getLeft());
-        SmartDashboard.putNumber("Shooter Right RPM", getRight());
-        SmartDashboard.putNumber("Shooter Left Current", lShooter.getOutputCurrent());
-        SmartDashboard.putNumber("Shooter Right Current", rShooter.getOutputCurrent());
-        SmartDashboard.putNumber("Shooter Left Voltage", lShooter.getBusVoltage());
-        SmartDashboard.putNumber("Shooter Right Voltage", rShooter.getBusVoltage());
+        // SmartDashboard.putNumber("Shooter Left RPM", getLeft());
+        // SmartDashboard.putNumber("Shooter Right RPM", getRight());
+        // SmartDashboard.putNumber("Shooter Left Current", lShooter.getOutputCurrent());
+        // SmartDashboard.putNumber("Shooter Right Current", rShooter.getOutputCurrent());
+        // SmartDashboard.putNumber("Shooter Left Voltage", lShooter.getBusVoltage());
+        // SmartDashboard.putNumber("Shooter Right Voltage", rShooter.getBusVoltage());
         SmartDashboard.putBoolean("Amp", getAmp());
         SmartDashboard.putBoolean("Speaker", getSpeaker());
 

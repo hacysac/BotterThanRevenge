@@ -30,7 +30,7 @@ public class FourNoteSeq extends SequentialCommandGroup{
     public FourNoteSeq(Drivetrain drivetrain, Shooter shooter, Indexer indexer, Intake intake, Flip flip, double direction){
         Pose2d subwoofer = new Pose2d(new Translation2d(0,0), new Rotation2d(0.0)); //Starting from subwoofer
         
-        double subwooferToNoteX = Units.inchesToMeters(RobotMap.SUBWOOFER_TO_NOTE - RobotMap.CHASSIS_WIDTH - (2*RobotMap.BUMPER_WIDTH));
+        double subwooferToNoteX = Units.inchesToMeters(RobotMap.SUBWOOFER_TO_NOTE - RobotMap.CHASSIS_WIDTH - (RobotMap.BUMPER_WIDTH));
         double subwooferToNoteY = -direction * Units.inchesToMeters(RobotMap.NOTE_TO_NOTE - (0.5 * RobotMap.CHASSIS_WIDTH));
         double subwooferToCenter = Units.inchesToMeters(RobotMap.SUBWOOFER_TO_CENTER - RobotMap.CHASSIS_WIDTH - (2*RobotMap.BUMPER_WIDTH));
     
@@ -97,7 +97,7 @@ public class FourNoteSeq extends SequentialCommandGroup{
         
         //DRIVE DIAGONAL FORWARD + flip up + start shooter
         startPoint = new Pose2d(new Translation2d(subwoofer.getX()+finalPoint.x, subwoofer.getY()+finalPoint.y), new Rotation2d(150.0));
-        finalPoint = new Point(-subwooferToNoteX, -subwooferToNoteY);
+        finalPoint = new Point(-(subwooferToNoteX+Units.inchesToMeters(3)), -subwooferToNoteY);
         addCommands(new driveSegment(drivetrain, angle, finalPoint, speed, startPoint, true));
 
         //FEED PIECE: run indexer 0.5 seconds?
@@ -129,7 +129,7 @@ public class FourNoteSeq extends SequentialCommandGroup{
         
         //DRIVE DIAGONAL FORWARD + flip up + start shooter
         startPoint = new Pose2d(new Translation2d(subwoofer.getX()+finalPoint.x, subwoofer.getY()+finalPoint.y), new Rotation2d(150.0));
-        finalPoint = new Point(-subwooferToNoteX, subwooferToNoteY);
+        finalPoint = new Point(-(subwooferToNoteX+Units.inchesToMeters(3)), subwooferToNoteY);
         addCommands(new driveSegment(drivetrain, angle, finalPoint, speed, startPoint, true));
         
         //FEED PIECE: run indexer 0.5 seconds?
@@ -153,8 +153,11 @@ public class FourNoteSeq extends SequentialCommandGroup{
                 new Point(Units.inchesToMeters(subwooferToCenter/2), direction * Units.inchesToMeters(24)), 
                 finalPoint
             };
-        centerPath = bezierUtil.spacedPoints(centerPath, 50);
-        //addCommands(new driveArcLength(drivetrain, centerPath, time, angle, startPoint));   
+        // centerPath = bezierUtil.spacedPoints(centerPath, 50);
+        // addCommands(Commands.parallel(
+        //         new driveArcLength(drivetrain, centerPath, time, angle, startPoint),
+        //         new AutoIntakeIn(intake, indexer, 3.75)
+        // ));
         //end all
     }
 }

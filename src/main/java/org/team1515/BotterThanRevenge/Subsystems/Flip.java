@@ -144,19 +144,19 @@ public class Flip extends SubsystemBase{
         //midOffset = SmartDashboard.getNumber("Intake MidOffset", 0.24);
         //lowOffset = SmartDashboard.getNumber("Intake LowOffset", 0.51);
 
-        if (belowMid() && offset==0){
-            flip.set(constantSpeed);
-        }
-        else{
+        // if (belowMid() && offset==0){
+        //     flip.set(constantSpeed);
+        // }
+        //else{
             flip.set(offset);
-        }
+        //}
 
         SmartDashboard.putNumber("Calulated Intake Angle", getCANCoderValue());
         //SmartDashboard.putNumber("Absolute Intake Angle", canCoder.getAbsolutePosition().getValueAsDouble());
 
-        SmartDashboard.putNumber("Intake TopValue", topValue);
-        SmartDashboard.putNumber("Intake MidValue", midValue);
-        SmartDashboard.putNumber("Intake LowValue", lowValue);
+        // SmartDashboard.putNumber("Intake TopValue", topValue);
+        // SmartDashboard.putNumber("Intake MidValue", midValue);
+        // SmartDashboard.putNumber("Intake LowValue", lowValue);
 
         // SmartDashboard.putNumber("CurrentOffset", topValue - getCANCoderValue());
         // SmartDashboard.putNumber("LowOffset", lowOffset);

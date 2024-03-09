@@ -62,8 +62,8 @@ public class Robot extends TimedRobot {
     }
 
     //schedual an initial flip up command
-    FlipUp flipUpCommand = new FlipUp(RobotContainer.flip);
-    flipUpCommand.schedule();
+    // FlipUp flipUpCommand = new FlipUp(RobotContainer.flip);
+    // flipUpCommand.schedule();
   }
 
   @Override

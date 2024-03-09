@@ -3,9 +3,11 @@ package org.team1515.BotterThanRevenge.Subsystems;
 import org.team1515.BotterThanRevenge.RobotMap;
 
 import com.revrobotics.CANSparkBase;
+import com.revrobotics.CANSparkLowLevel.MotorType;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
-import com.revrobotics.CANSparkLowLevel.MotorType;
+import com.revrobotics.SparkLimitSwitch;
+import com.revrobotics.SparkLimitSwitch.Type;
 
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -15,8 +17,8 @@ public class Climber extends SubsystemBase {
     private CANSparkMax rClimber;
     private CANSparkMax lClimber;
 
-    private DigitalInput lSensor;
-    private DigitalInput rSensor;
+    private SparkLimitSwitch lSensor;
+    private SparkLimitSwitch rSensor;
 
     private RelativeEncoder rEncoder;
     private RelativeEncoder lEncoder;
@@ -31,8 +33,8 @@ public class Climber extends SubsystemBase {
         rClimber.burnFlash();
         lClimber.burnFlash();
 
-        // lSensor = new DigitalInput(RobotMap.L_CLIMBER_SENSOR_CHANNEL);
-        // rSensor = new DigitalInput(RobotMap.R_CLIMBER_SENSOR_CHANNEL);
+        lSensor = lClimber.getReverseLimitSwitch(Type.kNormallyOpen);
+        rSensor = rClimber.getReverseLimitSwitch(Type.kNormallyOpen);
 
         lEncoder = lClimber.getEncoder();
         rEncoder = rClimber.getEncoder();
@@ -40,55 +42,57 @@ public class Climber extends SubsystemBase {
     } 
 
     public void up(){
-        // if (lEncoder.getPosition() < RobotMap.CLIMBER_EXTENTION_LIMIT){
+        if (lEncoder.getPosition() < RobotMap.CLIMBER_EXTENTION_LIMIT){
             lClimber.set(RobotMap.CLIMBER_UP_SPEED);
-        // }
-        // else{
-            //lClimber.set(0);
-        // }
-        // if (rEncoder.getPosition() < RobotMap.CLIMBER_EXTENTION_LIMIT){
+        }
+        else{
+            lClimber.set(0);
+        }
+        if (rEncoder.getPosition() < RobotMap.CLIMBER_EXTENTION_LIMIT){
             rClimber.set(RobotMap.CLIMBER_UP_SPEED);
-        // }
-        // else{
-        //     rClimber.set(0);
-        // }
+        }
+        else{
+            rClimber.set(0);
+        }
     }
 
     public void down(){
-        // if (!lSensor.get()){
+        if (!lSensor.isPressed()){
+            //System.out.print(lSensor.get());
             lClimber.set(-RobotMap.CLIMBER_DOWN_SPEED);
-        // }
-        // else{
-        //     lClimber.set(0);
-        //     lEncoder.setPosition(0);
-        // }
-        // if(!rSensor.get()){
+        }
+        else{
+            lClimber.set(0);
+            lEncoder.setPosition(0);
+        }
+        if(!rSensor.isPressed()){
+            //System.out.print(rSensor.get());
             rClimber.set(-RobotMap.CLIMBER_DOWN_SPEED);
-        // }
-        // else{
-        //     rClimber.set(0);
-        //     rEncoder.setPosition(0);
-        // }
+        }
+        else{
+            rClimber.set(0);
+            rEncoder.setPosition(0);
+        }
     }
 
     public void lDown(){
-        // if (!lSensor.get()){
+        if (!lSensor.isPressed()){
             lClimber.set(-RobotMap.CLIMBER_DOWN_SPEED);
-        // }
-        // else{
-        //     lClimber.set(0);
-        //     lEncoder.setPosition(0);
-        // }
+        }
+        else{
+            lClimber.set(0);
+            lEncoder.setPosition(0);
+        }
     }
 
     public void rDown(){
-        // if (!rSensor.get()){
+        if (!rSensor.isPressed()){
             rClimber.set(-RobotMap.CLIMBER_DOWN_SPEED);
-        // }
-        // else{
-        //     rClimber.set(0);
-        //     rEncoder.setPosition(0);
-        // }
+        }
+        else{
+            rClimber.set(0);
+            rEncoder.setPosition(0);
+        }
     }
 
     public void end() {
@@ -102,7 +106,7 @@ public class Climber extends SubsystemBase {
     } 
 
     public boolean getDown() {
-        return (lSensor.get() && rSensor.get());
+        return (lSensor.isPressed() && rSensor.isPressed());
     }
 
     @Override

@@ -29,20 +29,23 @@ public class TwoAmpSeq extends SequentialCommandGroup{
      public TwoAmpSeq(Drivetrain drivetrain, Shooter shooter, Indexer indexer, Intake intake, Flip flip, double direction){
 
         double finalPoseY = -direction*(RobotMap.SUBWOOFER_TO_AMP - 0.5*RobotMap.CHASSIS_WIDTH); //assuming red
-        Pose2d amp = new Pose2d(new Translation2d(Units.inchesToMeters(RobotMap.WALL_TO_AMP - 0.5*RobotMap.CHASSIS_WIDTH - 2*RobotMap.BUMPER_WIDTH), Units.inchesToMeters(finalPoseY)), new Rotation2d(-direction*90.0));
+        Pose2d amp = new Pose2d(new Translation2d(Units.inchesToMeters(RobotMap.WALL_TO_AMP - 0.5*RobotMap.CHASSIS_WIDTH - 2*RobotMap.BUMPER_WIDTH), Units.inchesToMeters(finalPoseY)), new Rotation2d(0.0));
         
-        double noteToAmpX = -Units.inchesToMeters(RobotMap.NOTE_TO_AMP_X - 0.5*RobotMap.CHASSIS_WIDTH);
-        double noteToAmpY = -direction * (Units.inchesToMeters(RobotMap.NOTE_TO_AMP_Y - 0.5*RobotMap.CHASSIS_WIDTH - 2*RobotMap.BUMPER_WIDTH + 10)); // TODO
+        double noteToAmpX = -Units.inchesToMeters(RobotMap.NOTE_TO_AMP_X - 0.25*RobotMap.CHASSIS_WIDTH);
+        double noteToAmpY = -direction * Units.inchesToMeters(RobotMap.NOTE_TO_AMP_Y - 0.5*RobotMap.CHASSIS_WIDTH - 2*RobotMap.BUMPER_WIDTH + 10); // TODO
         double ampToCenter = Units.inchesToMeters(RobotMap.AMP_TO_CENTER - RobotMap.CHASSIS_WIDTH - (2*RobotMap.BUMPER_WIDTH) - RobotMap.INTAKE_OFFSET); //TODO find
         
         DoubleSupplier angle = () -> Units.degreesToRadians(direction*90.0); //make sure intake is forward
+        double time = 3;
+        double dist = Math.sqrt(Math.pow(amp.getX(), 2)+Math.pow(amp.getY(), 2));
+        double speed = dist/time;
         
         //start shooter speed up
         //GO TO AMP
-        Pose2d startPoint = new Pose2d();
+        Pose2d startPoint = new Pose2d(new Translation2d(0,0), new Rotation2d(0.0));
         Point finalPoint = new Point(amp.getX(), amp.getY());
         addCommands(Commands.parallel(
-            new driveSegment(drivetrain, angle, finalPoint, ampToCenter, startPoint),
+            new driveSegment(drivetrain, angle, finalPoint, speed, startPoint, true),
             new InstantCommand(()->shooter.shoot(RobotMap.AMP_SPEED)),
             new FlipUp(flip)
         ));
@@ -57,9 +60,9 @@ public class TwoAmpSeq extends SequentialCommandGroup{
         
         
         angle = () -> Units.degreesToRadians(-RobotMap.AUTO_NOTE_ANGLE_OFFSET*direction);
-        double time = 1;
-        double dist = Math.sqrt(Math.pow(noteToAmpX, 2)+Math.pow(noteToAmpY, 2));
-        double speed = dist/time;
+        time = 1;
+        dist = Math.sqrt(Math.pow(noteToAmpX, 2)+Math.pow(noteToAmpY, 2));
+        speed = dist/time;
 
         //DRIVE BACK
         startPoint = amp;

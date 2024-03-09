@@ -12,8 +12,6 @@ public class Intake extends SubsystemBase {
     
     private CANSparkMax bottomIntake;
     private CANSparkMax topIntake;
-    private double upMax;
-    private double downMax;
 
 
     public Intake(){
@@ -23,8 +21,6 @@ public class Intake extends SubsystemBase {
         bottomIntake.setSmartCurrentLimit(RobotMap.INTAKE_CURRENT_LIMIT);
         topIntake.burnFlash();
         bottomIntake.burnFlash();
-        // upMax = 0.0;
-        // downMax = 0.0;
 
     }
 
@@ -43,28 +39,23 @@ public class Intake extends SubsystemBase {
         topIntake.set(0);
     }
 
-    public void resetDash(){
-        downMax = 0.0;
-        upMax = 0.0;
-    }
-
-    @Override
-    public void periodic(){
-        SmartDashboard.putNumber("Top Intake RPM", topIntake.getEncoder().getVelocity());
-        SmartDashboard.putNumber("Bottom Intake RPM", bottomIntake.getEncoder().getVelocity());
-        SmartDashboard.putNumber("Top Intake Current", topIntake.getOutputCurrent());
-        SmartDashboard.putNumber("Bottom Intake Current", bottomIntake.getOutputCurrent());
-        SmartDashboard.putNumber("Top Intake Voltage", topIntake.getBusVoltage());
-        SmartDashboard.putNumber("Bottom Intake Voltage", bottomIntake.getBusVoltage());
-        // SmartDashboard.putBoolean("Intake Down?", getDown());
-        // SmartDashboard.putNumber("Intake Angle", canCoder.getAbsolutePosition().getValueAsDouble());
-        // double currentUp = topIntake.getOutputCurrent();
-        // double currentDown = bottomIntake.getOutputCurrent();
-        // if (currentDown>downMax){
-        //     downMax = currentDown;
-        // }
-        // if (currentUp>upMax){
-        //     upMax = currentUp;
-        // }
-    }
+    // @Override
+    // public void periodic(){
+    //     SmartDashboard.putNumber("Top Intake RPM", topIntake.getEncoder().getVelocity());
+    //     SmartDashboard.putNumber("Bottom Intake RPM", bottomIntake.getEncoder().getVelocity());
+    //     SmartDashboard.putNumber("Top Intake Current", topIntake.getOutputCurrent());
+    //     SmartDashboard.putNumber("Bottom Intake Current", bottomIntake.getOutputCurrent());
+    //     SmartDashboard.putNumber("Top Intake Voltage", topIntake.getBusVoltage());
+    //     SmartDashboard.putNumber("Bottom Intake Voltage", bottomIntake.getBusVoltage());
+    //     // SmartDashboard.putBoolean("Intake Down?", getDown());
+    //     // SmartDashboard.putNumber("Intake Angle", canCoder.getAbsolutePosition().getValueAsDouble());
+    //     // double currentUp = topIntake.getOutputCurrent();
+    //     // double currentDown = bottomIntake.getOutputCurrent();
+    //     // if (currentDown>downMax){
+    //     //     downMax = currentDown;
+    //     // }
+    //     // if (currentUp>upMax){
+    //     //     upMax = currentUp;
+    //     // }
+    // }
 }

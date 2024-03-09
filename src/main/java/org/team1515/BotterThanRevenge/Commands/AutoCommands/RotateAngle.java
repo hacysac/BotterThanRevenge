@@ -45,7 +45,7 @@ public class RotateAngle extends Command {
     @Override
     public void initialize() {
         angleController.setSetpoint(MathUtil.angleModulus(getAngle()));
-        System.out.println("Start: " + MathUtil.angleModulus(getAngle()));
+        //System.out.println("Start: " + MathUtil.angleModulus(getAngle()));
     }
 
     private double getAngle() {

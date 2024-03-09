@@ -55,7 +55,7 @@ public class RobotMap {
     public static final int L_SHOOTER_ID = 20;
     public static final int R_SHOOTER_ID = 21;
     public static final int SHOOTER_CURRENT_LIMIT = 35;
-    public static final double SPEAKER_SPEED = 0.8; // TODO
+    public static final double SPEAKER_SPEED = 0.7; // TODO
     public static final double AMP_SPEED = 0.175; // TODO
 
     // Indexer
@@ -78,15 +78,15 @@ public class RobotMap {
     public static final double FLIP_UP_SPEED = 0.3; //TODO
     public static final double FLIP_DOWN_SPEED = 0.15; //TODO should be less than ff value
     public static final double FLIP_MID_OFFSET = 0.24; //TODO
-    public static final double FLIP_DOWN_OFFSET = 0.49; //TODO
+    public static final double FLIP_DOWN_OFFSET = 0.51; //TODO
 
     //Climber
     public static final int L_CLIMBER_ID = 26;
     public static final int R_CLIMBER_ID = 27;
-    public static final int L_CLIMBER_SENSOR_CHANNEL = 0; //TODO
-    public static final int R_CLIMBER_SENSOR_CHANNEL = 1; //TODO
+    public static final int L_CLIMBER_SENSOR_CHANNEL = 1; //TODO
+    public static final int R_CLIMBER_SENSOR_CHANNEL = 0; //TODO
     public static final double CLIMBER_UP_SPEED = .7;
     public static final double CLIMBER_DOWN_SPEED = .5;
-    public static final double CLIMBER_EXTENTION_LIMIT = 23.5; //TODO
+    public static final double CLIMBER_EXTENTION_LIMIT = 1000; //TODO
     public static final int CLIMBER_CURRENT_LIMIT = 30;
 }
