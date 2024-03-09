@@ -88,6 +88,7 @@ public class TwoAmpSeq extends SequentialCommandGroup{
         speed = ampToCenter/time;
 
         //DRIVE TO CENTER
+        new InstantCommand(()->shooter.end());
         startPoint = amp;
         finalPoint = new Point(ampToCenter, 0);
         //addCommands(new driveSegment(drivetrain, angle, finalPoint, speed, startPoint, true));
