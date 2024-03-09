@@ -36,12 +36,31 @@ public class TwoNoteSeq extends SequentialCommandGroup{
         double subwooferToNoteX = Units.inchesToMeters(RobotMap.SUBWOOFER_TO_NOTE - RobotMap.CHASSIS_WIDTH - (RobotMap.BUMPER_WIDTH));
         //double subwooferToNoteY = -direction * Units.inchesToMeters(RobotMap.NOTE_TO_NOTE - (0.5 * RobotMap.CHASSIS_WIDTH));
         double subwooferToCenter = Units.inchesToMeters(RobotMap.SUBWOOFER_TO_CENTER - RobotMap.CHASSIS_WIDTH - (2*RobotMap.BUMPER_WIDTH));
-    
+        
+        Point[] path = {
+            new Point(0, 0),
+            new Point(Units.inchesToMeters(53.5), direction * Units.inchesToMeters(2.3)), 
+            new Point(subwoofer.getX(), subwoofer.getY())
+        };
+        path = bezierUtil.spacedPoints(path, 25);
         DoubleSupplier angle = () -> Units.degreesToRadians(0.0); //make sure shooter is forward
         
-        //start shooter + flip up to find offsets
-        addCommands(new FlipUp(flip));
-        addCommands(new InstantCommand(()->shooter.shoot(RobotMap.SPEAKER_SPEED)));
+        //start shooter speed up
+        //BEZIER
+        if (runBezier){
+            subwoofer = new Pose2d(new Translation2d(Units.inchesToMeters(RobotMap.SUBWOOFER_DEPTH + RobotMap.AUTO_OFFSET), Units.inchesToMeters(finalPoseY)), new Rotation2d(0.0));
+            addCommands(Commands.parallel(
+                new FlipUp(flip),
+                new InstantCommand(()->shooter.shoot(RobotMap.SPEAKER_SPEED)),
+                new driveArcLength(drivetrain, path, 3.5, angle)
+            ));
+        }
+        else{    
+            addCommands(Commands.parallel(
+                new FlipUp(flip),
+                new InstantCommand(()->shooter.shoot(RobotMap.SPEAKER_SPEED))
+            ));
+        }
         
         //FEED PIECE + FLIP DOWN: run indexer 0.5 seconds?
         addCommands(Commands.parallel(
