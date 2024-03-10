@@ -51,9 +51,9 @@ public class driveSegment extends Command {
         addRequirements(drivetrain);
     }
 
-    public driveSegment(Drivetrain drivetrain, DoubleSupplier theta, Point end, double speed, Pose2d startPose, boolean endSegment) {
+    public driveSegment(Drivetrain drivetrain, DoubleSupplier theta, Point finalPoint, double speed, Pose2d startPose, boolean endSegment) {
         this.drivetrain = drivetrain;
-        this.end = end;
+        this.end = finalPoint;
         this.originalPose = startPose;
         this.endSegment = endSegment;
 
