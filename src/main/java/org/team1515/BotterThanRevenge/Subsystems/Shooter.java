@@ -91,14 +91,8 @@ public class Shooter extends SubsystemBase {
 
         double currentLeft = lShooter.getOutputCurrent();
         double currentRight = rShooter.getOutputCurrent();
-        if (currentLeft>leftMax){
-            leftMax = currentLeft;
-        }
-        if (currentRight>rightMax){
-            rightMax = currentRight;
-        }
-        SmartDashboard.putNumber("Left Shooter Draw", leftMax);
-        SmartDashboard.putNumber("Right Shooter Draw", rightMax);
+        SmartDashboard.putNumber("Left Shooter Draw", currentLeft);
+        SmartDashboard.putNumber("Right Shooter Draw", currentRight);
 
     }
 }

@@ -39,23 +39,23 @@ public class Intake extends SubsystemBase {
         topIntake.set(0);
     }
 
-    // @Override
-    // public void periodic(){
-    //     SmartDashboard.putNumber("Top Intake RPM", topIntake.getEncoder().getVelocity());
-    //     SmartDashboard.putNumber("Bottom Intake RPM", bottomIntake.getEncoder().getVelocity());
-    //     SmartDashboard.putNumber("Top Intake Current", topIntake.getOutputCurrent());
-    //     SmartDashboard.putNumber("Bottom Intake Current", bottomIntake.getOutputCurrent());
-    //     SmartDashboard.putNumber("Top Intake Voltage", topIntake.getBusVoltage());
-    //     SmartDashboard.putNumber("Bottom Intake Voltage", bottomIntake.getBusVoltage());
-    //     // SmartDashboard.putBoolean("Intake Down?", getDown());
-    //     // SmartDashboard.putNumber("Intake Angle", canCoder.getAbsolutePosition().getValueAsDouble());
-    //     // double currentUp = topIntake.getOutputCurrent();
-    //     // double currentDown = bottomIntake.getOutputCurrent();
-    //     // if (currentDown>downMax){
-    //     //     downMax = currentDown;
-    //     // }
-    //     // if (currentUp>upMax){
-    //     //     upMax = currentUp;
-    //     // }
-    // }
+    @Override
+    public void periodic(){
+        // SmartDashboard.putNumber("Top Intake RPM", topIntake.getEncoder().getVelocity());
+        // SmartDashboard.putNumber("Bottom Intake RPM", bottomIntake.getEncoder().getVelocity());
+        SmartDashboard.putNumber("Top Intake Draw", topIntake.getOutputCurrent());
+        SmartDashboard.putNumber("Bottom Intake Draw", bottomIntake.getOutputCurrent());
+        // SmartDashboard.putNumber("Top Intake Voltage", topIntake.getBusVoltage());
+        // SmartDashboard.putNumber("Bottom Intake Voltage", bottomIntake.getBusVoltage());
+        // SmartDashboard.putBoolean("Intake Down?", getDown());
+        // SmartDashboard.putNumber("Intake Angle", canCoder.getAbsolutePosition().getValueAsDouble());
+        // double currentUp = topIntake.getOutputCurrent();
+        // double currentDown = bottomIntake.getOutputCurrent();
+        // if (currentDown>downMax){
+        //     downMax = currentDown;
+        // }
+        // if (currentUp>upMax){
+        //     upMax = currentUp;
+        // }
+    }
 }

@@ -85,19 +85,19 @@ public class Flip extends SubsystemBase{
 
     public void flipUp(){
         if (getCANCoderValue() < topValue-0.3){
-            offset = -RobotMap.FLIP_UP_SPEED;
+            flip.set(-RobotMap.FLIP_UP_SPEED);
         }
         else{
-            offset = -RobotMap.FLIP_UP_SPEED/2.5;
+            flip.set(-RobotMap.FLIP_UP_SPEED/2.5);
         }
     }
 
     public void flipDown(){
         if (getCANCoderValue() > lowValue+0.25){
-            offset = RobotMap.FLIP_DOWN_SPEED;
+            flip.set(RobotMap.FLIP_DOWN_SPEED);
         }
         else{
-            offset = RobotMap.FLIP_DOWN_SPEED/2.5;
+            flip.set(RobotMap.FLIP_DOWN_SPEED/2.5);
         }
     }
 
@@ -115,7 +115,7 @@ public class Flip extends SubsystemBase{
     }
 
     public void end(){
-        offset = 0;
+        flip.set(0);
     }
 
     public void setCurrentLowValue(){
@@ -148,7 +148,7 @@ public class Flip extends SubsystemBase{
         //     flip.set(constantSpeed);
         // }
         //else{
-            flip.set(offset);
+            //flip.set(offset);
         //}
 
         SmartDashboard.putNumber("Calulated Intake Angle", getCANCoderValue());
@@ -164,5 +164,7 @@ public class Flip extends SubsystemBase{
 
         //SmartDashboard.putBoolean("Intake Down?", getDown());
         SmartDashboard.putBoolean("Intake Up?", up);
+
+        SmartDashboard.putNumber("Flip Draw", flip.getOutputCurrent());
     }
 }
