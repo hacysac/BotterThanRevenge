@@ -7,4 +7,8 @@ public class Point {
         this.x = x;
         this.y = y;
     }
+    public void plus(Point p){
+        x+=p.x;
+        y+=p.y;
+    }
 }

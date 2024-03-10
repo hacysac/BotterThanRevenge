@@ -17,6 +17,8 @@ import org.team1515.BotterThanRevenge.Subsystems.Shooter;
 import org.team1515.BotterThanRevenge.Utils.Point;
 
 import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Transform2d;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
@@ -39,12 +41,14 @@ public class PassNotesSeq extends SequentialCommandGroup {
         //drive to center and pick up first note
         DoubleSupplier driveAngle = () -> Units.degreesToRadians(0.0);
         Point finalPoint = new Point(Units.inchesToMeters(RobotMap.ROBOT_STARTING_ZONE_WIDTH-((RobotMap.CHASSIS_WIDTH+RobotMap.BUMPER_WIDTH)/2)), 0);
+        Pose2d startPose = new Pose2d(0,0, new Rotation2d());
         double time = 3.0;
         double speed = finalPoint.x/time;
         addCommands(Commands.parallel(
-            new driveSegment(drivetrain, driveAngle, finalPoint, speed, new Pose2d(), true),
+            new driveSegment(drivetrain, driveAngle, finalPoint, speed, startPose, true),
             new AutoIntakeIn(intake, indexer, (time+.75)))
         );
+        startPose.plus(new Transform2d(finalPoint.x, finalPoint.y, new Rotation2d()));
         
         //turn around and shoot
         DoubleSupplier turnAround = () -> Units.degreesToRadians(180.0);
@@ -60,15 +64,17 @@ public class PassNotesSeq extends SequentialCommandGroup {
         double noteTime = 1.0;
         double noteSpeed = notePoint.y/noteTime;
         addCommands(Commands.parallel(
-            new driveSegment(drivetrain, driveAngle, notePoint, noteSpeed, new Pose2d(), true),
+            new driveSegment(drivetrain, driveAngle, notePoint, noteSpeed, startPose, true),
             new AutoIntakeIn(intake, indexer, RobotMap.AUTO_INTAKE_TIME))
         );
+        startPose.plus(new Transform2d(notePoint.x, notePoint.y, new Rotation2d()));
 
         //drive out from speaker
         Point passPoint = new Point(0, Units.inchesToMeters(direction*RobotMap.PASS_SPEAKER_OFFSET));
         double passTime = 1.0;
         double passSpeed = Math.abs(passPoint.y)/passTime;
-        addCommands(new driveSegment(drivetrain, driveAngle, passPoint, passSpeed, new Pose2d(), true));
+        addCommands(new driveSegment(drivetrain, driveAngle, passPoint, passSpeed, startPose, true));
+        startPose.plus(new Transform2d(passPoint.x, passPoint.y, new Rotation2d()));
 
         //turn to our field and shoot second note
         DoubleSupplier turnToAllies = () -> Units.degreesToRadians(direction*90.0);
@@ -82,18 +88,22 @@ public class PassNotesSeq extends SequentialCommandGroup {
         Point unpassPoint = new Point(0, -direction*RobotMap.PASS_SPEAKER_OFFSET);
         double unpassTime = 1.0;
         double unpassSpeed = Math.abs(unpassPoint.y)/unpassTime;
-        addCommands(new driveSegment(drivetrain, driveAngle, unpassPoint, unpassSpeed, new Pose2d(), true));
+        addCommands(new driveSegment(drivetrain, driveAngle, unpassPoint, unpassSpeed, startPose, true));
+        startPose.plus(new Transform2d(unpassPoint.x, unpassPoint.y, new Rotation2d()));
 
         //get third note
         addCommands(Commands.parallel(
-            new driveSegment(drivetrain, driveAngle, notePoint, noteSpeed, new Pose2d(), true),
+            new driveSegment(drivetrain, driveAngle, notePoint, noteSpeed, startPose, true),
             new AutoIntakeIn(intake, indexer, (time+.75)))
         );
+        startPose.plus(new Transform2d(notePoint.x, notePoint.y, new Rotation2d()));
 
         //drive out from speaker
         Point backNote = new Point(0, -direction*Units.inchesToMeters(RobotMap.CENTER_NOTE_TO_NOTE));
-        addCommands(new driveSegment(drivetrain, driveAngle, backNote, noteSpeed, new Pose2d(), true));
-        addCommands(new driveSegment(drivetrain, driveAngle, passPoint, passSpeed, new Pose2d(), true));
+        addCommands(new driveSegment(drivetrain, driveAngle, backNote, noteSpeed, startPose, true));
+        addCommands(new driveSegment(drivetrain, driveAngle, passPoint, passSpeed, startPose, true));
+        startPose.plus(new Transform2d(backNote.x, backNote.y, new Rotation2d()));
+        startPose.plus(new Transform2d(passPoint.x, passPoint.y, new Rotation2d()));
 
         // turn and fire third note
         addCommands(new RotateAngle(drivetrain, turnToAllies));
@@ -103,17 +113,22 @@ public class PassNotesSeq extends SequentialCommandGroup {
         addCommands(new RotateAngle(drivetrain, turnToNote));
 
         //drive back from speaker
-        addCommands(new driveSegment(drivetrain, driveAngle, notePoint, noteSpeed, new Pose2d(), true));
-        addCommands(new driveSegment(drivetrain, driveAngle, unpassPoint, unpassSpeed, new Pose2d(), true));
+        addCommands(new driveSegment(drivetrain, driveAngle, notePoint, noteSpeed, startPose, true));
+        addCommands(new driveSegment(drivetrain, driveAngle, unpassPoint, unpassSpeed, startPose, true));
+        startPose.plus(new Transform2d(notePoint.x, notePoint.y, new Rotation2d()));
+        startPose.plus(new Transform2d(unpassPoint.x, unpassPoint.y, new Rotation2d()));
+        
         
         //get fourth note
         addCommands(Commands.parallel(
-            new driveSegment(drivetrain, driveAngle, notePoint, noteSpeed, new Pose2d(), true),
+            new driveSegment(drivetrain, driveAngle, notePoint, noteSpeed, startPose, true),
             new AutoIntakeIn(intake, indexer, (time+.75)))
         );
+        startPose.plus(new Transform2d(notePoint.x, notePoint.y, new Rotation2d()));
         
         //drive front from speaker
-        addCommands(new driveSegment(drivetrain, driveAngle, unpassPoint, unpassSpeed, new Pose2d(), true));
+        addCommands(new driveSegment(drivetrain, driveAngle, unpassPoint, unpassSpeed, startPose, true));
+        startPose.plus(new Transform2d(unpassPoint.x, unpassPoint.y, new Rotation2d()));
         
         // turn and fire
         addCommands(new RotateAngle(drivetrain, turnToAllies));
@@ -127,9 +142,10 @@ public class PassNotesSeq extends SequentialCommandGroup {
         double finalNoteTime = 1.0;
         double finalNoteSpeed = Math.abs(finalNotePoint.y)/finalNoteTime;
         addCommands(Commands.parallel(
-            new driveSegment(drivetrain, driveAngle, finalNotePoint, finalNoteSpeed, new Pose2d(), true),
+            new driveSegment(drivetrain, driveAngle, finalNotePoint, finalNoteSpeed, startPose, true),
             new AutoIntakeIn(intake, indexer, (time+.75)))
         );
+        startPose.plus(new Transform2d(finalNotePoint.x, finalNotePoint.y, new Rotation2d()));
 
         // turn and fire
         addCommands(new RotateAngle(drivetrain, turnToAllies));
