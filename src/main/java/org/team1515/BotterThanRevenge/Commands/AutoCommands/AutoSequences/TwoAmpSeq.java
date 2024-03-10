@@ -32,7 +32,7 @@ public class TwoAmpSeq extends SequentialCommandGroup{
         Pose2d amp = new Pose2d(new Translation2d(Units.inchesToMeters(RobotMap.WALL_TO_AMP - 0.5*RobotMap.CHASSIS_WIDTH - 2*RobotMap.BUMPER_WIDTH), Units.inchesToMeters(finalPoseY)), new Rotation2d(0.0));
         
         double noteToAmpX = -Units.inchesToMeters(RobotMap.NOTE_TO_AMP_X - 0.4*RobotMap.CHASSIS_WIDTH);
-        double noteToAmpY = -direction * Units.inchesToMeters(RobotMap.NOTE_TO_AMP_Y - 0.5*RobotMap.CHASSIS_WIDTH - 2*RobotMap.BUMPER_WIDTH + 10); // TODO
+        double noteToAmpY = -direction * Units.inchesToMeters(RobotMap.NOTE_TO_AMP_Y - 0.5*RobotMap.CHASSIS_WIDTH - 2*RobotMap.BUMPER_WIDTH); // TODO
         double ampToCenter = Units.inchesToMeters(RobotMap.AMP_TO_CENTER - RobotMap.CHASSIS_WIDTH - (2*RobotMap.BUMPER_WIDTH) - RobotMap.INTAKE_OFFSET); //TODO find
         
         DoubleSupplier angle = () -> Units.degreesToRadians(direction*90.0); //make sure intake is forward

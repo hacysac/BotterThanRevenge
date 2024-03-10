@@ -63,7 +63,7 @@ public class RobotContainer {
 
   public double direction = 1;
 
-  public static SendableChooser<Command> AutoChooser = new SendableChooser<>();
+  public static SendableChooser<Double> AutoChooser = new SendableChooser<>();
   
   public RobotContainer() {
     mainController = new XboxController(0);
@@ -92,16 +92,16 @@ public class RobotContainer {
     //     }
     // }
 
-    AutoChooser.setDefaultOption("Drive Back", new DriveBackSeq(drivetrain));
+    AutoChooser.setDefaultOption("Drive Back", 0.0);
     //AutoChooser.addOption("2 Note Seq", new TwoNoteSeq(drivetrain, shooter, indexer, intake, flip, false, team));
-    AutoChooser.addOption("Blue 3 Note Seq", new ThreeNoteSeq(drivetrain, shooter, indexer, intake, flip, false, team));
-    AutoChooser.addOption("Red 3 Note Seq", new ThreeNoteSeq(drivetrain, shooter, indexer, intake, flip, false, -team));
-    AutoChooser.addOption("Blue 4 Note Seq", new FourNoteSeq(drivetrain, shooter, indexer, intake, flip, team));
-    AutoChooser.addOption("Red 4 Note Seq", new FourNoteSeq(drivetrain, shooter, indexer, intake, flip, -team));
-    AutoChooser.addOption("Blue 2 Amp Seq", new TwoAmpSeq(drivetrain, shooter, indexer, intake, flip, -team));
-    AutoChooser.addOption("Red 2 Amp Seq", new TwoAmpSeq(drivetrain, shooter, indexer, intake, flip, team));
-    AutoChooser.addOption("Blue 2 Note + Amp Seq", new TwoSpeakerAmpSeq(drivetrain, shooter, indexer, intake, flip, false, -team));
-    AutoChooser.addOption("Red 2 Note + Amp Seq", new TwoSpeakerAmpSeq(drivetrain, shooter, indexer, intake, flip, false, team));
+    AutoChooser.addOption("Blue 3 Note Seq", 1.0);
+    AutoChooser.addOption("Red 3 Note Seq", 1.5);
+    AutoChooser.addOption("Blue 4 Note Seq", 2.0);
+    AutoChooser.addOption("Red 4 Note Seq", 2.5);
+    AutoChooser.addOption("Blue 2 Amp Seq", 3.0);
+    AutoChooser.addOption("Red 2 Amp Seq", 4.0);
+    AutoChooser.addOption("Blue 2 Note + Amp Seq", 5.0);
+    AutoChooser.addOption("Red 2 Note + Amp Seq", 6.0);
     SmartDashboard.putData(AutoChooser);
 
     configureBindings();
@@ -120,7 +120,7 @@ public class RobotContainer {
     DoubleSupplier angle = () -> Units.degreesToRadians(90);
     Controls.RESET_GYRO.onTrue(new InstantCommand(()->drivetrain.zeroGyro()));
     Controls.CHANGE_DIRECTION.onTrue(new InstantCommand(()->direction = -direction));
-    //Controls.ROTATE_ANGLE_TARGET.onTrue(new RotateAngle(drivetrain, angle));
+    Controls.ROTATE_ANGLE_TARGET.onTrue(new RotateAngle(drivetrain, angle));
 
     DoubleSupplier zeroAngle = () -> -Units.degreesToRadians(gyro.getYaw());
     Controls.ZERO_ROBOT.onTrue(new RotateAngle(drivetrain, zeroAngle));
@@ -155,8 +155,34 @@ public class RobotContainer {
   }
 
   public Command getAutonomousCommand() {
-    return AutoChooser.getSelected();
-    //return new InstantCommand(()-> System.out.println("pain"));
+    if (AutoChooser.getSelected() == 0.0){
+      return new DriveBackSeq(drivetrain);
+    }
+    else if (AutoChooser.getSelected() == 1.0){
+      return new ThreeNoteSeq(drivetrain, shooter, indexer, intake, flip, false, 1);
+    }
+    else if (AutoChooser.getSelected() == 1.5){
+      return new ThreeNoteSeq(drivetrain, shooter, indexer, intake, flip, false, -1);
+    }
+    else if (AutoChooser.getSelected() == 2.0){
+      return new FourNoteSeq(drivetrain, shooter, indexer, intake, flip, 1);
+    }
+    else if (AutoChooser.getSelected() == 2.5){
+      return new FourNoteSeq(drivetrain, shooter, indexer, intake, flip, -1);
+    }
+    else if (AutoChooser.getSelected() == 3.0){
+      return new TwoAmpSeq(drivetrain, shooter, indexer, intake, flip, -1);
+    }
+    else if (AutoChooser.getSelected() == 3.5){
+      return new TwoAmpSeq(drivetrain, shooter, indexer, intake, flip, 1);
+    }
+    else if (AutoChooser.getSelected() == 4.0){
+      return new TwoSpeakerAmpSeq(drivetrain, shooter, indexer, intake, flip, false, -1);
+    }
+    else if (AutoChooser.getSelected() == 4.5){
+      return new TwoSpeakerAmpSeq(drivetrain, shooter, indexer, intake, flip, false, 1);
+    }
+    return new InstantCommand(()-> System.out.println("pain"));
   }
 
   public static double getRobotSpeed() {

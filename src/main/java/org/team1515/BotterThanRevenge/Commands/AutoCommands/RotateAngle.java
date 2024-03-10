@@ -1,10 +1,9 @@
 package org.team1515.BotterThanRevenge.Commands.AutoCommands;
 
 
-import org.team1515.BotterThanRevenge.RobotContainer;
-
 import java.util.function.DoubleSupplier;
 
+import org.team1515.BotterThanRevenge.RobotContainer;
 import org.team1515.BotterThanRevenge.Subsystems.Drivetrain;
 
 import com.team364.swervelib.util.SwerveConstants;
@@ -26,6 +25,9 @@ public class RotateAngle extends Command {
 
     private double ff = 0.0; // retune
 
+    private double numticks = 5;
+    private double currenticks;
+
     /**
      * Turn the robot a certain angle
      */
@@ -34,7 +36,7 @@ public class RotateAngle extends Command {
         this.angle = angle;
         this.maxRotate = 0.5 * SwerveConstants.Swerve.maxAngularVelocity;
         this.startAngle = () -> RobotContainer.gyro.getGyroscopeRotation().getRadians();
-        angleController = new PIDController(2, 1.2, 0);
+        angleController = new PIDController(13.8, 55.2, 0.8625);
         // TODO retune PID
         angleController.setTolerance(Units.degreesToRadians(1));
         angleController.enableContinuousInput(-Math.PI, Math.PI);
@@ -59,10 +61,21 @@ public class RotateAngle extends Command {
         double rotation = (MathUtil.clamp(angleController.calculate(error + angleController.getSetpoint(), angleController.getSetpoint()) + (ff * Math.signum(error)),
                 -maxRotate, maxRotate)); // change setpoint?
         drivetrainSubsystem.drive(new Translation2d(0.0, 0.0), rotation, true, true);
+        if (angleController.atSetpoint()){
+            currenticks+=1;
+        }
+        else{
+            currenticks=0;
+        }
     }
 
     @Override
     public boolean isFinished() {
-        return angleController.atSetpoint();
+        return currenticks >= numticks;
+    }
+    @Override
+    public void end(boolean interrupted) {
+        drivetrainSubsystem.drive(new Translation2d(0.0, 0.0), 0.0, true, true);
+        System.out.println("ended");
     }
 }

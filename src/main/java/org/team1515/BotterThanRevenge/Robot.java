@@ -13,10 +13,14 @@ import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import edu.wpi.first.wpilibj2.command.Commands;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 
 public class Robot extends TimedRobot {
   private Command m_autonomousCommand;
   public static CTREConfigs ctreConfigs;
+  
 
   private RobotContainer m_robotContainer;
 
@@ -45,11 +49,13 @@ public class Robot extends TimedRobot {
 
   @Override
   public void autonomousInit() {
+    InstantCommand reset = new InstantCommand(()->RobotContainer.drivetrain.resetOdometry());
+
     m_autonomousCommand = m_robotContainer.getAutonomousCommand();
-    RobotContainer.drivetrain.resetOdometry();
 
     if (m_autonomousCommand != null) {
-      m_autonomousCommand.schedule();
+      SequentialCommandGroup sequence = new SequentialCommandGroup(reset, m_robotContainer.getAutonomousCommand());
+      sequence.schedule();
     }
   }
 

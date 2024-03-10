@@ -42,7 +42,7 @@ public class driveSegment extends Command {
         this.angle = theta;
         this.maxRotate = 0.5 * SwerveConstants.Swerve.maxAngularVelocity;
         this.startAngle = () -> RobotContainer.gyro.getGyroscopeRotation().getRadians();
-        angleController = new PIDController(2, 1.2, 0);
+        angleController = new PIDController(13.8, 55.2, 0.8625);
         this.speed = speed;
         // TODO retune PID
         angleController.setTolerance(Units.degreesToRadians(1));
@@ -62,7 +62,7 @@ public class driveSegment extends Command {
         this.angle = theta;
         this.maxRotate = 0.5 * SwerveConstants.Swerve.maxAngularVelocity;
         this.startAngle = () -> RobotContainer.gyro.getGyroscopeRotation().getRadians();
-        angleController = new PIDController(2, 1.2, 0);
+        angleController = new PIDController(13.8, 55.2, 0.8625);
         // TODO retune PID
         this.speed = speed;
         angleController.setTolerance(Units.degreesToRadians(1));
@@ -119,7 +119,7 @@ public class driveSegment extends Command {
         //System.out.println("t: " + (System.currentTimeMillis()-startTime));
         //System.out.println(" Speed: " + speed);
         //System.out.println("start pose: " + start.x + ", " + start.y + " end pose: " + end.x + ", " + end.y + "\n");
-        //System.out.println("odem x: " + drivetrain.getOdometry().getX() + " odem y: " + drivetrain.getOdometry().getY() + "\n");
+        System.out.println("odem x: " + drivetrain.getOdometry().getX() + ", " + RobotContainer.drivetrain.getOdometry().getX()  + " odem y: " + drivetrain.getOdometry().getY() + ", " + RobotContainer.drivetrain.getOdometry().getY() + "\n");
         if (endSegment){
             drivetrain.drive(new Translation2d(0,0), 0.0, true, true);
         }

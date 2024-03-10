@@ -188,13 +188,13 @@ public class Drivetrain extends SubsystemBase {
         return m_pose;
     }
     public void setOdometry(Pose2d pose){
-        zeroGyro();
         m_pose = pose;
     }
     public void resetOdometry(){
-        setOdometry(new Pose2d(new Translation2d(0,0), new Rotation2d(0.0)));
-        for (SwerveModule mod : mSwerveMods) {
+        zeroGyro();
+        for (SwerveModule mod : mSwerveMods){
             mod.zeroInternalEncoder();
         }
+        setOdometry(new Pose2d(new Translation2d(0,0), new Rotation2d(0.0)));
     }
 }
