@@ -34,7 +34,7 @@ public class RotateAngle extends Command {
         this.angle = angle;
         this.maxRotate = 0.5 * SwerveConstants.Swerve.maxAngularVelocity;
         this.startAngle = () -> RobotContainer.gyro.getGyroscopeRotation().getRadians();
-        angleController = new PIDController(2, 1.5, 0);
+        angleController = new PIDController(2, 1.2, 0);
         // TODO retune PID
         angleController.setTolerance(Units.degreesToRadians(1));
         angleController.enableContinuousInput(-Math.PI, Math.PI);

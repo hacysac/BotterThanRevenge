@@ -52,7 +52,7 @@ public class RobotContainer {
   public static XboxController secondController;
 
   public static Gyroscope gyro;
-  private Drivetrain drivetrain;
+  public static Drivetrain drivetrain;
   private PhotonVision photon;
 
   public static Intake intake;
@@ -117,7 +117,7 @@ public class RobotContainer {
             () -> direction,
             () -> Controls.DRIVE_ROBOT_ORIENTED.getAsBoolean()));
     
-    //DoubleSupplier angle = () -> -photon.getAngle();
+    DoubleSupplier angle = () -> Units.degreesToRadians(90);
     Controls.RESET_GYRO.onTrue(new InstantCommand(()->drivetrain.zeroGyro()));
     Controls.CHANGE_DIRECTION.onTrue(new InstantCommand(()->direction = -direction));
     //Controls.ROTATE_ANGLE_TARGET.onTrue(new RotateAngle(drivetrain, angle));

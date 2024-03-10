@@ -42,10 +42,10 @@ public class driveSegment extends Command {
         this.angle = theta;
         this.maxRotate = 0.5 * SwerveConstants.Swerve.maxAngularVelocity;
         this.startAngle = () -> RobotContainer.gyro.getGyroscopeRotation().getRadians();
-        angleController = new PIDController(2, 1, 0);
+        angleController = new PIDController(2, 1.2, 0);
         this.speed = speed;
         // TODO retune PID
-        angleController.setTolerance(Units.degreesToRadians(3));
+        angleController.setTolerance(Units.degreesToRadians(1));
         angleController.enableContinuousInput(-Math.PI, Math.PI);
 
         addRequirements(drivetrain);
@@ -62,10 +62,10 @@ public class driveSegment extends Command {
         this.angle = theta;
         this.maxRotate = 0.5 * SwerveConstants.Swerve.maxAngularVelocity;
         this.startAngle = () -> RobotContainer.gyro.getGyroscopeRotation().getRadians();
-        angleController = new PIDController(2, 1, 0);
+        angleController = new PIDController(2, 1.2, 0);
         // TODO retune PID
         this.speed = speed;
-        angleController.setTolerance(Units.degreesToRadians(3));
+        angleController.setTolerance(Units.degreesToRadians(1));
         angleController.enableContinuousInput(-Math.PI, Math.PI);
 
         addRequirements(drivetrain);

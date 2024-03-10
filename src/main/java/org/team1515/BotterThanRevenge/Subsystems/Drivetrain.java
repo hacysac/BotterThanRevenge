@@ -191,4 +191,10 @@ public class Drivetrain extends SubsystemBase {
         zeroGyro();
         m_pose = pose;
     }
+    public void resetOdometry(){
+        setOdometry(new Pose2d(new Translation2d(0,0), new Rotation2d(0.0)));
+        for (SwerveModule mod : mSwerveMods) {
+            mod.zeroInternalEncoder();
+        }
+    }
 }

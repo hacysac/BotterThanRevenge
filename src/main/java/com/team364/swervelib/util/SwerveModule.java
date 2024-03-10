@@ -90,4 +90,9 @@ public class SwerveModule {
             Rotation2d.fromRotations(mAngleMotor.getPosition().getValue())
         );
     }
+
+    public void zeroInternalEncoder(){
+        mDriveMotor.setPosition(0.0);
+        mAngleMotor.setPosition(0.0);
+    }
 }

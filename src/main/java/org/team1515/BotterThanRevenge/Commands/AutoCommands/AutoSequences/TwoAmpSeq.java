@@ -28,10 +28,10 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 public class TwoAmpSeq extends SequentialCommandGroup{
      public TwoAmpSeq(Drivetrain drivetrain, Shooter shooter, Indexer indexer, Intake intake, Flip flip, double direction){
 
-        double finalPoseY = -direction*(RobotMap.SUBWOOFER_TO_AMP - 0.5*RobotMap.CHASSIS_WIDTH); //assuming red
+        double finalPoseY = -direction*(RobotMap.SUBWOOFER_TO_AMP - RobotMap.CHASSIS_WIDTH - 3*RobotMap.BUMPER_WIDTH); //assuming red
         Pose2d amp = new Pose2d(new Translation2d(Units.inchesToMeters(RobotMap.WALL_TO_AMP - 0.5*RobotMap.CHASSIS_WIDTH - 2*RobotMap.BUMPER_WIDTH), Units.inchesToMeters(finalPoseY)), new Rotation2d(0.0));
         
-        double noteToAmpX = -Units.inchesToMeters(RobotMap.NOTE_TO_AMP_X - 0.25*RobotMap.CHASSIS_WIDTH);
+        double noteToAmpX = -Units.inchesToMeters(RobotMap.NOTE_TO_AMP_X - 0.4*RobotMap.CHASSIS_WIDTH);
         double noteToAmpY = -direction * Units.inchesToMeters(RobotMap.NOTE_TO_AMP_Y - 0.5*RobotMap.CHASSIS_WIDTH - 2*RobotMap.BUMPER_WIDTH + 10); // TODO
         double ampToCenter = Units.inchesToMeters(RobotMap.AMP_TO_CENTER - RobotMap.CHASSIS_WIDTH - (2*RobotMap.BUMPER_WIDTH) - RobotMap.INTAKE_OFFSET); //TODO find
         
