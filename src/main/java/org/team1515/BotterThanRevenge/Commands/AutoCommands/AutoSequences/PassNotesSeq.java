@@ -28,9 +28,13 @@ public class PassNotesSeq extends SequentialCommandGroup {
         //startup sequence
         addCommands(new FlipUp(flip));
         addCommands(new InstantCommand(()->shooter.shoot(RobotMap.AMP_SPEED)));
-        addCommands(new AutoFeed(indexer, RobotMap.AUTO_FEED_TIME));
-        addCommands(new InstantCommand(()->shooter.shoot(RobotMap.PASS_SPEED)));
-        addCommands(new FlipDown(flip));
+
+        addCommands(Commands.parallel(
+            Commands.sequence(
+                new AutoFeed(indexer, RobotMap.AUTO_FEED_TIME),
+                new InstantCommand(()->shooter.shoot(RobotMap.PASS_SPEED))),
+            new FlipDown(flip)
+        ));
 
         //drive to center and pick up first note
         DoubleSupplier driveAngle = () -> Units.degreesToRadians(0.0);
@@ -57,7 +61,7 @@ public class PassNotesSeq extends SequentialCommandGroup {
         double noteSpeed = notePoint.y/noteTime;
         addCommands(Commands.parallel(
             new driveSegment(drivetrain, driveAngle, notePoint, noteSpeed, new Pose2d(), true),
-            new AutoIntakeIn(intake, indexer, (time+.75)))
+            new AutoIntakeIn(intake, indexer, RobotMap.AUTO_INTAKE_TIME))
         );
 
         //drive out from speaker
