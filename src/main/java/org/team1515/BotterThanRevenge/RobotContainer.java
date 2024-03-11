@@ -8,7 +8,6 @@ import java.util.Optional;
 import java.util.function.DoubleSupplier;
 
 import org.team1515.BotterThanRevenge.Commands.AutoCommands.RotateAngle;
-import org.team1515.BotterThanRevenge.Commands.AutoCommands.driveArcLength;
 import org.team1515.BotterThanRevenge.Commands.AutoCommands.AutoSequences.TwoSpeakerAmpSeq;
 import org.team1515.BotterThanRevenge.Commands.ClimberCommands.ClimberDown;
 import org.team1515.BotterThanRevenge.Commands.ClimberCommands.ClimberUp;
@@ -63,7 +62,7 @@ public class RobotContainer {
 
   public double direction = 1;
 
-  public static SendableChooser<Double> AutoChooser = new SendableChooser<>();
+  public static SendableChooser<Integer> AutoChooser = new SendableChooser<>();
   
   public RobotContainer() {
     mainController = new XboxController(0);
@@ -92,16 +91,12 @@ public class RobotContainer {
     //     }
     // }
 
-    AutoChooser.setDefaultOption("Drive Back", 0.0);
+    AutoChooser.setDefaultOption("Drive Back", 0);
     //AutoChooser.addOption("2 Note Seq", new TwoNoteSeq(drivetrain, shooter, indexer, intake, flip, false, team));
-    AutoChooser.addOption("Blue 3 Note Seq", 1.0);
-    AutoChooser.addOption("Red 3 Note Seq", 1.5);
-    AutoChooser.addOption("Blue 4 Note Seq", 2.0);
-    AutoChooser.addOption("Red 4 Note Seq", 2.5);
-    AutoChooser.addOption("Blue 2 Amp Seq", 3.0);
-    AutoChooser.addOption("Red 2 Amp Seq", 4.0);
-    AutoChooser.addOption("Blue 2 Note + Amp Seq", 5.0);
-    AutoChooser.addOption("Red 2 Note + Amp Seq", 6.0);
+    AutoChooser.addOption("3 Note Seq", 1);
+    AutoChooser.addOption("4 Note Seq", 2);
+    AutoChooser.addOption("2 Amp Seq", 3);
+    AutoChooser.addOption("2 Note + Amp Seq", 4);
     SmartDashboard.putData(AutoChooser);
 
     configureBindings();
@@ -155,32 +150,32 @@ public class RobotContainer {
   }
 
   public Command getAutonomousCommand() {
-    if (AutoChooser.getSelected() == 0.0){
+
+    Optional<Alliance> ally = DriverStation.getAlliance();
+    int team = 1; // default blue
+    if (ally.isPresent()) {
+        if (ally.get() == Alliance.Red) {
+            team = -1;
+        }
+        else if (ally.get() == Alliance.Blue) {
+            team = 1;
+        }
+    }
+
+    if (AutoChooser.getSelected() == 0){
       return new DriveBackSeq(drivetrain);
     }
-    else if (AutoChooser.getSelected() == 1.0){
-      return new ThreeNoteSeq(drivetrain, shooter, indexer, intake, flip, false, 1);
+    else if (AutoChooser.getSelected() == 1){
+      return new ThreeNoteSeq(drivetrain, shooter, indexer, intake, flip, false, team);
     }
-    else if (AutoChooser.getSelected() == 1.5){
-      return new ThreeNoteSeq(drivetrain, shooter, indexer, intake, flip, false, -1);
+    else if (AutoChooser.getSelected() == 2){
+      return new FourNoteSeq(drivetrain, shooter, indexer, intake, flip, team);
     }
-    else if (AutoChooser.getSelected() == 2.0){
-      return new FourNoteSeq(drivetrain, shooter, indexer, intake, flip, 1);
+    else if (AutoChooser.getSelected() == 3){
+      return new TwoAmpSeq(drivetrain, shooter, indexer, intake, flip, -team);
     }
-    else if (AutoChooser.getSelected() == 2.5){
-      return new FourNoteSeq(drivetrain, shooter, indexer, intake, flip, -1);
-    }
-    else if (AutoChooser.getSelected() == 3.0){
-      return new TwoAmpSeq(drivetrain, shooter, indexer, intake, flip, -1);
-    }
-    else if (AutoChooser.getSelected() == 3.5){
-      return new TwoAmpSeq(drivetrain, shooter, indexer, intake, flip, 1);
-    }
-    else if (AutoChooser.getSelected() == 4.0){
-      return new TwoSpeakerAmpSeq(drivetrain, shooter, indexer, intake, flip, false, -1);
-    }
-    else if (AutoChooser.getSelected() == 4.5){
-      return new TwoSpeakerAmpSeq(drivetrain, shooter, indexer, intake, flip, false, 1);
+    else if (AutoChooser.getSelected() == 4){
+      return new TwoSpeakerAmpSeq(drivetrain, shooter, indexer, intake, flip, false, -team);
     }
     return new InstantCommand(()-> System.out.println("pain"));
   }

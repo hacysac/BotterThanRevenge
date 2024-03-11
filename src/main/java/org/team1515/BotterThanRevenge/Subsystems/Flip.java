@@ -1,6 +1,5 @@
 package org.team1515.BotterThanRevenge.Subsystems;
 
-import org.team1515.BotterThanRevenge.RobotContainer;
 import org.team1515.BotterThanRevenge.RobotMap;
 
 import com.ctre.phoenix6.configs.CANcoderConfiguration;
@@ -8,12 +7,7 @@ import com.ctre.phoenix6.hardware.CANcoder;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.SparkLimitSwitch;
-import com.team364.swervelib.util.SwerveConstants;
 
-import edu.wpi.first.math.MathUtil;
-import edu.wpi.first.math.controller.PIDController;
-import edu.wpi.first.math.util.Units;
-import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
@@ -35,8 +29,8 @@ public class Flip extends SubsystemBase{
     private double midOffset;
     private double lowOffset;
 
-    private double constantSpeed = -0.025; // flip motor is inverted, negative goes up
-    private double offset = 0.0; //this is how u apply speed
+    //private double constantSpeed = -0.025; // flip motor is inverted, negative goes up
+    //private double offset = 0.0; //this is how u apply speed
 
     public Flip(){
 
@@ -56,7 +50,6 @@ public class Flip extends SubsystemBase{
         // lowerSensor = flip.getForwardLimitSwitch(Type.kNormallyOpen);
 
         up = false;
-
     }
 
     public boolean belowMid(){

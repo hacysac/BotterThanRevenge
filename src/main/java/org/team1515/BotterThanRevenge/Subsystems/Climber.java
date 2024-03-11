@@ -9,7 +9,6 @@ import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkLimitSwitch;
 import com.revrobotics.SparkLimitSwitch.Type;
 
-import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
@@ -26,6 +25,7 @@ public class Climber extends SubsystemBase {
     public Climber(){
         lClimber = new CANSparkMax(RobotMap.L_CLIMBER_ID, MotorType.kBrushless);
         rClimber = new CANSparkMax(RobotMap.R_CLIMBER_ID, MotorType.kBrushless);
+
         lClimber.setIdleMode(CANSparkBase.IdleMode.kBrake);
         rClimber.setIdleMode(CANSparkBase.IdleMode.kBrake);
         lClimber.setSmartCurrentLimit(RobotMap.CLIMBER_CURRENT_LIMIT);
@@ -38,7 +38,6 @@ public class Climber extends SubsystemBase {
 
         lEncoder = lClimber.getEncoder();
         rEncoder = rClimber.getEncoder();
-
     } 
 
     public void up(){
