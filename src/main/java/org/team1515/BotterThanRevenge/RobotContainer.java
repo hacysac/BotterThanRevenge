@@ -51,9 +51,9 @@ public class RobotContainer {
   public static XboxController secondController;
 
   public static Gyroscope gyro;
-  public static Drivetrain drivetrain;
   private PhotonVision photon;
 
+  public static Drivetrain drivetrain;
   public static Intake intake;
   public static Flip flip;
   private static Indexer indexer;
@@ -67,29 +67,16 @@ public class RobotContainer {
   public RobotContainer() {
     mainController = new XboxController(0);
     secondController = new XboxController(1);
-    
+
+    gyro = new Gyroscope();
+    photon = new PhotonVision();
+
+    drivetrain = new Drivetrain(new Pose2d(), photon); 
     intake = new Intake();
     indexer = new Indexer();
     flip = new Flip();
     climber = new Climber();
     shooter = new Shooter();
-    
-    gyro = new Gyroscope();
-    photon = new PhotonVision();
-
-
-    drivetrain = new Drivetrain(new Pose2d(), photon);
-
-    //Optional<Alliance> ally = DriverStation.getAlliance();
-    int team = 1; // default blue
-    // if (ally.isPresent()) {
-    //     if (ally.get() == Alliance.Red) {
-    //         team = -1;
-    //     }
-    //     else if (ally.get() == Alliance.Blue) {
-    //         team = 1;
-    //     }
-    // }
 
     AutoChooser.setDefaultOption("Drive Back", 0);
     //AutoChooser.addOption("2 Note Seq", new TwoNoteSeq(drivetrain, shooter, indexer, intake, flip, false, team));
@@ -150,7 +137,6 @@ public class RobotContainer {
   }
 
   public Command getAutonomousCommand() {
-
     Optional<Alliance> ally = DriverStation.getAlliance();
     int team = 1; // default blue
     if (ally.isPresent()) {
