@@ -14,6 +14,7 @@ import org.team1515.BotterThanRevenge.Commands.ClimberCommands.ClimberUp;
 import org.team1515.BotterThanRevenge.Commands.ClimberCommands.SingleClimber;
 import org.team1515.BotterThanRevenge.Commands.AutoCommands.AutoSequences.DriveBackSeq;
 import org.team1515.BotterThanRevenge.Commands.AutoCommands.AutoSequences.FourNoteSeq;
+import org.team1515.BotterThanRevenge.Commands.AutoCommands.AutoSequences.PassNotesSeq;
 import org.team1515.BotterThanRevenge.Commands.AutoCommands.AutoSequences.ThreeNoteSeq;
 import org.team1515.BotterThanRevenge.Commands.AutoCommands.AutoSequences.TwoAmpSeq;
 import org.team1515.BotterThanRevenge.Commands.AutoCommands.AutoSequences.TwoNoteSeq;
@@ -84,6 +85,7 @@ public class RobotContainer {
     AutoChooser.addOption("4 Note Seq", 2);
     AutoChooser.addOption("2 Amp Seq", 3);
     AutoChooser.addOption("2 Note + Amp Seq", 4);
+    AutoChooser.addOption("Center Pass Seq", 5);
     SmartDashboard.putData(AutoChooser);
 
     configureBindings();
@@ -162,6 +164,9 @@ public class RobotContainer {
     }
     else if (AutoChooser.getSelected() == 4){
       return new TwoSpeakerAmpSeq(drivetrain, shooter, indexer, intake, flip, false, -team);
+    }
+    else if (AutoChooser.getSelected() == 5){
+      return new PassNotesSeq(drivetrain, shooter, indexer, intake, flip, team);
     }
     return new InstantCommand(()-> System.out.println("pain"));
   }
