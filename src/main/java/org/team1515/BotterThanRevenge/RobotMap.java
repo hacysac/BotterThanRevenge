@@ -61,7 +61,7 @@ public class RobotMap {
     public static final int SHOOTER_CURRENT_LIMIT = 35;
     public static final double SPEAKER_SPEED = 0.7; // TODO
     public static final double PASS_SPEED = 0.3; // TODO
-    public static final double AMP_SPEED = 0.175; // TODO
+    public static final double AMP_SPEED = 0.2125; // TODO
 
     // Indexer
     public static final int INDEXER_ID = 22;
@@ -86,8 +86,8 @@ public class RobotMap {
     //Climber
     public static final int L_CLIMBER_ID = 26;
     public static final int R_CLIMBER_ID = 27;
-    public static final double CLIMBER_UP_SPEED = .7;
-    public static final double CLIMBER_DOWN_SPEED = .5;
+    public static final double CLIMBER_UP_SPEED = 0.7;
+    public static final double CLIMBER_DOWN_SPEED = 0.7;
     public static final double CLIMBER_EXTENTION_LIMIT = 65; //TODO
     public static final int CLIMBER_CURRENT_LIMIT = 30;
 }

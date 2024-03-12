@@ -28,10 +28,10 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 public class TwoAmpSeq extends SequentialCommandGroup{
      public TwoAmpSeq(Drivetrain drivetrain, Shooter shooter, Indexer indexer, Intake intake, Flip flip, double direction){
 
-        double finalPoseY = -direction*(RobotMap.SUBWOOFER_TO_AMP - RobotMap.CHASSIS_WIDTH - 3*RobotMap.BUMPER_WIDTH); //assuming red
-        Pose2d amp = new Pose2d(new Translation2d(Units.inchesToMeters(RobotMap.WALL_TO_AMP - 0.5*RobotMap.CHASSIS_WIDTH - 2*RobotMap.BUMPER_WIDTH), Units.inchesToMeters(finalPoseY)), new Rotation2d(0.0));
+        double finalPoseY = -direction*(RobotMap.SUBWOOFER_TO_AMP - RobotMap.CHASSIS_WIDTH - 2*RobotMap.BUMPER_WIDTH); //assuming red
+        Pose2d amp = new Pose2d(new Translation2d(Units.inchesToMeters(RobotMap.WALL_TO_AMP - 0.5*RobotMap.CHASSIS_WIDTH), Units.inchesToMeters(finalPoseY)), new Rotation2d(0.0));
         
-        double noteToAmpX = -Units.inchesToMeters(RobotMap.NOTE_TO_AMP_X - 0.4*RobotMap.CHASSIS_WIDTH);
+        double noteToAmpX = -Units.inchesToMeters(RobotMap.NOTE_TO_AMP_X);
         double noteToAmpY = -direction * Units.inchesToMeters(RobotMap.NOTE_TO_AMP_Y - 0.5*RobotMap.CHASSIS_WIDTH - 2*RobotMap.BUMPER_WIDTH); // TODO
         double ampToCenter = Units.inchesToMeters(RobotMap.AMP_TO_CENTER - RobotMap.CHASSIS_WIDTH - (2*RobotMap.BUMPER_WIDTH) - RobotMap.INTAKE_OFFSET); //TODO find
         
@@ -59,8 +59,8 @@ public class TwoAmpSeq extends SequentialCommandGroup{
 
         
         
-        angle = () -> Units.degreesToRadians(-RobotMap.AUTO_NOTE_ANGLE_OFFSET*direction);
-        time = 1;
+        angle = () -> Units.degreesToRadians(-(RobotMap.AUTO_NOTE_ANGLE_OFFSET + 10)*direction);
+        time = 2;
         dist = Math.sqrt(Math.pow(noteToAmpX, 2)+Math.pow(noteToAmpY, 2));
         speed = dist/time;
 
@@ -72,11 +72,11 @@ public class TwoAmpSeq extends SequentialCommandGroup{
             new AutoIntakeIn(intake, indexer, RobotMap.AUTO_INTAKE_TIME)
         ));
 
-        angle = () -> Units.degreesToRadians(RobotMap.AUTO_NOTE_ANGLE_OFFSET*direction);
+        angle = () -> Units.degreesToRadians((RobotMap.AUTO_NOTE_ANGLE_OFFSET+10)*direction);
 
         //DRIVE FORWARD
         startPoint = new Pose2d(new Translation2d(startPoint.getX()+finalPoint.x, startPoint.getY()+finalPoint.y), new Rotation2d(180.0));
-        finalPoint = new Point(noteToAmpX, noteToAmpY);
+        finalPoint = new Point((noteToAmpX - Units.inchesToMeters(10)), noteToAmpY);
         addCommands(new driveSegment(drivetrain, angle, finalPoint, speed, startPoint, true));
         
         //FEED PIECE: run indexer 0.5 seconds?
@@ -84,7 +84,7 @@ public class TwoAmpSeq extends SequentialCommandGroup{
         //end shooter and indexer
 
         angle = ()->Units.degreesToRadians(-direction*90);
-        time = 3;
+        time = 2;
         speed = ampToCenter/time;
 
         //DRIVE TO CENTER

@@ -93,6 +93,7 @@ public class SwerveModule {
 
     public void zeroInternalEncoder(){
         mDriveMotor.setPosition(0.0);
-        mAngleMotor.setPosition(0.0);
+        //mAngleMotor.setPosition(0.0);
+        resetToAbsolute();
     }
 }
