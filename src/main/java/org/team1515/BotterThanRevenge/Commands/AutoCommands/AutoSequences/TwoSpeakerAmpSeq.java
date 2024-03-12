@@ -133,9 +133,15 @@ public class TwoSpeakerAmpSeq extends SequentialCommandGroup{
 
         //DRIVE TO CENTER
         new InstantCommand(()->shooter.end());
-        startPoint = subwoofer;
-        finalPoint = new Point(ampToCenter, 0);
-        //addCommands(new driveSegment(drivetrain, angle, finalPoint, speed, startPoint, true));
+        startPoint = new Pose2d(new Translation2d(startPoint.getX()+finalPoint.x, startPoint.getY()+finalPoint.y), new Rotation2d(0.0));;
+        finalPoint = new Point(ampToCenter/2, Units.inchesToMeters(96)/2);
+        addCommands(new driveSegment(drivetrain, angle, finalPoint, speed, startPoint, true));
+        
+        angle = ()->Units.degreesToRadians(-direction*50);
+
+        startPoint = new Pose2d(new Translation2d(startPoint.getX()+finalPoint.x, startPoint.getY()+finalPoint.y), new Rotation2d(0.0));
+        finalPoint = new Point(ampToCenter, Units.inchesToMeters(96));
+        addCommands(new driveSegment(drivetrain, angle, finalPoint, speed, startPoint, true));
     }
     public TwoSpeakerAmpSeq(Drivetrain drivetrain, Shooter shooter, Indexer indexer, Intake intake, Flip flip, double direction){
         Pose2d subwoofer = new Pose2d(new Translation2d(0,0), new Rotation2d(0.0)); //Starting from subwoofer
@@ -224,8 +230,14 @@ public class TwoSpeakerAmpSeq extends SequentialCommandGroup{
 
         //DRIVE TO CENTER
         new InstantCommand(()->shooter.end());
-        startPoint = subwoofer;
-        finalPoint = new Point(ampToCenter, 0);
-        //addCommands(new driveSegment(drivetrain, angle, finalPoint, speed, startPoint, true));
+        startPoint = new Pose2d(new Translation2d(startPoint.getX()+finalPoint.x, startPoint.getY()+finalPoint.y), new Rotation2d(0.0));;
+        finalPoint = new Point(ampToCenter/2, Units.inchesToMeters(96)/2);
+        addCommands(new driveSegment(drivetrain, angle, finalPoint, speed, startPoint, true));
+        
+        angle = ()->Units.degreesToRadians(-direction*50);
+
+        startPoint = new Pose2d(new Translation2d(startPoint.getX()+finalPoint.x, startPoint.getY()+finalPoint.y), new Rotation2d(0.0));
+        finalPoint = new Point(ampToCenter, Units.inchesToMeters(96));
+        addCommands(new driveSegment(drivetrain, angle, finalPoint, speed, startPoint, true));
     }
 }
