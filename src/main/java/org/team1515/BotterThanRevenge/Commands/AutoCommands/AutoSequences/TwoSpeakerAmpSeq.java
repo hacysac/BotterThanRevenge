@@ -38,7 +38,7 @@ public class TwoSpeakerAmpSeq extends SequentialCommandGroup{
         double subwooferToNoteY = -direction * Units.inchesToMeters(RobotMap.NOTE_TO_NOTE - (0.5 * RobotMap.CHASSIS_WIDTH));
         double noteToAmpX = -Units.inchesToMeters(RobotMap.NOTE_TO_AMP_X - 0.5*RobotMap.CHASSIS_WIDTH + 10);
         double noteToAmpY = -direction * (Units.inchesToMeters(RobotMap.NOTE_TO_AMP_Y - 0.5*RobotMap.CHASSIS_WIDTH - 2*RobotMap.BUMPER_WIDTH + 18)); // TODO
-        double ampToCenter = Units.inchesToMeters(RobotMap.SUBWOOFER_TO_CENTER - RobotMap.CHASSIS_WIDTH - (2*RobotMap.BUMPER_WIDTH) - RobotMap.INTAKE_OFFSET); //TODO find
+        double ampToCenter = Units.inchesToMeters(RobotMap.SUBWOOFER_TO_CENTER - RobotMap.CHASSIS_WIDTH - (2*RobotMap.BUMPER_WIDTH)); //TODO find
         
         Point[] path = {
             new Point(0, 0),
@@ -144,7 +144,7 @@ public class TwoSpeakerAmpSeq extends SequentialCommandGroup{
         double subwooferToNoteY = -direction * Units.inchesToMeters(RobotMap.NOTE_TO_NOTE - (0.5 * RobotMap.CHASSIS_WIDTH));
         double noteToAmpX = -Units.inchesToMeters(RobotMap.NOTE_TO_AMP_X - 0.5*RobotMap.CHASSIS_WIDTH);
         double noteToAmpY = -direction * (Units.inchesToMeters(RobotMap.NOTE_TO_AMP_Y - 0.5*RobotMap.CHASSIS_WIDTH - 2*RobotMap.BUMPER_WIDTH + 10)); // TODO
-        double ampToCenter = Units.inchesToMeters(RobotMap.SUBWOOFER_TO_CENTER - RobotMap.CHASSIS_WIDTH - (2*RobotMap.BUMPER_WIDTH) - RobotMap.INTAKE_OFFSET); //TODO find
+        double ampToCenter = Units.inchesToMeters(RobotMap.SUBWOOFER_TO_CENTER - RobotMap.CHASSIS_WIDTH - (2*RobotMap.BUMPER_WIDTH)); //TODO find
     
         DoubleSupplier angle = () -> Units.degreesToRadians(0.0); //make sure shooter is forward
         

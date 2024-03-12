@@ -105,17 +105,16 @@ public class TwoNoteSeq extends SequentialCommandGroup{
         addCommands(new InstantCommand(()->shooter.end()));
         startPoint = subwoofer;
         finalPoint = new Point(subwooferToCenter, 0);
-        //addCommands(new driveSegment(drivetrain, angle, finalPoint, speed, startPoint, true));
         Point[] centerPath = {
                 new Point(0, 0),
-                new Point(Units.inchesToMeters(subwooferToCenter/2), direction * Units.inchesToMeters(24)), 
+                new Point(subwooferToCenter/2, direction * Units.inchesToMeters(24)), 
                 finalPoint
         };
-        // centerPath = bezierUtil.spacedPoints(centerPath, 50);
-        // addCommands(Commands.parallel(
-        //         new driveArcLength(drivetrain, centerPath, time, angle, startPoint),
-        //         new AutoIntakeIn(intake, indexer, 3.75)
-        // ));
+        centerPath = bezierUtil.spacedPoints(centerPath, 50);
+        addCommands(Commands.parallel(
+                new driveArcLength(drivetrain, centerPath, time, angle, startPoint),
+                new AutoIntakeIn(intake, indexer, 3.75)
+        ));
         //end all
     }
     public TwoNoteSeq(Drivetrain drivetrain, Shooter shooter, Indexer indexer, Intake intake, Flip flip, double direction){
@@ -174,17 +173,16 @@ public class TwoNoteSeq extends SequentialCommandGroup{
         addCommands(new InstantCommand(()->shooter.end()));
         startPoint = subwoofer;
         finalPoint = new Point(subwooferToCenter, 0);
-        //addCommands(new driveSegment(drivetrain, angle, finalPoint, speed, startPoint, true));
         Point[] centerPath = {
                 new Point(0, 0),
-                new Point(Units.inchesToMeters(subwooferToCenter/2), direction * Units.inchesToMeters(24)), 
+                new Point(subwooferToCenter/2, direction * Units.inchesToMeters(24)), 
                 finalPoint
         };
-        // centerPath = bezierUtil.spacedPoints(centerPath, 50);
-        // addCommands(Commands.parallel(
-        //         new driveArcLength(drivetrain, centerPath, time, angle, startPoint),
-        //         new AutoIntakeIn(intake, indexer, 3.75)
-        // ));
+        centerPath = bezierUtil.spacedPoints(centerPath, 50);
+        addCommands(Commands.parallel(
+                new driveArcLength(drivetrain, centerPath, time, angle, startPoint),
+                new AutoIntakeIn(intake, indexer, 3.75)
+        ));
         //end all
     }
 }
