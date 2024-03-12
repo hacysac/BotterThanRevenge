@@ -82,7 +82,7 @@ public class TwoAmpSeq extends SequentialCommandGroup{
         //end shooter and indexer
 
         angle = ()->Units.degreesToRadians(0.0);
-        time = 3;
+        time = 1.5;
         speed = ampToCenter/time;
 
         //DRIVE TO CENTER
@@ -95,7 +95,10 @@ public class TwoAmpSeq extends SequentialCommandGroup{
 
         startPoint = new Pose2d(new Translation2d(startPoint.getX()+finalPoint.x, startPoint.getY()+finalPoint.y), new Rotation2d(0.0));
         finalPoint = new Point(ampToCenter, Units.inchesToMeters(96-(0.5 * RobotMap.CHASSIS_WIDTH)));
-        addCommands(new driveSegment(drivetrain, angle, finalPoint, speed, startPoint, true));
+        addCommands(Commands.parallel(
+            new driveSegment(drivetrain, angle, finalPoint, speed, startPoint, true),
+            new AutoIntakeIn(intake, indexer, time+0.75)
+        ));
         //end all
     }
 }
