@@ -134,13 +134,13 @@ public class TwoSpeakerAmpSeq extends SequentialCommandGroup{
         //DRIVE TO CENTER
         new InstantCommand(()->shooter.end());
         startPoint = new Pose2d(new Translation2d(startPoint.getX()+finalPoint.x, startPoint.getY()+finalPoint.y), new Rotation2d(0.0));;
-        finalPoint = new Point(ampToCenter/2, Units.inchesToMeters(96)/2);
+        finalPoint = new Point(ampToCenter/2, Units.inchesToMeters(96-(0.5 * RobotMap.CHASSIS_WIDTH))/2);
         addCommands(new driveSegment(drivetrain, angle, finalPoint, speed, startPoint, true));
         
         angle = ()->Units.degreesToRadians(-direction*50);
 
         startPoint = new Pose2d(new Translation2d(startPoint.getX()+finalPoint.x, startPoint.getY()+finalPoint.y), new Rotation2d(0.0));
-        finalPoint = new Point(ampToCenter, Units.inchesToMeters(96));
+        finalPoint = new Point(ampToCenter, Units.inchesToMeters(96-(0.5 * RobotMap.CHASSIS_WIDTH)));
         addCommands(new driveSegment(drivetrain, angle, finalPoint, speed, startPoint, true));
     }
     public TwoSpeakerAmpSeq(Drivetrain drivetrain, Shooter shooter, Indexer indexer, Intake intake, Flip flip, double direction){
@@ -231,13 +231,13 @@ public class TwoSpeakerAmpSeq extends SequentialCommandGroup{
         //DRIVE TO CENTER
         new InstantCommand(()->shooter.end());
         startPoint = new Pose2d(new Translation2d(startPoint.getX()+finalPoint.x, startPoint.getY()+finalPoint.y), new Rotation2d(0.0));;
-        finalPoint = new Point(ampToCenter/2, Units.inchesToMeters(96)/2);
+        finalPoint = new Point(ampToCenter/2, Units.inchesToMeters(96-(0.5 * RobotMap.CHASSIS_WIDTH))/2);
         addCommands(new driveSegment(drivetrain, angle, finalPoint, speed, startPoint, true));
         
         angle = ()->Units.degreesToRadians(-direction*50);
 
         startPoint = new Pose2d(new Translation2d(startPoint.getX()+finalPoint.x, startPoint.getY()+finalPoint.y), new Rotation2d(0.0));
-        finalPoint = new Point(ampToCenter, Units.inchesToMeters(96));
+        finalPoint = new Point(ampToCenter, Units.inchesToMeters(96-(0.5 * RobotMap.CHASSIS_WIDTH)));
         addCommands(new driveSegment(drivetrain, angle, finalPoint, speed, startPoint, true));
     }
 }
