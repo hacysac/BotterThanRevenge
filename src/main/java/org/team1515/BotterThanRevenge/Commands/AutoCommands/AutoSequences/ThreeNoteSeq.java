@@ -3,6 +3,7 @@ package org.team1515.BotterThanRevenge.Commands.AutoCommands.AutoSequences;
 import java.util.function.DoubleSupplier;
 
 import org.team1515.BotterThanRevenge.RobotMap;
+import org.team1515.BotterThanRevenge.Commands.AutoCommands.DriveBackSubwoofer;
 import org.team1515.BotterThanRevenge.Commands.AutoCommands.driveArcLength;
 import org.team1515.BotterThanRevenge.Commands.AutoCommands.driveSegment;
 import org.team1515.BotterThanRevenge.Commands.IndexerCommands.AutoFeed;
@@ -35,7 +36,6 @@ public class ThreeNoteSeq extends SequentialCommandGroup{
         
         double subwooferToNoteX = Units.inchesToMeters(RobotMap.SUBWOOFER_TO_NOTE - RobotMap.CHASSIS_WIDTH - (RobotMap.BUMPER_WIDTH));
         double subwooferToNoteY = -direction * Units.inchesToMeters(RobotMap.NOTE_TO_NOTE - (0.5 * RobotMap.CHASSIS_WIDTH));
-        double subwooferToCenter = Units.inchesToMeters(RobotMap.SUBWOOFER_TO_CENTER - RobotMap.CHASSIS_WIDTH - (2*RobotMap.BUMPER_WIDTH));
         
         //start shooter + flip up to find offsets
         Point[] path = {
@@ -128,26 +128,10 @@ public class ThreeNoteSeq extends SequentialCommandGroup{
                 new AutoFeed(indexer, RobotMap.AUTO_FEED_TIME),
                 new FlipDown(flip)
         ));
-        //end shooter and indexer
         
-
-        angle = ()->Units.degreesToRadians(0.0);
-        time = 3;
-
-        //DRIVE TO CENTER + end shooter
-        addCommands(new InstantCommand(()->shooter.end()));
+        //DRIVE BACK
         startPoint = subwoofer;
-        finalPoint = new Point(subwooferToCenter, 0);
-        Point[] centerPath = {
-                new Point(0, 0),
-                new Point(subwooferToCenter/2, direction * Units.inchesToMeters(24)), 
-                finalPoint
-        };
-        centerPath = bezierUtil.spacedPoints(centerPath, 50);
-        addCommands(Commands.parallel(
-                new driveArcLength(drivetrain, centerPath, time, angle, startPoint),
-                new AutoIntakeIn(intake, indexer, 3.75)
-        ));
+        addCommands(new DriveBackSubwoofer(drivetrain, shooter, intake, indexer, flip, startPoint, direction));
         //end all
     }
 }

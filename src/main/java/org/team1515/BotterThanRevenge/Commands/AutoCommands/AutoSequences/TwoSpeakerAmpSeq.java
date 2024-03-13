@@ -3,6 +3,7 @@ package org.team1515.BotterThanRevenge.Commands.AutoCommands.AutoSequences;
 import java.util.function.DoubleSupplier;
 
 import org.team1515.BotterThanRevenge.RobotMap;
+import org.team1515.BotterThanRevenge.Commands.AutoCommands.DriveBackAmp;
 import org.team1515.BotterThanRevenge.Commands.AutoCommands.driveArcLength;
 import org.team1515.BotterThanRevenge.Commands.AutoCommands.driveSegment;
 import org.team1515.BotterThanRevenge.Commands.IndexerCommands.AutoFeed;
@@ -38,7 +39,6 @@ public class TwoSpeakerAmpSeq extends SequentialCommandGroup{
         double subwooferToNoteY = -direction * Units.inchesToMeters(RobotMap.NOTE_TO_NOTE - (0.5 * RobotMap.CHASSIS_WIDTH));
         double noteToAmpX = -Units.inchesToMeters(RobotMap.NOTE_TO_AMP_X - 0.5*RobotMap.CHASSIS_WIDTH + 10);
         double noteToAmpY = -direction * (Units.inchesToMeters(RobotMap.NOTE_TO_AMP_Y - 0.5*RobotMap.CHASSIS_WIDTH - 2*RobotMap.BUMPER_WIDTH + 18)); // TODO
-        double ampToCenter = Units.inchesToMeters(RobotMap.SUBWOOFER_TO_CENTER - RobotMap.CHASSIS_WIDTH - (2*RobotMap.BUMPER_WIDTH)); //TODO find
         
         Point[] path = {
             new Point(0, 0),
@@ -125,25 +125,9 @@ public class TwoSpeakerAmpSeq extends SequentialCommandGroup{
 
         //FEED PIECE: run indexer 0.5 seconds?
         addCommands(new AutoFeed(indexer, RobotMap.AUTO_FEED_TIME));
-        //end shooter and indexer
-
-        angle = ()->Units.degreesToRadians(0);
-        time = 1.5;
-        speed = ampToCenter/time;
-
-        //DRIVE TO CENTER
-        new InstantCommand(()->shooter.end());
-        startPoint = new Pose2d(new Translation2d(startPoint.getX()+finalPoint.x, startPoint.getY()+finalPoint.y), new Rotation2d(0.0));
-        finalPoint = new Point((ampToCenter/2), direction*Units.inchesToMeters(96-(0.5 * RobotMap.CHASSIS_WIDTH))/2);
-        addCommands(new driveSegment(drivetrain, angle, finalPoint, speed, startPoint, true));
         
-        angle = ()->Units.degreesToRadians(-direction*50);
-
+        //DRIVE BACK
         startPoint = new Pose2d(new Translation2d(startPoint.getX()+finalPoint.x, startPoint.getY()+finalPoint.y), new Rotation2d(0.0));
-        finalPoint = new Point(ampToCenter/2, Units.inchesToMeters(direction*Units.inchesToMeters(96-(0.5 * RobotMap.CHASSIS_WIDTH))/2));
-        addCommands(Commands.parallel(
-            new driveSegment(drivetrain, angle, finalPoint, speed, startPoint, true),
-            new AutoIntakeIn(intake, indexer, time+0.75)
-        ));
+        addCommands(new DriveBackAmp(drivetrain, shooter, intake, indexer, flip, startPoint, direction));
     }
 }
