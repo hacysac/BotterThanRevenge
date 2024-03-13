@@ -75,11 +75,12 @@ public class RobotContainer {
 
     AutoChooser.setDefaultOption("Drive Back", 0);
     //AutoChooser.addOption("2 Note Seq", new TwoNoteSeq(drivetrain, shooter, indexer, intake, flip, false, team));
-    AutoChooser.addOption("3 Note Seq", 1);
-    AutoChooser.addOption("4 Note Seq", 2);
-    AutoChooser.addOption("2 Amp Seq", 3);
-    AutoChooser.addOption("2 Note + Amp Seq", 4);
-    AutoChooser.addOption("Center Pass Seq", 5);
+    AutoChooser.addOption("3 Note Source Side Seq", 1);
+    AutoChooser.addOption("3 Note Amp Side Seq", 2);
+    AutoChooser.addOption("4 Note Seq", 3);
+    AutoChooser.addOption("2 Amp Seq", 4);
+    AutoChooser.addOption("2 Note + Amp Seq", 5);
+    AutoChooser.addOption("Center Pass Seq", 6);
     SmartDashboard.putData(AutoChooser);
 
     configureBindings();
@@ -151,15 +152,18 @@ public class RobotContainer {
       return new ThreeNoteSeq(drivetrain, shooter, indexer, intake, flip, false, team);
     }
     else if (AutoChooser.getSelected() == 2){
-      return new FourNoteSeq(drivetrain, shooter, indexer, intake, flip, team);
+      return new ThreeNoteSeq(drivetrain, shooter, indexer, intake, flip, false, -team);
     }
     else if (AutoChooser.getSelected() == 3){
-      return new TwoAmpSeq(drivetrain, shooter, indexer, intake, flip, -team);
+      return new FourNoteSeq(drivetrain, shooter, indexer, intake, flip, team);
     }
     else if (AutoChooser.getSelected() == 4){
-      return new TwoSpeakerAmpSeq(drivetrain, shooter, indexer, intake, flip, false, -team);
+      return new TwoAmpSeq(drivetrain, shooter, indexer, intake, flip, -team);
     }
     else if (AutoChooser.getSelected() == 5){
+      return new TwoSpeakerAmpSeq(drivetrain, shooter, indexer, intake, flip, false, -team);
+    }
+    else if (AutoChooser.getSelected() == 6){
       return new PassNotesSeq(drivetrain, shooter, indexer, intake, flip, team);
     }
     return new InstantCommand(()-> System.out.println("pain"));
