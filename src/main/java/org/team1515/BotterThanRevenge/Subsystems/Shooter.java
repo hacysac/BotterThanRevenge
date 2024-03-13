@@ -51,11 +51,24 @@ public class Shooter extends SubsystemBase {
     public boolean getSpeaker(){
         return speaker;
     }
+    
     public double getLeft(){
         return lShooter.getEncoder().getVelocity();
     }
     public double getRight(){
         return rShooter.getEncoder().getVelocity();
+    }
+
+    public void shootAmp(){
+        amp = true;
+        speaker = false;
+        lShooter.set(RobotMap.AMP_SPEED);
+    }
+
+    public void shootSpeaker(){
+        speaker = true;
+        amp = false;
+        lShooter.set(RobotMap.SPEAKER_SPEED);
     }
 
     public void shoot(double speed){

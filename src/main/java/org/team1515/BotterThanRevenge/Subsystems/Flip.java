@@ -156,8 +156,8 @@ public class Flip extends SubsystemBase{
         // SmartDashboard.putNumber("MidOffset", midOffset);
 
         //SmartDashboard.putBoolean("Intake Down?", getDown());
-        // SmartDashboard.putBoolean("Intake Up?", up);
+        //SmartDashboard.putBoolean("Intake Up?", up);
 
-        // SmartDashboard.putNumber("Flip Draw", flip.getOutputCurrent());
+        SmartDashboard.putNumber("Flip Draw", flip.getOutputCurrent());
     }
 }
