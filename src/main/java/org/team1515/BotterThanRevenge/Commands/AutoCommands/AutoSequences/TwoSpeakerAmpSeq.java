@@ -127,27 +127,23 @@ public class TwoSpeakerAmpSeq extends SequentialCommandGroup{
         addCommands(new AutoFeed(indexer, RobotMap.AUTO_FEED_TIME));
         //end shooter and indexer
 
-        angle = ()->Units.degreesToRadians(50);
+        angle = ()->Units.degreesToRadians(0);
         time = 1.5;
         speed = ampToCenter/time;
 
         //DRIVE TO CENTER
         new InstantCommand(()->shooter.end());
-        startPoint = new Pose2d(new Translation2d(startPoint.getX()+finalPoint.x, startPoint.getY()+finalPoint.y), new Rotation2d(0.0));;
-        finalPoint = new Point((ampToCenter/2), Units.inchesToMeters(direction*48));
+        startPoint = new Pose2d(new Translation2d(startPoint.getX()+finalPoint.x, startPoint.getY()+finalPoint.y), new Rotation2d(0.0));
+        finalPoint = new Point((ampToCenter/2), direction*Units.inchesToMeters(96-(0.5 * RobotMap.CHASSIS_WIDTH))/2);
         addCommands(new driveSegment(drivetrain, angle, finalPoint, speed, startPoint, true));
         
-        angle = ()->Units.degreesToRadians(0);
+        angle = ()->Units.degreesToRadians(50);
 
         startPoint = new Pose2d(new Translation2d(startPoint.getX()+finalPoint.x, startPoint.getY()+finalPoint.y), new Rotation2d(0.0));
-        finalPoint = new Point(ampToCenter, Units.inchesToMeters(-direction*(RobotMap.CHASSIS_WIDTH)));
-        Translation2d d = new Translation2d(finalPoint.x-startPoint.getX(), finalPoint.y-startPoint.getY());
-        double length = d.getNorm();
-        speed = length/3.0;
-        //Im not 100%sure what the point of that is
-        // addCommands(Commands.parallel(
-        //     new driveSegment(drivetrain, angle, finalPoint, speed, startPoint, true),
-        //     new AutoIntakeIn(intake, indexer, time+0.75)
-        // ));
+        finalPoint = new Point(ampToCenter/2, Units.inchesToMeters(direction*Units.inchesToMeters(96-(0.5 * RobotMap.CHASSIS_WIDTH))/2));
+        addCommands(Commands.parallel(
+            new driveSegment(drivetrain, angle, finalPoint, speed, startPoint, true),
+            new AutoIntakeIn(intake, indexer, time+0.75)
+        ));
     }
 }
