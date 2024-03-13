@@ -152,7 +152,7 @@ public class FourNoteSeq extends SequentialCommandGroup{
                 new Point(subwooferToCenter/2, direction * Units.inchesToMeters(24)), 
                 finalPoint
         };
-        centerPath = bezierUtil.spacedPoints(centerPath, 50);
+        centerPath = bezierUtil.spacedPoints(centerPath, 25);
         addCommands(Commands.parallel(
                 new driveArcLength(drivetrain, centerPath, time, angle, startPoint),
                 new AutoIntakeIn(intake, indexer, 3.75)

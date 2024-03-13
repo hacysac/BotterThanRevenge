@@ -27,7 +27,7 @@ public class AutoFeed extends Command {
 
     @Override
     public boolean isFinished() {
-        return (System.currentTimeMillis()-startTime) >= time*1000 && !indexer.isBlocked();
+        return (System.currentTimeMillis()-startTime) >= time*1000;// && !indexer.isBlocked();
     }
 
     @Override

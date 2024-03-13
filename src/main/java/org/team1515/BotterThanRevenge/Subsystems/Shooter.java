@@ -86,8 +86,8 @@ public class Shooter extends SubsystemBase {
         SmartDashboard.putBoolean("Amp", getAmp());
         SmartDashboard.putBoolean("Speaker", getSpeaker());
 
-        SmartDashboard.putNumber("Left Shooter Draw", lShooter.getOutputCurrent());
-        SmartDashboard.putNumber("Right Shooter Draw", rShooter.getOutputCurrent());
+        // SmartDashboard.putNumber("Left Shooter Draw", lShooter.getOutputCurrent());
+        // SmartDashboard.putNumber("Right Shooter Draw", rShooter.getOutputCurrent());
 
     }
 }
