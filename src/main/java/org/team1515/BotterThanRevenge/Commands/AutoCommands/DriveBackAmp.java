@@ -36,7 +36,7 @@ public class DriveBackAmp extends SequentialCommandGroup{
         angle = ()->Units.degreesToRadians(-direction*50);
 
         startPoint = new Pose2d(new Translation2d(startPoint.getX()+finalPoint.x, startPoint.getY()+finalPoint.y), new Rotation2d(0.0));
-        finalPoint = new Point(ampToCenter/2, Units.inchesToMeters(direction*Units.inchesToMeters(96-(0.5 * RobotMap.CHASSIS_WIDTH))/2));
+        finalPoint = new Point(ampToCenter/2, direction*Units.inchesToMeters(direction*Units.inchesToMeters(96-(0.5 * RobotMap.CHASSIS_WIDTH))/2));
         addCommands(Commands.parallel(
             new driveSegment(drivetrain, angle, finalPoint, speed, startPoint, true),
             new AutoIntakeIn(intake, indexer, time+0.75)
