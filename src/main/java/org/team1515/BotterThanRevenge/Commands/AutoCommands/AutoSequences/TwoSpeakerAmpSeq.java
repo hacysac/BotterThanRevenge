@@ -31,39 +31,39 @@ public class TwoSpeakerAmpSeq extends SequentialCommandGroup{
 
         double finalPoseY = direction*(0.5*RobotMap.CHASSIS_WIDTH + 0.5*RobotMap.SUBWOOFER_LONG_WIDTH + RobotMap.BUMPER_WIDTH); //assuming red
         Pose2d subwoofer = new Pose2d(new Translation2d(0,0), new Rotation2d(0.0));
-        if (runBezier){
-            subwoofer = new Pose2d(new Translation2d(Units.inchesToMeters(RobotMap.SUBWOOFER_DEPTH + RobotMap.AUTO_OFFSET), Units.inchesToMeters(finalPoseY)), new Rotation2d(0.0));
-        }
+        // if (runBezier){
+        //     subwoofer = new Pose2d(new Translation2d(Units.inchesToMeters(RobotMap.SUBWOOFER_DEPTH + RobotMap.AUTO_OFFSET), Units.inchesToMeters(finalPoseY)), new Rotation2d(0.0));
+        // }
 
         double subwooferToNoteX = Units.inchesToMeters(RobotMap.SUBWOOFER_TO_NOTE - RobotMap.CHASSIS_WIDTH - (RobotMap.BUMPER_WIDTH));
         double subwooferToNoteY = -direction * Units.inchesToMeters(RobotMap.NOTE_TO_NOTE - (0.5 * RobotMap.CHASSIS_WIDTH));
         double noteToAmpX = -Units.inchesToMeters(RobotMap.NOTE_TO_AMP_X - 0.5*RobotMap.CHASSIS_WIDTH + 10);
         double noteToAmpY = -direction * (Units.inchesToMeters(RobotMap.NOTE_TO_AMP_Y - 0.5*RobotMap.CHASSIS_WIDTH - 2*RobotMap.BUMPER_WIDTH + 18)); // TODO
         
-        Point[] path = {
-            new Point(0, 0),
-            new Point(Units.inchesToMeters(53.5), direction * Units.inchesToMeters(2.3)), 
-            new Point(subwoofer.getX(), subwoofer.getY())
-        };
-        path = bezierUtil.spacedPoints(path, 25);
+        // Point[] path = {
+        //     new Point(0, 0),
+        //     new Point(Units.inchesToMeters(53.5), direction * Units.inchesToMeters(2.3)), 
+        //     new Point(subwoofer.getX(), subwoofer.getY())
+        // };
+        // path = bezierUtil.spacedPoints(path, 25);
         DoubleSupplier angle = () -> Units.degreesToRadians(0.0); //make sure shooter is forward
         
         //start shooter speed up
         //BEZIER
-        if (runBezier){
-            subwoofer = new Pose2d(new Translation2d(Units.inchesToMeters(RobotMap.SUBWOOFER_DEPTH + RobotMap.AUTO_OFFSET), Units.inchesToMeters(finalPoseY)), new Rotation2d(0.0));
-            addCommands(Commands.parallel(
-                new FlipUp(flip),
-                new InstantCommand(()->shooter.shootSpeaker()),
-                new driveArcLength(drivetrain, path, 3.5, angle)
-            ));
-        }
-        else{    
-            addCommands(Commands.parallel(
-                new FlipUp(flip),
-                new InstantCommand(()->shooter.shootSpeaker())
-            ));
-        }
+        // if (runBezier){
+        //     subwoofer = new Pose2d(new Translation2d(Units.inchesToMeters(RobotMap.SUBWOOFER_DEPTH + RobotMap.AUTO_OFFSET), Units.inchesToMeters(finalPoseY)), new Rotation2d(0.0));
+        //     addCommands(Commands.parallel(
+        //         new FlipUp(flip),
+        //         new InstantCommand(()->shooter.shootSpeaker()),
+        //         new driveArcLength(drivetrain, path, 3.5, angle)
+        //     ));
+        // }
+        // else{    
+        addCommands(Commands.parallel(
+            new FlipUp(flip),
+            new InstantCommand(()->shooter.shootSpeaker())
+        ));
+        //}
         
         //FEED PIECE + FLIP DOWN: run indexer 0.5 seconds?
         addCommands(Commands.parallel(
@@ -135,13 +135,13 @@ public class TwoSpeakerAmpSeq extends SequentialCommandGroup{
         speed = ampToCenter/time;
 
         startPoint = new Pose2d(new Translation2d(startPoint.getX()+finalPoint.x, startPoint.getY()+finalPoint.y), new Rotation2d(0.0));
-        finalPoint = new Point((ampToCenter/2), direction*Units.inchesToMeters(96-(0.5 * RobotMap.CHASSIS_WIDTH))/2);
+        finalPoint = new Point(ampToCenter/3, direction*Units.inchesToMeters(96-(0.5 * RobotMap.CHASSIS_WIDTH))/3);
         addCommands(new driveSegment(drivetrain, angle, finalPoint, speed, startPoint, true));
         
         angle = ()->Units.degreesToRadians(-direction*50);
 
         startPoint = new Pose2d(new Translation2d(startPoint.getX()+finalPoint.x, startPoint.getY()+finalPoint.y), new Rotation2d(0.0));
-        finalPoint = new Point((ampToCenter/2), direction*Units.inchesToMeters(96-(0.5 * RobotMap.CHASSIS_WIDTH))/2);
+        finalPoint = new Point((2*ampToCenter)/3, direction*(2*Units.inchesToMeters(96-(0.5 * RobotMap.CHASSIS_WIDTH)))/3);
         addCommands(Commands.parallel(
             new driveSegment(drivetrain, angle, finalPoint, speed, startPoint, true),
             new AutoIntakeIn(intake, indexer, time+0.75)

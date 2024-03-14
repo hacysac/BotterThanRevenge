@@ -17,6 +17,7 @@ import org.team1515.BotterThanRevenge.Commands.AutoCommands.AutoSequences.FourNo
 import org.team1515.BotterThanRevenge.Commands.AutoCommands.AutoSequences.PassNotesSeq;
 import org.team1515.BotterThanRevenge.Commands.AutoCommands.AutoSequences.ThreeNoteSeq;
 import org.team1515.BotterThanRevenge.Commands.AutoCommands.AutoSequences.TwoAmpSeq;
+import org.team1515.BotterThanRevenge.Commands.AutoCommands.AutoSequences.TwoNoteSeq;
 //import org.team1515.BotterThanRevenge.Commands.AutoCommands.AutoSequences.TwoNoteSeq;
 import org.team1515.BotterThanRevenge.Commands.DefaultDriveCommand;
 import org.team1515.BotterThanRevenge.Commands.IndexerCommands.IndexerDown;
@@ -74,13 +75,13 @@ public class RobotContainer {
     shooter = new Shooter();
 
     AutoChooser.setDefaultOption("Drive Back", 0);
-    //AutoChooser.addOption("2 Note Seq", new TwoNoteSeq(drivetrain, shooter, indexer, intake, flip, false, team));
     AutoChooser.addOption("3 Note Source Side Seq", 1);
     AutoChooser.addOption("3 Note Amp Side Seq", 2);
     AutoChooser.addOption("4 Note Seq", 3);
     AutoChooser.addOption("2 Amp Seq", 4);
     AutoChooser.addOption("2 Note + Amp Seq", 5);
-    //AutoChooser.addOption("Center Pass Seq", 6);
+    AutoChooser.addOption("2 Note Seq", 6);
+    //AutoChooser.addOption("Center Pass Seq", 7);
     SmartDashboard.putData(AutoChooser);
 
     configureBindings();
@@ -164,6 +165,9 @@ public class RobotContainer {
       return new TwoSpeakerAmpSeq(drivetrain, shooter, indexer, intake, flip, false, -team);
     }
     else if (AutoChooser.getSelected() == 6){
+      return new TwoNoteSeq(drivetrain, shooter, indexer, intake, flip, false, team);
+    }
+    else if (AutoChooser.getSelected() == 7){
       return new PassNotesSeq(drivetrain, shooter, indexer, intake, flip, team);
     }
     return new InstantCommand(()-> System.out.println("pain"));
