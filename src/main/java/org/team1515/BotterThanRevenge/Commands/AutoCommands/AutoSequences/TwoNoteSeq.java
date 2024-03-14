@@ -30,12 +30,10 @@ public class TwoNoteSeq extends SequentialCommandGroup{
         double finalPoseY = direction*(0.5*RobotMap.CHASSIS_WIDTH + 0.5*RobotMap.SUBWOOFER_LONG_WIDTH + RobotMap.BUMPER_WIDTH); //assuming red
         Pose2d subwoofer = new Pose2d(new Translation2d(0,0), new Rotation2d(0.0));
         if (runBezier){
-            subwoofer = new Pose2d(new Translation2d(Units.inchesToMeters(RobotMap.SUBWOOFER_DEPTH), Units.inchesToMeters(finalPoseY)), new Rotation2d(0.0));
+            subwoofer = new Pose2d(new Translation2d(Units.inchesToMeters(RobotMap.SUBWOOFER_DEPTH + RobotMap.AUTO_OFFSET), Units.inchesToMeters(finalPoseY)), new Rotation2d(0.0));
         }
 
         double subwooferToNoteX = Units.inchesToMeters(RobotMap.SUBWOOFER_TO_NOTE - RobotMap.CHASSIS_WIDTH - (RobotMap.BUMPER_WIDTH));
-        //double subwooferToNoteY = -direction * Units.inchesToMeters(RobotMap.NOTE_TO_NOTE - (0.5 * RobotMap.CHASSIS_WIDTH));
-        double subwooferToCenter = Units.inchesToMeters(RobotMap.SUBWOOFER_TO_CENTER - RobotMap.CHASSIS_WIDTH - (2*RobotMap.BUMPER_WIDTH));
         
         Point[] path = {
             new Point(0, 0),
@@ -58,7 +56,7 @@ public class TwoNoteSeq extends SequentialCommandGroup{
         else{    
             addCommands(Commands.parallel(
                 new FlipUp(flip),
-                new InstantCommand(()->shooter.shoot(RobotMap.SPEAKER_SPEED))
+                new InstantCommand(()->shooter.shootSpeaker())
             ));
         }
         
@@ -83,7 +81,6 @@ public class TwoNoteSeq extends SequentialCommandGroup{
         ));
         
         //PICK UP PIECE: run intake+indexer 1 second limit
-        
 
         //DRIVE FORWARD + flip up + start shooter
         startPoint = new Pose2d(new Translation2d(subwoofer.getX()+finalPoint.x, subwoofer.getY()+finalPoint.y), new Rotation2d(0.0));
@@ -92,8 +89,6 @@ public class TwoNoteSeq extends SequentialCommandGroup{
         
         //FEED PIECE: run indexer 0.5 seconds?
         addCommands(new AutoFeed(indexer, RobotMap.AUTO_FEED_TIME));
-        //end shooter and indexer
-        
 
         angle = ()->Units.degreesToRadians(0.0);
         time = 3;
