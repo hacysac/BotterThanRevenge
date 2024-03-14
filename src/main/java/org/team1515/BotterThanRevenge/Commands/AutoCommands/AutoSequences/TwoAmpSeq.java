@@ -44,7 +44,7 @@ public class TwoAmpSeq extends SequentialCommandGroup{
         Point finalPoint = new Point(amp.getX(), amp.getY());
         addCommands(Commands.parallel(
             new driveSegment(drivetrain, angle, finalPoint, speed, startPoint, true),
-            new InstantCommand(()->shooter.shoot(RobotMap.AMP_SPEED)),
+            new InstantCommand(()->shooter.shootAmp()),
             new FlipUp(flip)
         ));
 

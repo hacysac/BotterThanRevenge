@@ -90,7 +90,7 @@ public class driveSegment extends Command {
         j = dy/mag; //unit vector j component
 
         this.t = (mag/speed) * 1000;
-        System.out.println(speed);
+        //System.out.println(speed);
         angleController.setSetpoint(MathUtil.angleModulus(getAngle()));
     }
 
@@ -119,7 +119,7 @@ public class driveSegment extends Command {
         //System.out.println("t: " + (System.currentTimeMillis()-startTime));
         //System.out.println(" Speed: " + speed);
         //System.out.println("start pose: " + start.x + ", " + start.y + " end pose: " + end.x + ", " + end.y + "\n");
-        System.out.println("odem x: " + drivetrain.getOdometry().getX() + ", " + RobotContainer.drivetrain.getOdometry().getX()  + " odem y: " + drivetrain.getOdometry().getY() + ", " + RobotContainer.drivetrain.getOdometry().getY() + "\n");
+        //System.out.println("odem x: " + drivetrain.getOdometry().getX() + ", " + RobotContainer.drivetrain.getOdometry().getX()  + " odem y: " + drivetrain.getOdometry().getY() + ", " + RobotContainer.drivetrain.getOdometry().getY() + "\n");
         if (endSegment){
             drivetrain.drive(new Translation2d(0,0), 0.0, true, true);
         }

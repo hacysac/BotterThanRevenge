@@ -62,19 +62,19 @@ public class Shooter extends SubsystemBase {
     public void shootAmp(){
         amp = true;
         speaker = false;
-        lShooter.set(RobotMap.AMP_SPEED);
+        lShooter.set(-RobotMap.AMP_SPEED);
     }
 
     public void shootSpeaker(){
         speaker = true;
         amp = false;
-        lShooter.set(RobotMap.SPEAKER_SPEED);
+        lShooter.set(-RobotMap.SPEAKER_SPEED);
     }
 
     public void shoot(double speed){
         lShooter.set(-speed);
     }
-    
+    //
     public void in(){
         lShooter.set(RobotMap.AMP_SPEED);
     }

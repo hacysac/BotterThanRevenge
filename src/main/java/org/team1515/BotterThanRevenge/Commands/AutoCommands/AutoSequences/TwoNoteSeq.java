@@ -51,7 +51,7 @@ public class TwoNoteSeq extends SequentialCommandGroup{
             subwoofer = new Pose2d(new Translation2d(Units.inchesToMeters(RobotMap.SUBWOOFER_DEPTH + RobotMap.AUTO_OFFSET), Units.inchesToMeters(finalPoseY)), new Rotation2d(0.0));
             addCommands(Commands.parallel(
                 new FlipUp(flip),
-                new InstantCommand(()->shooter.shoot(RobotMap.SPEAKER_SPEED)),
+                new InstantCommand(()->shooter.shootSpeaker()),
                 new driveArcLength(drivetrain, path, 3.5, angle)
             ));
         }
@@ -91,10 +91,7 @@ public class TwoNoteSeq extends SequentialCommandGroup{
         addCommands(new driveSegment(drivetrain, angle, finalPoint, speed, startPoint, true));
         
         //FEED PIECE: run indexer 0.5 seconds?
-        addCommands(Commands.parallel(
-                new AutoFeed(indexer, RobotMap.AUTO_FEED_TIME),
-                new FlipDown(flip)
-        ));
+        addCommands(new AutoFeed(indexer, RobotMap.AUTO_FEED_TIME));
         //end shooter and indexer
         
 

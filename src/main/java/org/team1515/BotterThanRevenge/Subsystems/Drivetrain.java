@@ -6,8 +6,8 @@ import org.team1515.BotterThanRevenge.Utils.PhotonVision;
 import com.team364.swervelib.util.SwerveConstants;
 import com.team364.swervelib.util.SwerveModule;
 
-import edu.wpi.first.math.MathUtil;
-import edu.wpi.first.math.estimator.PoseEstimator;
+//import edu.wpi.first.math.MathUtil;
+//import edu.wpi.first.math.estimator.PoseEstimator;
 import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -28,13 +28,13 @@ public class Drivetrain extends SubsystemBase {
 
     private Pose2d m_pose;
     private SwerveDrivePoseEstimator estimator;
-    private PhotonVision photonVision;
+    //private PhotonVision photonVision;
 
 
     public Drivetrain(Pose2d initialPos, PhotonVision photon) {
         realZero = Rotation2d.fromDegrees(RobotContainer.gyro.getYaw());
 
-        photonVision = photon;
+        //photonVision = photon;
         
         zeroGyro();
 

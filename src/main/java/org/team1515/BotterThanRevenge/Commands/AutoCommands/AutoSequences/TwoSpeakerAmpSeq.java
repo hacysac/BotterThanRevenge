@@ -54,14 +54,14 @@ public class TwoSpeakerAmpSeq extends SequentialCommandGroup{
             subwoofer = new Pose2d(new Translation2d(Units.inchesToMeters(RobotMap.SUBWOOFER_DEPTH + RobotMap.AUTO_OFFSET), Units.inchesToMeters(finalPoseY)), new Rotation2d(0.0));
             addCommands(Commands.parallel(
                 new FlipUp(flip),
-                new InstantCommand(()->shooter.shoot(RobotMap.SPEAKER_SPEED)),
+                new InstantCommand(()->shooter.shootSpeaker()),
                 new driveArcLength(drivetrain, path, 3.5, angle)
             ));
         }
         else{    
             addCommands(Commands.parallel(
                 new FlipUp(flip),
-                new InstantCommand(()->shooter.shoot(RobotMap.SPEAKER_SPEED))
+                new InstantCommand(()->shooter.shootSpeaker())
             ));
         }
         
@@ -107,7 +107,7 @@ public class TwoSpeakerAmpSeq extends SequentialCommandGroup{
         addCommands(Commands.parallel(
                 new driveSegment(drivetrain, angle, finalPoint, speed, startPoint, true),
                 new AutoIntakeIn(intake, indexer, RobotMap.AUTO_INTAKE_TIME),
-                new InstantCommand(()->shooter.shoot(RobotMap.AMP_SPEED))
+                new InstantCommand(()->shooter.shootAmp())
         ));
 
         //PICK UP PIECE: run intake+indexer 1 second limit
@@ -121,7 +121,7 @@ public class TwoSpeakerAmpSeq extends SequentialCommandGroup{
         //DRIVE TO AMP
         startPoint = new Pose2d(new Translation2d(subwoofer.getX()+finalPoint.x, subwoofer.getY()+finalPoint.y), new Rotation2d(Units.degreesToRadians(-RobotMap.AUTO_NOTE_ANGLE_OFFSET*direction)));
         finalPoint = new Point(noteToAmpX-Units.inchesToMeters(3.5), noteToAmpY-0.1);
-        addCommands(Commands.parallel(new driveSegment(drivetrain, angle, finalPoint, speed, startPoint, true), new FlipUp(flip)));
+        addCommands(new driveSegment(drivetrain, angle, finalPoint, speed, startPoint, true));
 
         //FEED PIECE: run indexer 0.5 seconds?
         addCommands(new AutoFeed(indexer, RobotMap.AUTO_FEED_TIME));
