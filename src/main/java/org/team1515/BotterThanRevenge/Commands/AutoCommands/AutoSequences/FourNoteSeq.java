@@ -16,7 +16,6 @@ import org.team1515.BotterThanRevenge.Subsystems.Indexer;
 import org.team1515.BotterThanRevenge.Subsystems.Intake;
 import org.team1515.BotterThanRevenge.Subsystems.Shooter;
 import org.team1515.BotterThanRevenge.Utils.Point;
-import org.team1515.BotterThanRevenge.Utils.bezierUtil;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -135,13 +134,15 @@ public class FourNoteSeq extends SequentialCommandGroup{
         addCommands(new AutoFeed(indexer, RobotMap.AUTO_FEED_TIME));
 
         //DRIVE BACK
-
-        double subwooferToCenter = Units.inchesToMeters(RobotMap.SUBWOOFER_TO_CENTER - RobotMap.CHASSIS_WIDTH - (2*RobotMap.BUMPER_WIDTH));
+        startPoint = subwoofer;
         angle = ()->Units.degreesToRadians(0.0);
-        time = 3;
-
-        //DRIVE TO CENTER + end shooter
+        time = 1;
+        finalPoint = new Point(Units.inchesToMeters(RobotMap.ROBOT_STARTING_ZONE_WIDTH + 5), direction*Units.inchesToMeters(63));
+        dist = Math.sqrt(Math.pow(finalPoint.x, 2)+Math.pow(finalPoint.y, 2));
+        speed = dist/time;
+        
         addCommands(new InstantCommand(()->shooter.end()));
+        addCommands(new driveSegment(drivetrain, angle, finalPoint, speed, subwoofer, true));
         //end all
     }
 }

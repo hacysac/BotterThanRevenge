@@ -128,8 +128,14 @@ public class ThreeNoteSeq extends SequentialCommandGroup{
         
         //DRIVE BACK
         startPoint = subwoofer;
+        angle = ()->Units.degreesToRadians(0.0);
+        time = 1;
+        finalPoint = new Point(Units.inchesToMeters(RobotMap.ROBOT_STARTING_ZONE_WIDTH + 5), direction*Units.inchesToMeters(63));
+        dist = Math.sqrt(Math.pow(finalPoint.x, 2)+Math.pow(finalPoint.y, 2));
+        speed = dist/time;
+        
         addCommands(new InstantCommand(()->shooter.end()));
-        //addCommands(new DriveBackSubwoofer(drivetrain, shooter, intake, indexer, flip, startPoint, direction));
+        addCommands(new driveSegment(drivetrain, angle, finalPoint, speed, subwoofer, true));
         //end all
     }
 }

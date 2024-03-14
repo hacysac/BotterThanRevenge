@@ -71,6 +71,9 @@ public class TwoAmpSeq extends SequentialCommandGroup{
         ));
 
         angle = () -> Units.degreesToRadians((RobotMap.AUTO_NOTE_ANGLE_OFFSET+10)*direction);
+        time = 2;
+        dist = Math.sqrt(Math.pow(noteToAmpX - Units.inchesToMeters(10), 2)+Math.pow(noteToAmpY, 2));
+        speed = dist/time;
 
         //DRIVE FORWARD
         startPoint = new Pose2d(new Translation2d(startPoint.getX()+finalPoint.x, startPoint.getY()+finalPoint.y), new Rotation2d(0.0));
@@ -81,8 +84,25 @@ public class TwoAmpSeq extends SequentialCommandGroup{
         addCommands(new AutoFeed(indexer, RobotMap.AUTO_FEED_TIME));
 
         //DRIVE BACK
+        new InstantCommand(()->shooter.end());
+
+        double ampToCenter = Units.inchesToMeters(RobotMap.AMP_TO_CENTER - RobotMap.CHASSIS_WIDTH - (2*RobotMap.BUMPER_WIDTH)); //TODO find
+        angle = ()->Units.degreesToRadians(0);
+        time = 3;
+        speed = ampToCenter/time;
+
         startPoint = new Pose2d(new Translation2d(startPoint.getX()+finalPoint.x, startPoint.getY()+finalPoint.y), new Rotation2d(0.0));
-        addCommands(new InstantCommand(()->shooter.end()));
+        finalPoint = new Point((ampToCenter/2), direction*Units.inchesToMeters(96-(0.5 * RobotMap.CHASSIS_WIDTH))/2);
+        addCommands(new driveSegment(drivetrain, angle, finalPoint, speed, startPoint, true));
+        
+        angle = ()->Units.degreesToRadians(-direction*50);
+
+        startPoint = new Pose2d(new Translation2d(startPoint.getX()+finalPoint.x, startPoint.getY()+finalPoint.y), new Rotation2d(0.0));
+        finalPoint = new Point((ampToCenter/2), direction*Units.inchesToMeters(96-(0.5 * RobotMap.CHASSIS_WIDTH))/2);
+        addCommands(Commands.parallel(
+            new driveSegment(drivetrain, angle, finalPoint, speed, startPoint, true),
+            new AutoIntakeIn(intake, indexer, time+0.75)
+        ));
         //addCommands(new DriveBackAmp(drivetrain, shooter, intake, indexer, flip, startPoint, direction));
         //end all
     }

@@ -90,11 +90,16 @@ public class TwoNoteSeq extends SequentialCommandGroup{
         //FEED PIECE: run indexer 0.5 seconds?
         addCommands(new AutoFeed(indexer, RobotMap.AUTO_FEED_TIME));
 
+        //DRIVE BACK
+        startPoint = subwoofer;
         angle = ()->Units.degreesToRadians(0.0);
-        time = 3;
-
-        //DRIVE TO CENTER + end shooter
+        time = 1;
+        finalPoint = new Point(Units.inchesToMeters(RobotMap.ROBOT_STARTING_ZONE_WIDTH + 5), direction*Units.inchesToMeters(63));
+        double dist = Math.sqrt(Math.pow(finalPoint.x, 2)+Math.pow(finalPoint.y, 2));
+        speed = dist/time;
+        
         addCommands(new InstantCommand(()->shooter.end()));
+        addCommands(new driveSegment(drivetrain, angle, finalPoint, speed, subwoofer, true));
         //end all
     }
 }

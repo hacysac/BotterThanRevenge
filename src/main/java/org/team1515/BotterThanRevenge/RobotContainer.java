@@ -80,7 +80,7 @@ public class RobotContainer {
     AutoChooser.addOption("4 Note Seq", 3);
     AutoChooser.addOption("2 Amp Seq", 4);
     AutoChooser.addOption("2 Note + Amp Seq", 5);
-    AutoChooser.addOption("Center Pass Seq", 6);
+    //AutoChooser.addOption("Center Pass Seq", 6);
     SmartDashboard.putData(AutoChooser);
 
     configureBindings();
