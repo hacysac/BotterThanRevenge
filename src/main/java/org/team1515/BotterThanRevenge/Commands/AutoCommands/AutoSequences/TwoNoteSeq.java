@@ -100,18 +100,6 @@ public class TwoNoteSeq extends SequentialCommandGroup{
 
         //DRIVE TO CENTER + end shooter
         addCommands(new InstantCommand(()->shooter.end()));
-        startPoint = subwoofer;
-        finalPoint = new Point(subwooferToCenter, 0);
-        Point[] centerPath = {
-                new Point(0, 0),
-                new Point(subwooferToCenter/2, direction * Units.inchesToMeters(24)), 
-                finalPoint
-        };
-        centerPath = bezierUtil.spacedPoints(centerPath, 50);
-        addCommands(Commands.parallel(
-                new driveArcLength(drivetrain, centerPath, time, angle, startPoint),
-                new AutoIntakeIn(intake, indexer, 3.75)
-        ));
         //end all
     }
 }

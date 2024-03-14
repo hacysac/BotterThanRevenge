@@ -128,6 +128,7 @@ public class TwoSpeakerAmpSeq extends SequentialCommandGroup{
         
         //DRIVE BACK
         startPoint = new Pose2d(new Translation2d(startPoint.getX()+finalPoint.x, startPoint.getY()+finalPoint.y), new Rotation2d(0.0));
-        addCommands(new DriveBackAmp(drivetrain, shooter, intake, indexer, flip, startPoint, direction));
+        addCommands(new InstantCommand(()->shooter.end()));
+        //addCommands(new DriveBackAmp(drivetrain, shooter, intake, indexer, flip, startPoint, direction));
     }
 }

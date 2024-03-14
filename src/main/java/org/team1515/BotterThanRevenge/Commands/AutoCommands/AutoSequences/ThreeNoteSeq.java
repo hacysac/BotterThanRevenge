@@ -128,7 +128,8 @@ public class ThreeNoteSeq extends SequentialCommandGroup{
         
         //DRIVE BACK
         startPoint = subwoofer;
-        addCommands(new DriveBackSubwoofer(drivetrain, shooter, intake, indexer, flip, startPoint, direction));
+        addCommands(new InstantCommand(()->shooter.end()));
+        //addCommands(new DriveBackSubwoofer(drivetrain, shooter, intake, indexer, flip, startPoint, direction));
         //end all
     }
 }
