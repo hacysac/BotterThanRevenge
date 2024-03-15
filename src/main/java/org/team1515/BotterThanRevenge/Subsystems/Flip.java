@@ -28,6 +28,7 @@ public class Flip extends SubsystemBase{
 
     private double midOffset;
     private double lowOffset;
+    private boolean wrapping;
 
     //private double constantSpeed = -0.025; // flip motor is inverted, negative goes up
     //private double offset = 0.0; //this is how u apply speed
@@ -44,6 +45,8 @@ public class Flip extends SubsystemBase{
         topValue = 0.76;
         midValue = -1000;
         lowValue = -1000;
+
+        wrapping = false;
 
         lowOffset = RobotMap.FLIP_DOWN_OFFSET;
         midOffset = RobotMap.FLIP_MID_OFFSET;
@@ -99,15 +102,25 @@ public class Flip extends SubsystemBase{
     public double getCANCoderValue(){
         //looping
         
-        //return 0.5+canCoder.getAbsolutePosition().getValueAsDouble();
-
-        //no looping
-        if (canCoder.getAbsolutePosition().getValueAsDouble() < 0){
-            return 1+canCoder.getAbsolutePosition().getValueAsDouble();
+        if (wrapping){
+            if (canCoder.getAbsolutePosition().getValueAsDouble() < 0){
+                return 1+canCoder.getAbsolutePosition().getValueAsDouble();
+            }
+            else{
+                return canCoder.getAbsolutePosition().getValueAsDouble();
+            }
         }
         else{
-            return canCoder.getAbsolutePosition().getValueAsDouble();
+            return 0.5+canCoder.getAbsolutePosition().getValueAsDouble();
         }
+
+        //no looping
+        // if (canCoder.getAbsolutePosition().getValueAsDouble() < 0){
+        //     return 1+canCoder.getAbsolutePosition().getValueAsDouble();
+        // }
+        // else{
+        //     return canCoder.getAbsolutePosition().getValueAsDouble();
+        // }
     }
 
     public void end(){
@@ -122,6 +135,10 @@ public class Flip extends SubsystemBase{
         topValue = getCANCoderValue();
         midValue = topValue - midOffset;
         lowValue = topValue - lowOffset;
+        if (lowValue<0){
+            wrapping= !wrapping;
+            setCurrentTopValue();
+        }
     }
 
     public void setUp(boolean up){
