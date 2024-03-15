@@ -35,6 +35,8 @@ public class Flip extends SubsystemBase{
     public Flip(){
 
         flip = new CANSparkMax(RobotMap.FLIP_INTAKE_ID, MotorType.kBrushless);
+        flip.setInverted(false);
+        flip.burnFlash();
         canCoder = new CANcoder(RobotMap.FLIP_CANCODER_ID);
         canCoder.clearStickyFault_BadMagnet();
         canCoder.getConfigurator().apply(new CANcoderConfiguration());
@@ -97,15 +99,15 @@ public class Flip extends SubsystemBase{
     public double getCANCoderValue(){
         //looping
         
-        //return 0.5+canCoder.getAbsolutePosition().getValueAsDouble();
+        return 0.5+canCoder.getAbsolutePosition().getValueAsDouble();
 
         //no looping
-        if (canCoder.getAbsolutePosition().getValueAsDouble() < 0){
-            return 1+canCoder.getAbsolutePosition().getValueAsDouble();
-        }
-        else{
-            return canCoder.getAbsolutePosition().getValueAsDouble();
-        }
+        // if (canCoder.getAbsolutePosition().getValueAsDouble() < 0){
+        //     return 1+canCoder.getAbsolutePosition().getValueAsDouble();
+        // }
+        // else{
+        //     return canCoder.getAbsolutePosition().getValueAsDouble();
+        // }
     }
 
     public void end(){
@@ -148,9 +150,9 @@ public class Flip extends SubsystemBase{
         SmartDashboard.putNumber("Calulated Intake Angle", getCANCoderValue());
         //SmartDashboard.putNumber("Absolute Intake Angle", canCoder.getAbsolutePosition().getValueAsDouble());
 
-        // SmartDashboard.putNumber("Intake TopValue", topValue);
-        // SmartDashboard.putNumber("Intake MidValue", midValue);
-        // SmartDashboard.putNumber("Intake LowValue", lowValue);
+        SmartDashboard.putNumber("Intake TopValue", topValue);
+        SmartDashboard.putNumber("Intake MidValue", midValue);
+        SmartDashboard.putNumber("Intake LowValue", lowValue);
 
         // SmartDashboard.putNumber("CurrentOffset", topValue - getCANCoderValue());
         // SmartDashboard.putNumber("LowOffset", lowOffset);
