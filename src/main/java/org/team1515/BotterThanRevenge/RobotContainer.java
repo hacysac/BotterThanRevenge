@@ -147,7 +147,7 @@ public class RobotContainer {
     }
 
     if (AutoChooser.getSelected() == 0){
-      return new DriveBackSeq(drivetrain);
+      return new DriveBackSeq(drivetrain, flip);
     }
     else if (AutoChooser.getSelected() == 1){
       return new ThreeNoteSeq(drivetrain, shooter, indexer, intake, flip, false, team);
