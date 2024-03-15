@@ -35,6 +35,7 @@ import org.team1515.BotterThanRevenge.Subsystems.*;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -45,6 +46,7 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 public class RobotContainer {
   public static XboxController mainController;
   public static XboxController secondController;
+  public static GenericHID autoController;
 
   public static Gyroscope gyro;
   private PhotonVision photon;
@@ -63,6 +65,7 @@ public class RobotContainer {
   public RobotContainer() {
     mainController = new XboxController(0);
     secondController = new XboxController(1);
+    autoController = new GenericHID(2);
 
     gyro = new Gyroscope();
     photon = new PhotonVision();
@@ -145,6 +148,42 @@ public class RobotContainer {
             team = 1;
         }
     }
+    // boolean controller1 = autoController.getRawButton(1);
+    // boolean controller2 = autoController.getRawButton(2);
+    // boolean controller3 = autoController.getRawButton(3);
+    // boolean controller4 = autoController.getRawButton(4);
+    // boolean controller5 = autoController.getRawButton(5);
+    // boolean controller6 = autoController.getRawButton(6);
+
+    // int c1 = (controller1)?1:0;
+    // int c2 = (controller2)?1:0;
+    // int c3 = (controller3)?1:0;
+    // int c4 = (controller4)?1:0;
+    // int c5 = (controller5)?1:0;
+    // int c6 = (controller6)?1:0;
+
+    // int selected = (c3+2*c2+4*c3);
+    // switch (selected) {
+    //   case 0:
+    //     return new DriveBackSeq(drivetrain, flip);
+    //   case 1:
+    //     return new ThreeNoteSeq(drivetrain, shooter, indexer, intake, flip, false, team);
+    //   case 2:
+    //     return new ThreeNoteSeq(drivetrain, shooter, indexer, intake, flip, false, -team);
+    //   case 3:
+    //     return new FourNoteSeq(drivetrain, shooter, indexer, intake, flip, team);
+    //   case 4:
+    //     return new TwoAmpSeq(drivetrain, shooter, indexer, intake, flip, -team);
+    //   case 5:
+    //     return new TwoSpeakerAmpSeq(drivetrain, shooter, indexer, intake, flip, false, -team);
+    //   case 6:
+    //     return new TwoNoteSeq(drivetrain, shooter, indexer, intake, flip, false, team);
+    //   case 7:
+    //     return new PassNotesSeq(drivetrain, shooter, indexer, intake, flip, team);
+    //   default:
+    //     return new InstantCommand(()-> System.out.println("pain"));
+    // }
+
 
     if (AutoChooser.getSelected() == 0){
       return new DriveBackSeq(drivetrain, flip);
