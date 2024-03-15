@@ -34,8 +34,8 @@ public class ThreeNoteSeq extends SequentialCommandGroup{
         //     subwoofer = new Pose2d(new Translation2d(Units.inchesToMeters(RobotMap.SUBWOOFER_DEPTH), Units.inchesToMeters(finalPoseY)), new Rotation2d(0.0));
         // }
         
-        double subwooferToNoteX = Units.inchesToMeters(RobotMap.SUBWOOFER_TO_NOTE - RobotMap.CHASSIS_WIDTH - (RobotMap.BUMPER_WIDTH));
-        double subwooferToNoteY = -direction * Units.inchesToMeters(RobotMap.NOTE_TO_NOTE - (0.5 * RobotMap.CHASSIS_WIDTH));
+        double subwooferToNoteX = Units.inchesToMeters(RobotMap.SUBWOOFER_TO_NOTE - RobotMap.CHASSIS_WIDTH + 3);
+        double subwooferToNoteY = -direction * Units.inchesToMeters(RobotMap.NOTE_TO_NOTE - (0.5 * RobotMap.CHASSIS_WIDTH) + 3);
         
         //start shooter + flip up to find offsets
         // Point[] path = {
@@ -114,13 +114,13 @@ public class ThreeNoteSeq extends SequentialCommandGroup{
         
 
         angle = ()->Units.degreesToRadians(RobotMap.AUTO_NOTE_ANGLE_OFFSET*direction);
-        dist = Math.sqrt(Math.pow(subwooferToNoteX + Units.inchesToMeters(4), 2)+Math.pow(subwooferToNoteY, 2));
+        dist = Math.sqrt(Math.pow(subwooferToNoteX + Units.inchesToMeters(2), 2)+Math.pow(subwooferToNoteY, 2));
         time = 1;
         speed = dist/time;
         
         //DRIVE DIAGONAL FORWARD + flip up + start shooter
         startPoint = new Pose2d(new Translation2d(subwoofer.getX()+finalPoint.x, subwoofer.getY()+finalPoint.y), new Rotation2d(150.0));
-        finalPoint = new Point(-(subwooferToNoteX + Units.inchesToMeters(4)), -subwooferToNoteY);
+        finalPoint = new Point(-(subwooferToNoteX + Units.inchesToMeters(2)), -subwooferToNoteY);
         addCommands(new driveSegment(drivetrain, angle, finalPoint, speed, startPoint, true));
 
         //FEED PIECE: run indexer 0.5 seconds?

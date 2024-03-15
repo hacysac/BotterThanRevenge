@@ -99,15 +99,15 @@ public class Flip extends SubsystemBase{
     public double getCANCoderValue(){
         //looping
         
-        return 0.5+canCoder.getAbsolutePosition().getValueAsDouble();
+        //return 0.5+canCoder.getAbsolutePosition().getValueAsDouble();
 
         //no looping
-        // if (canCoder.getAbsolutePosition().getValueAsDouble() < 0){
-        //     return 1+canCoder.getAbsolutePosition().getValueAsDouble();
-        // }
-        // else{
-        //     return canCoder.getAbsolutePosition().getValueAsDouble();
-        // }
+        if (canCoder.getAbsolutePosition().getValueAsDouble() < 0){
+            return 1+canCoder.getAbsolutePosition().getValueAsDouble();
+        }
+        else{
+            return canCoder.getAbsolutePosition().getValueAsDouble();
+        }
     }
 
     public void end(){
