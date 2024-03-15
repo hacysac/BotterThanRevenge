@@ -118,6 +118,8 @@ public class Flip extends SubsystemBase{
 
     public void setCurrentTopValue(){
         topValue = getCANCoderValue();
+        midValue = topValue - midOffset;
+        lowValue = topValue - lowOffset;
     }
 
     public void setUp(boolean up){
@@ -132,8 +134,6 @@ public class Flip extends SubsystemBase{
     public void periodic(){
 
         //topValue = SmartDashboard.getNumber("Intake TopValue", 0.76);
-        midValue = topValue - midOffset;
-        lowValue = topValue - lowOffset;
 
         //midOffset = SmartDashboard.getNumber("Intake MidOffset", 0.24);
         //lowOffset = SmartDashboard.getNumber("Intake LowOffset", 0.51);
