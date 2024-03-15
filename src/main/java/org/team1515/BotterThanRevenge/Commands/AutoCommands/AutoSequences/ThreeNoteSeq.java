@@ -28,7 +28,7 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 
 public class ThreeNoteSeq extends SequentialCommandGroup{
     public ThreeNoteSeq(Drivetrain drivetrain, Shooter shooter, Indexer indexer, Intake intake, Flip flip, boolean runBezier, double direction){
-        double finalPoseY = direction*(0.5*RobotMap.CHASSIS_WIDTH + 0.5*RobotMap.SUBWOOFER_LONG_WIDTH + RobotMap.BUMPER_WIDTH); //assuming red
+        //double finalPoseY = direction*(0.5*RobotMap.CHASSIS_WIDTH + 0.5*RobotMap.SUBWOOFER_LONG_WIDTH + RobotMap.BUMPER_WIDTH); //assuming red
         Pose2d subwoofer = new Pose2d(new Translation2d(0,0), new Rotation2d(0.0));
         // if (runBezier){
         //     subwoofer = new Pose2d(new Translation2d(Units.inchesToMeters(RobotMap.SUBWOOFER_DEPTH), Units.inchesToMeters(finalPoseY)), new Rotation2d(0.0));
