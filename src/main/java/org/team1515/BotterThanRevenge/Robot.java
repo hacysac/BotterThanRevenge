@@ -33,6 +33,7 @@ public class Robot extends TimedRobot {
   public void robotPeriodic() {
     CommandScheduler.getInstance().run();
     SmartDashboard.putNumber("NavX", RobotContainer.gyro.getGyroscopeRotation().getDegrees());
+    SmartDashboard.putBooleanArray("switchBox", new boolean[] {RobotContainer.autoController.getRawButton(1), RobotContainer.autoController.getRawButton(2), RobotContainer.autoController.getRawButton(3), RobotContainer.autoController.getRawButton(4), RobotContainer.autoController.getRawButton(5), RobotContainer.autoController.getRawButton(6)});
   }
 
   @Override
