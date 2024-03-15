@@ -71,7 +71,7 @@ public class RobotMap {
     //Intake
     public static final int TOP_INTAKE_ID = 23;
     public static final int BOTTOM_INTAKE_ID = 24;
-    public static final double UPPER_INTAKE_SPEED = 0.8;
+    public static final double UPPER_INTAKE_SPEED = 0.7;
     public static final double LOWER_INTAKE_SPEED = 0.55;
     public static final int INTAKE_CURRENT_LIMIT = 20;
 
