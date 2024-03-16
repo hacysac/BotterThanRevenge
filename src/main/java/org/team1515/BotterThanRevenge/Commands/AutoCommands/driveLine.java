@@ -85,7 +85,7 @@ public class driveLine extends Command {
         //System.out.println("t: " + (System.currentTimeMillis()-startTime));
         //System.out.println(" Speed: " + speed);
         //System.out.println("start pose: " + start.x + ", " + start.y + " end pose: " + end.x + ", " + end.y + "\n");
-        //System.out.println("odem x: " + drivetrain.getOdometry().getX() + ", " + RobotContainer.drivetrain.getOdometry().getX()  + " odem y: " + drivetrain.getOdometry().getY() + ", " + RobotContainer.drivetrain.getOdometry().getY() + "\n");
+        System.out.println("odem x: " + drivetrain.getOdometry().getX() + ", " + RobotContainer.drivetrain.getOdometry().getX()  + " odem y: " + drivetrain.getOdometry().getY() + ", " + RobotContainer.drivetrain.getOdometry().getY() + "\n");
         drivetrain.drive(new Translation2d(0,0), 0.0, true, true);
     }
 }
