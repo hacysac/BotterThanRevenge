@@ -65,7 +65,7 @@ public class RobotContainer {
   public RobotContainer() {
     mainController = new XboxController(0);
     secondController = new XboxController(1);
-    autoController = new GenericHID(2);
+    // autoController = new GenericHID(2);
 
     gyro = new Gyroscope();
     photon = new PhotonVision();
@@ -213,7 +213,7 @@ public class RobotContainer {
   }
 
   public static double getRobotSpeed() {
-    return Controls.getLeftTriggerMain() ? 0.45 : 0.7;
+    return Controls.getLeftTriggerMain() ? 0.45 : 0.9;
     // return 0.7;
   }
 

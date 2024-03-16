@@ -42,7 +42,7 @@ public class FourNoteSeq extends SequentialCommandGroup{
         addCommands(Commands.parallel(
                 new AutoFeed(indexer, RobotMap.AUTO_FEED_TIME),
                 new FlipDown(flip)
-        ));
+        ).withTimeout(2));
         //end shooter and indexer
         
         
@@ -56,7 +56,7 @@ public class FourNoteSeq extends SequentialCommandGroup{
         addCommands(Commands.parallel(
                 new driveSegment(drivetrain, angle, finalPoint, speed, startPoint, true),
                 new AutoIntakeIn(intake, indexer, RobotMap.AUTO_INTAKE_TIME)
-        ));
+        ).withTimeout(2));
         
         //PICK UP PIECE: run intake+indexer 1 second limit
         
@@ -64,10 +64,10 @@ public class FourNoteSeq extends SequentialCommandGroup{
         //DRIVE FORWARD + flip up + start shooter
         startPoint = new Pose2d(new Translation2d(subwoofer.getX()+finalPoint.x, subwoofer.getY()+finalPoint.y), new Rotation2d(0.0));
         finalPoint = new Point(-subwooferToNoteX, 0);
-        addCommands(new driveSegment(drivetrain, angle, finalPoint, speed, startPoint, true));
+        addCommands(new driveSegment(drivetrain, angle, finalPoint, speed, startPoint, true).withTimeout(2));
         
         //FEED PIECE: run indexer 0.5 seconds?
-        addCommands(new AutoFeed(indexer, RobotMap.AUTO_FEED_TIME));
+        addCommands(new AutoFeed(indexer, RobotMap.AUTO_FEED_TIME).withTimeout(2));
         //end shooter and indexer
         
 
@@ -82,7 +82,7 @@ public class FourNoteSeq extends SequentialCommandGroup{
         addCommands(Commands.parallel(
                 new driveSegment(drivetrain, angle, finalPoint, speed, startPoint, true),
                 new AutoIntakeIn(intake, indexer, RobotMap.AUTO_INTAKE_TIME)
-        ));
+        ).withTimeout(1));
 
         
         //PICK UP PIECE: run intake+indexer 1 second limit
@@ -96,10 +96,10 @@ public class FourNoteSeq extends SequentialCommandGroup{
         //DRIVE DIAGONAL FORWARD + flip up + start shooter
         startPoint = new Pose2d(new Translation2d(subwoofer.getX()+finalPoint.x, subwoofer.getY()+finalPoint.y), new Rotation2d(0.0));
         finalPoint = new Point(-(subwooferToNoteX + Units.inchesToMeters(2)), -subwooferToNoteY);
-        addCommands(new driveSegment(drivetrain, angle, finalPoint, speed, startPoint, true));
+        addCommands(new driveSegment(drivetrain, angle, finalPoint, speed, startPoint, true).withTimeout(1));
 
         //FEED PIECE: run indexer 0.5 seconds?
-        addCommands(new AutoFeed(indexer, RobotMap.AUTO_FEED_TIME));
+        addCommands(new AutoFeed(indexer, RobotMap.AUTO_FEED_TIME).withTimeout(1));
         //end shooter and indexer
         
 
@@ -114,7 +114,7 @@ public class FourNoteSeq extends SequentialCommandGroup{
         addCommands(Commands.parallel(
                 new driveSegment(drivetrain, angle, finalPoint, speed, startPoint, true),
                 new AutoIntakeIn(intake, indexer, RobotMap.AUTO_INTAKE_TIME)
-        ));
+        ).withTimeout(2));
 
         
         //PICK UP PIECE: run intake+indexer 1 second limit
@@ -128,10 +128,10 @@ public class FourNoteSeq extends SequentialCommandGroup{
         //DRIVE DIAGONAL FORWARD + flip up + start shooter
         startPoint = new Pose2d(new Translation2d(subwoofer.getX()+finalPoint.x, subwoofer.getY()+finalPoint.y), new Rotation2d(0.0));
         finalPoint = new Point(-(subwooferToNoteX + Units.inchesToMeters(2)), subwooferToNoteY);
-        addCommands(new driveSegment(drivetrain, angle, finalPoint, speed, startPoint, true));
+        addCommands(new driveSegment(drivetrain, angle, finalPoint, speed, startPoint, true).withTimeout(1));
         
         //FEED PIECE: run indexer 0.5 seconds?
-        addCommands(new AutoFeed(indexer, RobotMap.AUTO_FEED_TIME));
+        addCommands(new AutoFeed(indexer, RobotMap.AUTO_FEED_TIME).withTimeout(1));
 
         //DRIVE BACK
         startPoint = subwoofer;
@@ -142,7 +142,7 @@ public class FourNoteSeq extends SequentialCommandGroup{
         speed = dist/time;
         
         addCommands(new InstantCommand(()->shooter.end()));
-        addCommands(new driveSegment(drivetrain, angle, finalPoint, speed, subwoofer, true));
+        addCommands(new driveSegment(drivetrain, angle, finalPoint, speed, subwoofer, true).withTimeout(1));
         //end all
     }
 }

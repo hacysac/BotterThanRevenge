@@ -62,14 +62,14 @@ public class TwoSpeakerAmpSeq extends SequentialCommandGroup{
         addCommands(Commands.parallel(
             new FlipUp(flip),
             new InstantCommand(()->shooter.shootSpeaker())
-        ));
+        ).withTimeout(2));
         //}
         
         //FEED PIECE + FLIP DOWN: run indexer 0.5 seconds?
         addCommands(Commands.parallel(
                 new AutoFeed(indexer, RobotMap.AUTO_FEED_TIME),
                 new FlipDown(flip)
-        ));
+        ).withTimeout(2));
         //end shooter and indexer
         
         
@@ -83,17 +83,17 @@ public class TwoSpeakerAmpSeq extends SequentialCommandGroup{
         addCommands(Commands.parallel(
                 new driveSegment(drivetrain, angle, finalPoint, speed, startPoint, true),
                 new AutoIntakeIn(intake, indexer, RobotMap.AUTO_INTAKE_TIME)
-        ));
+        ).withTimeout(2));
         
         //PICK UP PIECE: run intake+indexer 1 second limit
 
         //DRIVE FORWARD + flip up + start shooter
         startPoint = new Pose2d(new Translation2d(subwoofer.getX()+finalPoint.x, subwoofer.getY()+finalPoint.y), new Rotation2d(0.0));
         finalPoint = new Point(-subwooferToNoteX, 0);
-        addCommands(new driveSegment(drivetrain, angle, finalPoint, speed, startPoint, true));
+        addCommands(new driveSegment(drivetrain, angle, finalPoint, speed, startPoint, true).withTimeout(2));
         
         //FEED PIECE: run indexer 0.5 seconds?
-        addCommands(new AutoFeed(indexer, RobotMap.AUTO_FEED_TIME));
+        addCommands(new AutoFeed(indexer, RobotMap.AUTO_FEED_TIME).withTimeout(2));
         //end shooter and indexer
 
         angle = ()->Units.degreesToRadians(-RobotMap.AUTO_NOTE_ANGLE_OFFSET*direction);
@@ -108,7 +108,7 @@ public class TwoSpeakerAmpSeq extends SequentialCommandGroup{
                 new driveSegment(drivetrain, angle, finalPoint, speed, startPoint, true),
                 new AutoIntakeIn(intake, indexer, RobotMap.AUTO_INTAKE_TIME),
                 new InstantCommand(()->shooter.shootAmp())
-        ));
+        ).withTimeout(2));
 
         //PICK UP PIECE: run intake+indexer 1 second limit
         
@@ -121,10 +121,10 @@ public class TwoSpeakerAmpSeq extends SequentialCommandGroup{
         //DRIVE TO AMP
         startPoint = new Pose2d(new Translation2d(subwoofer.getX()+finalPoint.x, subwoofer.getY()+finalPoint.y), new Rotation2d(Units.degreesToRadians(-RobotMap.AUTO_NOTE_ANGLE_OFFSET*direction)));
         finalPoint = new Point(noteToAmpX-Units.inchesToMeters(3.5), noteToAmpY-0.1);
-        addCommands(new driveSegment(drivetrain, angle, finalPoint, speed, startPoint, true));
+        addCommands(new driveSegment(drivetrain, angle, finalPoint, speed, startPoint, true).withTimeout(2));
 
         //FEED PIECE: run indexer 0.5 seconds?
-        addCommands(new AutoFeed(indexer, RobotMap.AUTO_FEED_TIME));
+        addCommands(new AutoFeed(indexer, RobotMap.AUTO_FEED_TIME).withTimeout(2));
         
         //DRIVE BACK
         addCommands(new InstantCommand(()->shooter.end()));
@@ -136,7 +136,7 @@ public class TwoSpeakerAmpSeq extends SequentialCommandGroup{
 
         startPoint = new Pose2d(new Translation2d(startPoint.getX()+finalPoint.x, startPoint.getY()+finalPoint.y), new Rotation2d(0.0));
         finalPoint = new Point(ampToCenter/3, direction*Units.inchesToMeters(96-(0.5 * RobotMap.CHASSIS_WIDTH))/3);
-        addCommands(new driveSegment(drivetrain, angle, finalPoint, speed, startPoint, true));
+        addCommands(new driveSegment(drivetrain, angle, finalPoint, speed, startPoint, true).withTimeout(3));
         
         angle = ()->Units.degreesToRadians(-direction*50);
 
@@ -145,7 +145,7 @@ public class TwoSpeakerAmpSeq extends SequentialCommandGroup{
         addCommands(Commands.parallel(
             new driveSegment(drivetrain, angle, finalPoint, speed, startPoint, true),
             new AutoIntakeIn(intake, indexer, time+0.75)
-        ));
+        ).withTimeout(3));
         //addCommands(new DriveBackAmp(drivetrain, shooter, intake, indexer, flip, startPoint, direction));
     }
 }

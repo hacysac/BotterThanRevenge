@@ -34,7 +34,7 @@ public class TwoAmpSeq extends SequentialCommandGroup{
         double noteToAmpY = -direction * Units.inchesToMeters(RobotMap.NOTE_TO_AMP_Y - 0.5*RobotMap.CHASSIS_WIDTH - 2*RobotMap.BUMPER_WIDTH); // TODO
         
         DoubleSupplier angle = () -> Units.degreesToRadians(direction*90.0); //make sure intake is forward
-        double time = 3;
+        double time = 1.5;
         double dist = Math.sqrt(Math.pow(amp.getX(), 2)+Math.pow(amp.getY(), 2));
         double speed = dist/time;
         
@@ -46,13 +46,13 @@ public class TwoAmpSeq extends SequentialCommandGroup{
             new driveSegment(drivetrain, angle, finalPoint, speed, startPoint, true),
             new InstantCommand(()->shooter.shootAmp()),
             new FlipUp(flip)
-        ));
+        ).withTimeout(1.5));
 
         //FEED PIECE: run indexer 0.5 seconds?
         addCommands(Commands.parallel(
             new AutoFeed(indexer, RobotMap.AUTO_FEED_TIME),
             new FlipDown(flip)
-        ));
+        ).withTimeout(2));
         //end shooter and indexer
 
         
@@ -68,7 +68,7 @@ public class TwoAmpSeq extends SequentialCommandGroup{
         addCommands(Commands.parallel(
             new driveSegment(drivetrain, angle, finalPoint, speed, startPoint, true),
             new AutoIntakeIn(intake, indexer, RobotMap.AUTO_INTAKE_TIME)
-        ));
+        ).withTimeout(2));
 
         angle = () -> Units.degreesToRadians((RobotMap.AUTO_NOTE_ANGLE_OFFSET+10)*direction);
         time = 2;
@@ -78,10 +78,10 @@ public class TwoAmpSeq extends SequentialCommandGroup{
         //DRIVE FORWARD
         startPoint = new Pose2d(new Translation2d(startPoint.getX()+finalPoint.x, startPoint.getY()+finalPoint.y), new Rotation2d(0.0));
         finalPoint = new Point((noteToAmpX - Units.inchesToMeters(10)), noteToAmpY);
-        addCommands(new driveSegment(drivetrain, angle, finalPoint, speed, startPoint, true));
+        addCommands(new driveSegment(drivetrain, angle, finalPoint, speed, startPoint, true).withTimeout(2));
         
         //FEED PIECE: run indexer 0.5 seconds?
-        addCommands(new AutoFeed(indexer, RobotMap.AUTO_FEED_TIME));
+        addCommands(new AutoFeed(indexer, RobotMap.AUTO_FEED_TIME).withTimeout(0.75));
 
         //DRIVE BACK
         new InstantCommand(()->shooter.end());
@@ -95,7 +95,7 @@ public class TwoAmpSeq extends SequentialCommandGroup{
 
         startPoint = new Pose2d(new Translation2d(startPoint.getX()+finalPoint.x, startPoint.getY()+finalPoint.y), new Rotation2d(0.0));
         finalPoint = new Point(ampToCenter/3, direction*Units.inchesToMeters(96-(0.5 * RobotMap.CHASSIS_WIDTH))/3);
-        addCommands(new driveSegment(drivetrain, angle, finalPoint, speed, startPoint, true));
+        addCommands(new driveSegment(drivetrain, angle, finalPoint, speed, startPoint, true).withTimeout(2));
         
         angle = ()->Units.degreesToRadians(-direction*50);
 
@@ -104,7 +104,7 @@ public class TwoAmpSeq extends SequentialCommandGroup{
         addCommands(Commands.parallel(
             new driveSegment(drivetrain, angle, finalPoint, speed, startPoint, true),
             new AutoIntakeIn(intake, indexer, time+0.75)
-        ));
+        ).withTimeout(2));
         //addCommands(new DriveBackAmp(drivetrain, shooter, intake, indexer, flip, startPoint, direction));
         //end all
     }
