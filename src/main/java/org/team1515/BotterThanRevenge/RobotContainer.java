@@ -16,6 +16,7 @@ import org.team1515.BotterThanRevenge.Commands.ClimberCommands.ZeroClimber;
 import org.team1515.BotterThanRevenge.Commands.AutoCommands.AutoSequences.DriveBackSeq;
 import org.team1515.BotterThanRevenge.Commands.AutoCommands.AutoSequences.FourNoteSeq;
 import org.team1515.BotterThanRevenge.Commands.AutoCommands.AutoSequences.PassNotesSeq;
+import org.team1515.BotterThanRevenge.Commands.AutoCommands.AutoSequences.Stay;
 import org.team1515.BotterThanRevenge.Commands.AutoCommands.AutoSequences.ThreeNoteSeq;
 import org.team1515.BotterThanRevenge.Commands.AutoCommands.AutoSequences.TwoAmpSeq;
 import org.team1515.BotterThanRevenge.Commands.AutoCommands.AutoSequences.TwoNoteSeq;
@@ -163,7 +164,7 @@ public class RobotContainer {
     int c5 = (controller5)?1:0;
     int c6 = (controller6)?1:0;
 
-    int selected = (4*c1+2*c2+c3);
+    int selected = (8*c1+4*c2+2*c3+c4);
     switch (selected) {
       case 0:
         return new DriveBackSeq(drivetrain, flip);
@@ -181,6 +182,8 @@ public class RobotContainer {
         return new TwoNoteSeq(drivetrain, shooter, indexer, intake, flip, false, team);
       case 7:
         return new PassNotesSeq(drivetrain, shooter, indexer, intake, flip, team);
+      case 8:
+        return new Stay(shooter, flip, indexer, climber);
       default:
         return new InstantCommand(()-> System.out.println("pain"));
     }
