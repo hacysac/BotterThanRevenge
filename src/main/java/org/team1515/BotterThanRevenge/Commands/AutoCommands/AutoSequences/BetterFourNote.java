@@ -72,6 +72,7 @@ public class BetterFourNote extends SequentialCommandGroup{
         addCommands(new AutoFeed(indexer, RobotMap.AUTO_FEED_TIME));
 
         //Drive Back
+        addCommands(new InstantCommand(()->shooter.end()));
         addCommands(new driveLine(drivetrain, 0, pose4, 1));
     }
 }
