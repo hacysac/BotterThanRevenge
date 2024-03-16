@@ -59,7 +59,7 @@ public class RobotMap {
     public static final int L_SHOOTER_ID = 20;
     public static final int R_SHOOTER_ID = 21;
     public static final int SHOOTER_CURRENT_LIMIT = 35;
-    public static final double SPEAKER_SPEED = 0.8; // TODO
+    public static final double SPEAKER_SPEED = 0.85; // TODO
     public static final double PASS_SPEED = 0.3; // TODO
     public static final double AMP_SPEED = 0.2; // TODO
 
@@ -79,8 +79,8 @@ public class RobotMap {
     //Flip
     public static final int FLIP_INTAKE_ID = 25;
     public static final int FLIP_CANCODER_ID = 30; 
-    public static final double FLIP_UP_SPEED = 0.2; //TODO
-    public static final double FLIP_DOWN_SPEED = 0.1; //TODO should be less than ff value
+    public static final double FLIP_UP_SPEED = 0.3; //TODO
+    public static final double FLIP_DOWN_SPEED = 0.15; //TODO should be less than ff value
     public static final double FLIP_MID_OFFSET = 0.24; //TODO
     public static final double FLIP_DOWN_OFFSET = 0.51; //TODO
     public static final int FLIP_CURRENT_LIMIT = 30;

@@ -117,8 +117,8 @@ public class RobotContainer {
 
     //Flip
     //Controls.FLIP.onTrue(new SetFlip(flip));
-    Controls.FLIP_UP.whileTrue(new FlipUp(flip));
-    Controls.FLIP_DOWN.whileTrue(new FlipDown(flip));
+    Controls.FLIP_UP.onTrue(new FlipUp(flip));
+    Controls.FLIP_DOWN.onTrue(new FlipDown(flip));
     // Indexer
     Controls.INDEXER_UP.whileTrue(new IndexerUp(indexer));
     Controls.INDEXER_DOWN.whileTrue(new IndexerDown(indexer));
