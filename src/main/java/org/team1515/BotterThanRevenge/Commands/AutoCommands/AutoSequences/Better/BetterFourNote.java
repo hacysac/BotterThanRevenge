@@ -1,4 +1,4 @@
-package org.team1515.BotterThanRevenge.Commands.AutoCommands.AutoSequences;
+package org.team1515.BotterThanRevenge.Commands.AutoCommands.AutoSequences.Better;
 
 import org.team1515.BotterThanRevenge.RobotMap;
 import org.team1515.BotterThanRevenge.Commands.AutoCommands.driveLine;
@@ -27,52 +27,52 @@ public class BetterFourNote extends SequentialCommandGroup{
         Point pose1 = new Point(subwooferToNoteX, 0);
         Point pose2 = new Point(subwooferToNoteX, subwooferToNoteY);
         Point pose3 = new Point(subwooferToNoteX, -subwooferToNoteY);
-        Point pose4 = new Point(Units.inchesToMeters(RobotMap.ROBOT_STARTING_ZONE_WIDTH + 5), direction*Units.inchesToMeters(63));
+        Point finalPose = new Point(Units.inchesToMeters(RobotMap.ROBOT_STARTING_ZONE_WIDTH + 5), direction*Units.inchesToMeters(63));
 
         double firstRotation = -RobotMap.AUTO_NOTE_ANGLE_OFFSET*direction;
         double secondRotation = RobotMap.AUTO_NOTE_ANGLE_OFFSET*direction;
         
-        addCommands(new FlipUp(flip));
+        addCommands(new FlipUp(flip).withTimeout(2));
         addCommands(new InstantCommand(()->shooter.shootSpeaker()));
         
         //Score Stoed Note
         addCommands(Commands.parallel(
                 new AutoFeed(indexer, RobotMap.AUTO_FEED_TIME),
                 new FlipDown(flip)
-        ));
+        ).withTimeout(2));
 
         //Pick Up Note 1
         addCommands(Commands.parallel(
                 new driveLine(drivetrain, 0, pose1, 1),
                 new AutoIntakeIn(intake, indexer, RobotMap.AUTO_INTAKE_TIME)
-        ));
+        ).withTimeout(2));
 
         //Score Note 1
-        addCommands(new driveLine(drivetrain, 0, pose0, 1));
-        addCommands(new AutoFeed(indexer, RobotMap.AUTO_FEED_TIME));
+        addCommands(new driveLine(drivetrain, 0, pose0, 1).withTimeout(2));
+        addCommands(new AutoFeed(indexer, RobotMap.AUTO_FEED_TIME).withTimeout(1));
 
         //Pick Up Note 2
         addCommands(Commands.parallel(
                 new driveLine(drivetrain, firstRotation, pose2, 1),
                 new AutoIntakeIn(intake, indexer, RobotMap.AUTO_INTAKE_TIME)
-        ));
+        ).withTimeout(2));
 
         //Score Note 2
-        addCommands(new driveLine(drivetrain, -firstRotation, pose0, 1));
-        addCommands(new AutoFeed(indexer, RobotMap.AUTO_FEED_TIME));
+        addCommands(new driveLine(drivetrain, -firstRotation, pose0, 1).withTimeout(2));
+        addCommands(new AutoFeed(indexer, RobotMap.AUTO_FEED_TIME).withTimeout(1));
 
         //Pick Up Note 3
         addCommands(Commands.parallel(
                 new driveLine(drivetrain, secondRotation, pose3, 1),
                 new AutoIntakeIn(intake, indexer, RobotMap.AUTO_INTAKE_TIME)
-        ));
+        ).withTimeout(2));
 
         //Score Note 3
-        addCommands(new driveLine(drivetrain, -secondRotation, pose0, 1));
-        addCommands(new AutoFeed(indexer, RobotMap.AUTO_FEED_TIME));
+        addCommands(new driveLine(drivetrain, -secondRotation, pose0, 1).withTimeout(2));
+        addCommands(new AutoFeed(indexer, RobotMap.AUTO_FEED_TIME).withTimeout(1));
 
         //Drive Back
         addCommands(new InstantCommand(()->shooter.end()));
-        addCommands(new driveLine(drivetrain, 0, pose4, 1));
+        addCommands(new driveLine(drivetrain, 0, finalPose, 1).withTimeout(3));
     }
 }

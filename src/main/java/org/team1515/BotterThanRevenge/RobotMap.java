@@ -16,8 +16,8 @@ public class RobotMap {
 
     public static final double AUTO_OFFSET = 3; //TODO check robot
     public static final double INTAKE_OFFSET = 4; // TODO check robot
-    public static final double AUTO_NOTE_ANGLE_OFFSET = 40.0; //TODO check robot
-    public static final double AUTO_AMP_ANGLE_OFFSET = 120.0; //TODO check robot
+    public static final double AUTO_NOTE_ANGLE_OFFSET = Units.degreesToRadians(40.0); //TODO check robot
+    public static final double AUTO_AMP_ANGLE_OFFSET = Units.degreesToRadians(120.0); //TODO check robot
     public static final double AUTO_INTAKE_TIME = 1.75; //TODO check robot
     public static final double AUTO_FEED_TIME = 0.75; //TODO check robot
 
