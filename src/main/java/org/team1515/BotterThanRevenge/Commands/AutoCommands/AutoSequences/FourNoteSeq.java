@@ -6,10 +6,12 @@ import java.util.function.DoubleSupplier;
 import org.team1515.BotterThanRevenge.RobotMap;
 import org.team1515.BotterThanRevenge.Commands.AutoCommands.driveArcLength;
 import org.team1515.BotterThanRevenge.Commands.AutoCommands.driveSegment;
+import org.team1515.BotterThanRevenge.Commands.ClimberCommands.ZeroClimber;
 import org.team1515.BotterThanRevenge.Commands.IndexerCommands.AutoFeed;
 import org.team1515.BotterThanRevenge.Commands.IntakeCommands.AutoIntakeIn;
 import org.team1515.BotterThanRevenge.Commands.IntakeCommands.FlipDown;
 import org.team1515.BotterThanRevenge.Commands.IntakeCommands.FlipUp;
+import org.team1515.BotterThanRevenge.Subsystems.Climber;
 import org.team1515.BotterThanRevenge.Subsystems.Drivetrain;
 import org.team1515.BotterThanRevenge.Subsystems.Flip;
 import org.team1515.BotterThanRevenge.Subsystems.Indexer;
@@ -26,10 +28,11 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 
 public class FourNoteSeq extends SequentialCommandGroup{
-    public FourNoteSeq(Drivetrain drivetrain, Shooter shooter, Indexer indexer, Intake intake, Flip flip, double direction){
+    public FourNoteSeq(Drivetrain drivetrain, Shooter shooter, Indexer indexer, Intake intake, Flip flip, Climber climber, double direction){
         Pose2d subwoofer = new Pose2d(new Translation2d(0,0), new Rotation2d(0.0)); //Starting from subwoofer
         
         double subwooferToNoteX = Units.inchesToMeters(RobotMap.SUBWOOFER_TO_NOTE - RobotMap.CHASSIS_WIDTH + 1);
+        //double subwooferToNoteX = Units.inchesToMeters(RobotMap.SUBWOOFER_TO_NOTE - RobotMap.CHASSIS_WIDTH + 4);
         double subwooferToNoteY = -direction * Units.inchesToMeters(RobotMap.NOTE_TO_NOTE - (0.5 * RobotMap.CHASSIS_WIDTH) + 3);
     
         DoubleSupplier angle = () -> Units.degreesToRadians(0.0); //make sure shooter is forward
@@ -37,6 +40,8 @@ public class FourNoteSeq extends SequentialCommandGroup{
         //start shooter + flip up to find offsets
         addCommands(new FlipUp(flip));
         addCommands(new InstantCommand(()->shooter.shootSpeaker()));
+
+        addCommands(Commands.waitSeconds(0.5));
         
         //FEED PIECE + FLIP DOWN: run indexer 0.5 seconds?
         addCommands(Commands.parallel(
@@ -82,13 +87,14 @@ public class FourNoteSeq extends SequentialCommandGroup{
         addCommands(Commands.parallel(
                 new driveSegment(drivetrain, angle, finalPoint, speed, startPoint, true),
                 new AutoIntakeIn(intake, indexer, RobotMap.AUTO_INTAKE_TIME)
-        ).withTimeout(1));
+        ).withTimeout(2));
 
         
         //PICK UP PIECE: run intake+indexer 1 second limit
         
 
         angle = ()->Units.degreesToRadians(RobotMap.AUTO_NOTE_ANGLE_OFFSET*direction);
+        //dist = Math.sqrt(Math.pow(subwooferToNoteX + Units.inchesToMeters(6), 2)+Math.pow(subwooferToNoteY, 2));
         dist = Math.sqrt(Math.pow(subwooferToNoteX + Units.inchesToMeters(2), 2)+Math.pow(subwooferToNoteY, 2));
         time = 1;
         speed = dist/time;
@@ -96,7 +102,8 @@ public class FourNoteSeq extends SequentialCommandGroup{
         //DRIVE DIAGONAL FORWARD + flip up + start shooter
         startPoint = new Pose2d(new Translation2d(subwoofer.getX()+finalPoint.x, subwoofer.getY()+finalPoint.y), new Rotation2d(0.0));
         finalPoint = new Point(-(subwooferToNoteX + Units.inchesToMeters(2)), -subwooferToNoteY);
-        addCommands(new driveSegment(drivetrain, angle, finalPoint, speed, startPoint, true).withTimeout(1));
+        //finalPoint = new Point(-(subwooferToNoteX + Units.inchesToMeters(6)), -subwooferToNoteY);
+        addCommands(new driveSegment(drivetrain, angle, finalPoint, speed, startPoint, true).withTimeout(2));
 
         //FEED PIECE: run indexer 0.5 seconds?
         addCommands(new AutoFeed(indexer, RobotMap.AUTO_FEED_TIME).withTimeout(1));
@@ -122,13 +129,15 @@ public class FourNoteSeq extends SequentialCommandGroup{
 
         angle = ()->Units.degreesToRadians(-RobotMap.AUTO_NOTE_ANGLE_OFFSET*direction);
         dist = Math.sqrt(Math.pow(subwooferToNoteX + Units.inchesToMeters(2), 2)+Math.pow(subwooferToNoteY, 2));
+        //dist = Math.sqrt(Math.pow(subwooferToNoteX + Units.inchesToMeters(6), 2)+Math.pow(subwooferToNoteY, 2));
         time = 1;
         speed = dist/time;
         
         //DRIVE DIAGONAL FORWARD + flip up + start shooter
         startPoint = new Pose2d(new Translation2d(subwoofer.getX()+finalPoint.x, subwoofer.getY()+finalPoint.y), new Rotation2d(0.0));
+        //finalPoint = new Point(-(subwooferToNoteX + Units.inchesToMeters(6)), subwooferToNoteY);
         finalPoint = new Point(-(subwooferToNoteX + Units.inchesToMeters(2)), subwooferToNoteY);
-        addCommands(new driveSegment(drivetrain, angle, finalPoint, speed, startPoint, true).withTimeout(1));
+        addCommands(new driveSegment(drivetrain, angle, finalPoint, speed, startPoint, true).withTimeout(2));
         
         //FEED PIECE: run indexer 0.5 seconds?
         addCommands(new AutoFeed(indexer, RobotMap.AUTO_FEED_TIME).withTimeout(1));
@@ -142,7 +151,8 @@ public class FourNoteSeq extends SequentialCommandGroup{
         speed = dist/time;
         
         addCommands(new InstantCommand(()->shooter.end()));
-        addCommands(new driveSegment(drivetrain, angle, finalPoint, speed, subwoofer, true).withTimeout(1));
+        addCommands(new driveSegment(drivetrain, angle, finalPoint, speed, subwoofer, true).withTimeout(2));
+        addCommands(new ZeroClimber(climber).withTimeout(3));
         //end all
     }
 }
