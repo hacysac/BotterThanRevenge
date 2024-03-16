@@ -12,6 +12,7 @@ import org.team1515.BotterThanRevenge.Commands.AutoCommands.AutoSequences.TwoSpe
 import org.team1515.BotterThanRevenge.Commands.ClimberCommands.ClimberDown;
 import org.team1515.BotterThanRevenge.Commands.ClimberCommands.ClimberUp;
 import org.team1515.BotterThanRevenge.Commands.ClimberCommands.SingleClimber;
+import org.team1515.BotterThanRevenge.Commands.ClimberCommands.ZeroClimber;
 import org.team1515.BotterThanRevenge.Commands.AutoCommands.AutoSequences.DriveBackSeq;
 import org.team1515.BotterThanRevenge.Commands.AutoCommands.AutoSequences.FourNoteSeq;
 import org.team1515.BotterThanRevenge.Commands.AutoCommands.AutoSequences.PassNotesSeq;
@@ -106,7 +107,7 @@ public class RobotContainer {
     //Controls.ROTATE_ANGLE_TARGET.onTrue(new RotateAngle(drivetrain, angle));
 
     DoubleSupplier zeroAngle = () -> -Units.degreesToRadians(gyro.getYaw());
-    Controls.ZERO_ROBOT.onTrue(new RotateAngle(drivetrain, zeroAngle));
+    Controls.ZERO_ROBOT.onTrue(new ZeroClimber(climber));
 
     //Intake
     Controls.AUTO_INTAKE.toggleOnTrue(new AutoIntakeIn(intake, indexer)); // infinite until sensor
@@ -171,7 +172,7 @@ public class RobotContainer {
       case 2:
         return new ThreeNoteSeq(drivetrain, shooter, indexer, intake, flip, false, -team);
       case 3:
-        return new FourNoteSeq(drivetrain, shooter, indexer, intake, flip, team);
+        return new FourNoteSeq(drivetrain, shooter, indexer, intake, flip, climber, team);
       case 4:
         return new TwoAmpSeq(drivetrain, shooter, indexer, intake, flip, -team);
       case 5:
