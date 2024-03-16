@@ -73,6 +73,6 @@ public class BetterFourNote extends SequentialCommandGroup{
 
         //Drive Back
         addCommands(new InstantCommand(()->shooter.end()));
-        addCommands(new driveLine(drivetrain, 0, finalPose, 1).withTimeout(3));
+        addCommands(new driveLine(drivetrain, 0, finalPose, 1).withTimeout(2));
     }
 }

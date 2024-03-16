@@ -18,8 +18,8 @@ import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 
-public class BetterFourNote extends SequentialCommandGroup{
-    public BetterFourNote(Drivetrain drivetrain, Shooter shooter, Indexer indexer, Intake intake, Flip flip, double direction){        
+public class BetterTwoAmp extends SequentialCommandGroup{
+    public BetterTwoAmp(Drivetrain drivetrain, Shooter shooter, Indexer indexer, Intake intake, Flip flip, double direction){        
         
         double ampToNoteX = Units.inchesToMeters(RobotMap.NOTE_TO_AMP_X);
         double ampToNoteY = direction * Units.inchesToMeters(RobotMap.NOTE_TO_AMP_Y - 0.5*RobotMap.CHASSIS_WIDTH - 2*RobotMap.BUMPER_WIDTH); // TODO
