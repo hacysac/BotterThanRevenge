@@ -27,12 +27,30 @@ public class driveLine extends Command {
     private double startAngle;
     private double angle;
     private double ff = 0.0; // retune
+    private boolean overshoot;
     
+    public driveLine(Drivetrain drivetrain, double angle, Point end, double time, boolean overshoot) {
+        this.drivetrain = drivetrain;
+        this.end = end;
+        this.time = time;
+        this.angle = angle;
+        this.overshoot = overshoot;
+
+        this.maxRotate = 0.5 * SwerveConstants.Swerve.maxAngularVelocity;
+        angleController = new PIDController(13.8, 55.2, 0.8625);
+        // TODO retune PID
+        angleController.setTolerance(Units.degreesToRadians(1));
+        angleController.enableContinuousInput(-Math.PI, Math.PI);
+
+        addRequirements(drivetrain);
+    }
+
     public driveLine(Drivetrain drivetrain, double angle, Point end, double time) {
         this.drivetrain = drivetrain;
         this.end = end;
         this.time = time;
         this.angle = angle;
+        this.overshoot = false;
 
         this.maxRotate = 0.5 * SwerveConstants.Swerve.maxAngularVelocity;
         angleController = new PIDController(13.8, 55.2, 0.8625);
@@ -73,7 +91,7 @@ public class driveLine extends Command {
 
     @Override
     public boolean isFinished() {
-        return System.currentTimeMillis()-startTime >= ((time+0.2)*1000); //overshot
+        return overshoot ? System.currentTimeMillis()-startTime >= ((time+0.1)*1000) : System.currentTimeMillis()-startTime >= (time*1000); //overshot
     }
 
     @Override

@@ -79,7 +79,7 @@ public class RobotMap {
     //Flip
     public static final int FLIP_INTAKE_ID = 25;
     public static final int FLIP_CANCODER_ID = 30; 
-    public static final double FLIP_UP_SPEED = 0.3; //TODO
+    public static final double FLIP_UP_SPEED = 0.4; //TODO
     public static final double FLIP_DOWN_SPEED = 0.15; //TODO should be less than ff value
     public static final double FLIP_MID_OFFSET = 0.24; //TODO
     public static final double FLIP_DOWN_OFFSET = 0.51; //TODO

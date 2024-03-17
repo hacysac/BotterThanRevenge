@@ -23,12 +23,12 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 public class BetterFourNote extends SequentialCommandGroup{
     public BetterFourNote(Drivetrain drivetrain, Shooter shooter, Indexer indexer, Intake intake, Flip flip, Climber climber, double direction){        
         double subwooferToNoteX = Units.inchesToMeters(RobotMap.SUBWOOFER_TO_NOTE - RobotMap.CHASSIS_WIDTH + 1);
-        double subwooferToNoteY = -direction * Units.inchesToMeters(RobotMap.NOTE_TO_NOTE - (0.5 * RobotMap.CHASSIS_WIDTH) + 3);
+        double subwooferToNoteY = Units.inchesToMeters(RobotMap.NOTE_TO_NOTE - (0.5 * RobotMap.CHASSIS_WIDTH) + 3);
 
         Point pose0 = new Point(0, 0);
         Point pose1 = new Point(subwooferToNoteX, 0);
-        Point pose2 = new Point(subwooferToNoteX, subwooferToNoteY);
-        Point pose3 = new Point(subwooferToNoteX, -subwooferToNoteY);
+        Point pose2 = new Point(subwooferToNoteX, -direction*subwooferToNoteY);
+        Point pose3 = new Point(subwooferToNoteX, direction*(subwooferToNoteY-Units.inchesToMeters(3)));
         Point finalPose = new Point(Units.inchesToMeters(RobotMap.ROBOT_STARTING_ZONE_WIDTH + 5), direction*Units.inchesToMeters(63));
 
         double firstRotation = -RobotMap.AUTO_NOTE_ANGLE_OFFSET*direction;
@@ -57,7 +57,7 @@ public class BetterFourNote extends SequentialCommandGroup{
 
         //Pick Up Note 2
         addCommands(Commands.parallel(
-                new driveLine(drivetrain, firstRotation, pose2, 1),
+                new driveLine(drivetrain, firstRotation, pose2, 1, true),
                 new AutoIntakeIn(intake, indexer, RobotMap.AUTO_INTAKE_TIME)
         ).withTimeout(2));
 
@@ -67,7 +67,7 @@ public class BetterFourNote extends SequentialCommandGroup{
 
         //Pick Up Note 3
         addCommands(Commands.parallel(
-                new driveLine(drivetrain, secondRotation, pose3, 1),
+                new driveLine(drivetrain, secondRotation, pose3, 1, true),
                 new AutoIntakeIn(intake, indexer, RobotMap.AUTO_INTAKE_TIME)
         ).withTimeout(2));
 

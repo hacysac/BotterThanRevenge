@@ -182,7 +182,7 @@ public class RobotContainer {
       case 7:
         return new PassNotesSeq(drivetrain, shooter, indexer, intake, flip, team);
       default:
-        return new InstantCommand(()->System.out.print("pain"));
+        return new BetterFourNote(drivetrain, shooter, indexer, intake, flip, climber, team);
     }
   }
 
