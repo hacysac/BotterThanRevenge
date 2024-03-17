@@ -98,7 +98,7 @@ public class RobotContainer {
         new DefaultDriveCommand(drivetrain,
             () -> -modifyAxis(mainController.getLeftY() * getRobotSpeed()),
             () -> -modifyAxis(mainController.getLeftX() * getRobotSpeed()),
-            () -> modifyAxis(mainController.getRightX() * getRobotSpeed()),
+            () -> modifyAxis(mainController.getRightX() * getRobotYawSpeed()),
             () -> direction,
             () -> Controls.DRIVE_ROBOT_ORIENTED.getAsBoolean()));
     
@@ -164,7 +164,7 @@ public class RobotContainer {
     int c5 = (controller5)?1:0;
     int c6 = (controller6)?1:0;
 
-    int selected = (4*c1+2*c2+c3);
+    int selected = (8*c1+4*c2+2*c3+c4);
     switch (selected) {
       case 0:
         return new DriveBackSeq(drivetrain, flip);
@@ -173,7 +173,7 @@ public class RobotContainer {
       case 2:
         return new ThreeNoteSeq(drivetrain, shooter, indexer, intake, flip, false, -team);
       case 3:
-        return new BetterFourNote(drivetrain, shooter, indexer, intake, flip, team);
+        return new FourNoteSeq(drivetrain, shooter, indexer, intake, flip, team);
       case 4:
         return new TwoAmpSeq(drivetrain, shooter, indexer, intake, flip, -team);
       case 5:
@@ -183,39 +183,45 @@ public class RobotContainer {
       case 7:
         return new PassNotesSeq(drivetrain, shooter, indexer, intake, flip, team);
       default:
-        return new InstantCommand(()-> System.out.println("pain"));
+        return new InstantCommand(()->System.out.print("pain"));
     }
-
-
-    // if (AutoChooser.getSelected() == 0){
-    //   return new DriveBackSeq(drivetrain, flip);
-    // }
-    // else if (AutoChooser.getSelected() == 1){
-    //   return new ThreeNoteSeq(drivetrain, shooter, indexer, intake, flip, false, team);
-    // }
-    // else if (AutoChooser.getSelected() == 2){
-    //   return new ThreeNoteSeq(drivetrain, shooter, indexer, intake, flip, false, -team);
-    // }
-    // else if (AutoChooser.getSelected() == 3){
-    //   return new BetterFourNote(drivetrain, shooter, indexer, intake, flip, team);
-    // }
-    // else if (AutoChooser.getSelected() == 4){
-    //   return new TwoAmpSeq(drivetrain, shooter, indexer, intake, flip, -team);
-    // }
-    // else if (AutoChooser.getSelected() == 5){
-    //   return new TwoSpeakerAmpSeq(drivetrain, shooter, indexer, intake, flip, false, -team);
-    // }
-    // else if (AutoChooser.getSelected() == 6){
-    //   return new TwoNoteSeq(drivetrain, shooter, indexer, intake, flip, false, team);
-    // }
-    // else if (AutoChooser.getSelected() == 7){
-    //   return new PassNotesSeq(drivetrain, shooter, indexer, intake, flip, team);
-    // }
-    // return new InstantCommand(()-> System.out.println("pain"));
   }
+
+
+  //   if (AutoChooser.getSelected() == 0){
+  //     return new DriveBackSeq(drivetrain, flip);
+  //   }
+  //   else if (AutoChooser.getSelected() == 1){
+  //     return new ThreeNoteSeq(drivetrain, shooter, indexer, intake, flip, false, team);
+  //   }
+  //   else if (AutoChooser.getSelected() == 2){
+  //     return new ThreeNoteSeq(drivetrain, shooter, indexer, intake, flip, false, -team);
+  //   }
+  //   else if (AutoChooser.getSelected() == 3){
+  //     return new FourNoteSeq(drivetrain, shooter, indexer, intake, flip, team);
+  //   }
+  //   else if (AutoChooser.getSelected() == 4){
+  //     return new TwoAmpSeq(drivetrain, shooter, indexer, intake, flip, -team);
+  //   }
+  //   else if (AutoChooser.getSelected() == 5){
+  //     return new TwoSpeakerAmpSeq(drivetrain, shooter, indexer, intake, flip, false, -team);
+  //   }
+  //   else if (AutoChooser.getSelected() == 6){
+  //     return new TwoNoteSeq(drivetrain, shooter, indexer, intake, flip, false, team);
+  //   }
+  //   else if (AutoChooser.getSelected() == 7){
+  //     return new PassNotesSeq(drivetrain, shooter, indexer, intake, flip, team);
+  //   }
+  //   return new InstantCommand(()-> System.out.println("pain"));
+  // }
 
   public static double getRobotSpeed() {
     return Controls.getLeftTriggerMain() ? 0.45 : 0.9;
+    // return 0.7;
+  }
+
+  public static double getRobotYawSpeed() {
+    return Controls.getLeftTriggerMain() ? 0.45 : 0.7;
     // return 0.7;
   }
 

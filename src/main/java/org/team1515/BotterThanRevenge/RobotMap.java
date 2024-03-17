@@ -61,7 +61,7 @@ public class RobotMap {
     public static final int SHOOTER_CURRENT_LIMIT = 35;
     public static final double SPEAKER_SPEED = 0.85; // TODO
     public static final double PASS_SPEED = 0.3; // TODO
-    public static final double AMP_SPEED = 0.2; // TODO
+    public static final double AMP_SPEED = 0.125; // TODO
 
     // Indexer
     public static final int INDEXER_ID = 22;

@@ -9,6 +9,8 @@ public class ToggleSpeaker extends Command {
 
     public ToggleSpeaker(Shooter shooter) {
         this.shooter = shooter;
+        shooter.setAmp(false);
+        shooter.setSpeaker(true);
         addRequirements(shooter);
     }
 
