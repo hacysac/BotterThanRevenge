@@ -173,7 +173,7 @@ public class RobotContainer {
       case 2:
         return new ThreeNoteSeq(drivetrain, shooter, indexer, intake, flip, false, -team);
       case 3:
-        return new FourNoteSeq(drivetrain, shooter, indexer, intake, flip, team);
+        return new BetterFourNote(drivetrain, shooter, indexer, intake, flip, team);
       case 4:
         return new TwoAmpSeq(drivetrain, shooter, indexer, intake, flip, -team);
       case 5:
