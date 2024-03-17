@@ -37,6 +37,8 @@ public class BetterFourNote extends SequentialCommandGroup{
         addCommands(new FlipUp(flip).withTimeout(2));
         addCommands(new InstantCommand(()->shooter.shootSpeaker()));
         
+        addCommands(Commands.waitSeconds(0.5));
+        
         //Score Stoed Note
         addCommands(Commands.parallel(
                 new AutoFeed(indexer, RobotMap.AUTO_FEED_TIME),
