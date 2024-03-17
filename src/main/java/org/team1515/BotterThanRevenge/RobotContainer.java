@@ -15,7 +15,6 @@ import org.team1515.BotterThanRevenge.Commands.ClimberCommands.ClimberUp;
 import org.team1515.BotterThanRevenge.Commands.ClimberCommands.SingleClimber;
 import org.team1515.BotterThanRevenge.Commands.ClimberCommands.ZeroClimber;
 import org.team1515.BotterThanRevenge.Commands.AutoCommands.AutoSequences.DriveBackSeq;
-import org.team1515.BotterThanRevenge.Commands.AutoCommands.AutoSequences.FourNoteSeq;
 import org.team1515.BotterThanRevenge.Commands.AutoCommands.AutoSequences.PassNotesSeq;
 import org.team1515.BotterThanRevenge.Commands.AutoCommands.AutoSequences.ThreeNoteSeq;
 import org.team1515.BotterThanRevenge.Commands.AutoCommands.AutoSequences.TwoAmpSeq;
