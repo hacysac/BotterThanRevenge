@@ -22,8 +22,8 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 
 public class BetterFourNote extends SequentialCommandGroup{
     public BetterFourNote(Drivetrain drivetrain, Shooter shooter, Indexer indexer, Intake intake, Flip flip, Climber climber, double direction){        
-        double subwooferToNoteX = Units.inchesToMeters(RobotMap.SUBWOOFER_TO_NOTE - RobotMap.CHASSIS_WIDTH + 4);
-        double subwooferToNoteY = -direction * Units.inchesToMeters(RobotMap.NOTE_TO_NOTE - (0.5 * RobotMap.CHASSIS_WIDTH) + 4);
+        double subwooferToNoteX = Units.inchesToMeters(RobotMap.SUBWOOFER_TO_NOTE - RobotMap.CHASSIS_WIDTH + 1);
+        double subwooferToNoteY = -direction * Units.inchesToMeters(RobotMap.NOTE_TO_NOTE - (0.5 * RobotMap.CHASSIS_WIDTH) + 3);
 
         Point pose0 = new Point(0, 0);
         Point pose1 = new Point(subwooferToNoteX, 0);
@@ -51,7 +51,7 @@ public class BetterFourNote extends SequentialCommandGroup{
 
         //Score Note 1
         addCommands(new driveLine(drivetrain, 0, pose0, 1).withTimeout(2));
-        addCommands(new AutoFeed(indexer, RobotMap.AUTO_FEED_TIME).withTimeout(1));
+        addCommands(new AutoFeed(indexer, RobotMap.AUTO_FEED_TIME).withTimeout(2));
 
         //Pick Up Note 2
         addCommands(Commands.parallel(
@@ -61,7 +61,7 @@ public class BetterFourNote extends SequentialCommandGroup{
 
         //Score Note 2
         addCommands(new driveLine(drivetrain, -firstRotation, pose0, 1).withTimeout(2));
-        addCommands(new AutoFeed(indexer, RobotMap.AUTO_FEED_TIME).withTimeout(1));
+        addCommands(new AutoFeed(indexer, RobotMap.AUTO_FEED_TIME).withTimeout(2));
 
         //Pick Up Note 3
         addCommands(Commands.parallel(
@@ -71,11 +71,11 @@ public class BetterFourNote extends SequentialCommandGroup{
 
         //Score Note 3
         addCommands(new driveLine(drivetrain, -secondRotation, pose0, 1).withTimeout(2));
-        addCommands(new AutoFeed(indexer, RobotMap.AUTO_FEED_TIME).withTimeout(1));
+        addCommands(new AutoFeed(indexer, RobotMap.AUTO_FEED_TIME).withTimeout(2));
 
         //Drive Back
         addCommands(new InstantCommand(()->shooter.end()));
         addCommands(new driveLine(drivetrain, 0, finalPose, 1).withTimeout(2));
-        addCommands(new ZeroClimber(climber));
+        // addCommands(new ZeroClimber(climber).withTimeout(3));
     }
 }

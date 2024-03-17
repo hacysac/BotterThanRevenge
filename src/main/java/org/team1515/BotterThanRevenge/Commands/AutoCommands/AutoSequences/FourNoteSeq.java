@@ -37,6 +37,8 @@ public class FourNoteSeq extends SequentialCommandGroup{
         //start shooter + flip up to find offsets
         addCommands(new FlipUp(flip));
         addCommands(new InstantCommand(()->shooter.shootSpeaker()));
+
+        addCommands(Commands.waitSeconds(0.25));
         
         //FEED PIECE + FLIP DOWN: run indexer 0.5 seconds?
         addCommands(Commands.parallel(

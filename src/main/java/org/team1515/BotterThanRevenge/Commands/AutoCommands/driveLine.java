@@ -73,7 +73,7 @@ public class driveLine extends Command {
 
     @Override
     public boolean isFinished() {
-        return System.currentTimeMillis()-startTime >= time*1000;
+        return System.currentTimeMillis()-startTime >= ((time+0.1)*1000); //overshot
     }
 
     @Override
