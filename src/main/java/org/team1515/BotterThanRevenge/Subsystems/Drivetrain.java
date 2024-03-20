@@ -18,6 +18,7 @@ import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
+import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -56,7 +57,10 @@ public class Drivetrain extends SubsystemBase {
             mSwerveMods[1].getPosition(),
             mSwerveMods[2].getPosition(),
             mSwerveMods[3].getPosition()
-        }, initialPos); // maybe pose needs to be set correctly at the begining
+        }, initialPos, 
+          //tune
+          VecBuilder.fill(0.05, 0.05, Units.degreesToRadians(5)),
+          VecBuilder.fill(0.5, 0.5, Units.degreesToRadians(30)));
         
 
 
@@ -177,7 +181,7 @@ public class Drivetrain extends SubsystemBase {
                 mSwerveMods[3].getPosition()
             }
         );
-        
+
         LimelightHelpers.PoseEstimate limelightMeasurement = LimelightHelpers.getBotPoseEstimate_wpiBlue("limelight");
         if(limelightMeasurement.tagCount >= 2){
             estimator.setVisionMeasurementStdDevs(VecBuilder.fill(.7,.7,9999999));
