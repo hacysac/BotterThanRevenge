@@ -19,19 +19,20 @@ public class Intake extends SubsystemBase {
         topIntake = new CANSparkMax(RobotMap.TOP_INTAKE_ID, MotorType.kBrushless);
         topIntake.setSmartCurrentLimit(RobotMap.INTAKE_CURRENT_LIMIT);
         bottomIntake.setSmartCurrentLimit(RobotMap.INTAKE_CURRENT_LIMIT);
+        bottomIntake.setInverted(true);
         topIntake.burnFlash();
         bottomIntake.burnFlash();
 
     }
 
     public void in(){
-        bottomIntake.set(RobotMap.LOWER_INTAKE_SPEED);
-        topIntake.set(-RobotMap.UPPER_INTAKE_SPEED);
+        bottomIntake.set(-RobotMap.LOWER_INTAKE_SPEED);
+        topIntake.set(RobotMap.UPPER_INTAKE_SPEED);
     }
 
     public void out(){
-        bottomIntake.set(-RobotMap.LOWER_INTAKE_SPEED);
-        topIntake.set(RobotMap.UPPER_INTAKE_SPEED);
+        bottomIntake.set(RobotMap.LOWER_INTAKE_SPEED);
+        topIntake.set(-RobotMap.UPPER_INTAKE_SPEED);
     }
 
     public void end(){

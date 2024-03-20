@@ -16,8 +16,8 @@ public class RobotMap {
 
     public static final double AUTO_OFFSET = 3; //TODO check robot
     public static final double INTAKE_OFFSET = 4; // TODO check robot
-    public static final double AUTO_NOTE_ANGLE_OFFSET = 40.0; //TODO check robot
-    public static final double AUTO_AMP_ANGLE_OFFSET = 120.0; //TODO check robot
+    public static final double AUTO_NOTE_ANGLE_OFFSET = Units.degreesToRadians(40.0); //TODO check robot
+    public static final double AUTO_AMP_ANGLE_OFFSET = Units.degreesToRadians(120.0); //TODO check robot
     public static final double AUTO_INTAKE_TIME = 1.75; //TODO check robot
     public static final double AUTO_FEED_TIME = 0.75; //TODO check robot
 
@@ -59,14 +59,15 @@ public class RobotMap {
     public static final int L_SHOOTER_ID = 20;
     public static final int R_SHOOTER_ID = 21;
     public static final int SHOOTER_CURRENT_LIMIT = 35;
-    public static final double SPEAKER_SPEED = 0.85; // TODO
+    public static final double SPEAKER_SPEED = 0.875; // TODO
     public static final double PASS_SPEED = 0.3; // TODO
-    public static final double AMP_SPEED = 0.2; // TODO
+    public static final double AMP_SPEED = 0.15; // TODO
 
     // Indexer
     public static final int INDEXER_ID = 22;
     public static final int INDEX_SENSOR_CHANNEL = 2; // TODO
-    public static final double INDEXER_SPEED = 0.5;// TODO 
+    public static final double INDEXER_SPEED = 0.7;// TODO 
+    public static final int INDEXER_CURRENT_LIMIT = 25;
 
     //Intake
     public static final int TOP_INTAKE_ID = 23;
@@ -78,10 +79,11 @@ public class RobotMap {
     //Flip
     public static final int FLIP_INTAKE_ID = 25;
     public static final int FLIP_CANCODER_ID = 30; 
-    public static final double FLIP_UP_SPEED = 0.3; //TODO
-    public static final double FLIP_DOWN_SPEED = 0.15;
+    public static final double FLIP_UP_SPEED = 0.4; //TODO
+    public static final double FLIP_DOWN_SPEED = 0.15; //TODO should be less than ff value
     public static final double FLIP_MID_OFFSET = 0.24; //TODO
     public static final double FLIP_DOWN_OFFSET = 0.51; //TODO
+    public static final int FLIP_CURRENT_LIMIT = 30;
 
     //Climber
     public static final int L_CLIMBER_ID = 26;

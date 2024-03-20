@@ -16,6 +16,8 @@ public class Indexer extends SubsystemBase {
 
     public Indexer(){
         indexer = new CANSparkMax(RobotMap.INDEXER_ID, MotorType.kBrushless);
+        indexer.setSmartCurrentLimit(RobotMap.INDEXER_CURRENT_LIMIT);
+        indexer.burnFlash();
         sensor = new DigitalInput(RobotMap.INDEX_SENSOR_CHANNEL);
     }
 

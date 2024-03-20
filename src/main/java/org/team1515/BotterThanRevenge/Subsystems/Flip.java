@@ -4,6 +4,7 @@ import org.team1515.BotterThanRevenge.RobotMap;
 
 import com.ctre.phoenix6.configs.CANcoderConfiguration;
 import com.ctre.phoenix6.hardware.CANcoder;
+import com.revrobotics.CANSparkBase;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.SparkLimitSwitch;
@@ -37,7 +38,10 @@ public class Flip extends SubsystemBase{
 
         flip = new CANSparkMax(RobotMap.FLIP_INTAKE_ID, MotorType.kBrushless);
         flip.setInverted(false);
+        flip.setIdleMode(CANSparkBase.IdleMode.kBrake);
+        flip.setSmartCurrentLimit(RobotMap.FLIP_CURRENT_LIMIT);
         flip.burnFlash();
+
         canCoder = new CANcoder(RobotMap.FLIP_CANCODER_ID);
         canCoder.clearStickyFault_BadMagnet();
         canCoder.getConfigurator().apply(new CANcoderConfiguration());

@@ -9,12 +9,12 @@ import java.util.function.DoubleSupplier;
 
 import org.team1515.BotterThanRevenge.Commands.AutoCommands.RotateAngle;
 import org.team1515.BotterThanRevenge.Commands.AutoCommands.AutoSequences.TwoSpeakerAmpSeq;
+import org.team1515.BotterThanRevenge.Commands.AutoCommands.AutoSequences.Better.BetterFourNote;
 import org.team1515.BotterThanRevenge.Commands.ClimberCommands.ClimberDown;
 import org.team1515.BotterThanRevenge.Commands.ClimberCommands.ClimberUp;
 import org.team1515.BotterThanRevenge.Commands.ClimberCommands.SingleClimber;
 import org.team1515.BotterThanRevenge.Commands.ClimberCommands.ZeroClimber;
 import org.team1515.BotterThanRevenge.Commands.AutoCommands.AutoSequences.DriveBackSeq;
-import org.team1515.BotterThanRevenge.Commands.AutoCommands.AutoSequences.FourNoteSeq;
 import org.team1515.BotterThanRevenge.Commands.AutoCommands.AutoSequences.PassNotesSeq;
 import org.team1515.BotterThanRevenge.Commands.AutoCommands.AutoSequences.Stay;
 import org.team1515.BotterThanRevenge.Commands.AutoCommands.AutoSequences.ThreeNoteSeq;
@@ -173,7 +173,7 @@ public class RobotContainer {
       case 2:
         return new ThreeNoteSeq(drivetrain, shooter, indexer, intake, flip, false, -team);
       case 3:
-        return new FourNoteSeq(drivetrain, shooter, indexer, intake, flip, climber, team);
+        return new BetterFourNote(drivetrain, shooter, indexer, intake, flip, climber, team);
       case 4:
         return new TwoAmpSeq(drivetrain, shooter, indexer, intake, flip, -team);
       case 5:
@@ -182,46 +182,46 @@ public class RobotContainer {
         return new TwoNoteSeq(drivetrain, shooter, indexer, intake, flip, false, team);
       case 7:
         return new PassNotesSeq(drivetrain, shooter, indexer, intake, flip, team);
-      case 8:
-        return new Stay(shooter, flip, indexer, climber);
       default:
-        return new InstantCommand(()-> System.out.println("pain"));
+        return new BetterFourNote(drivetrain, shooter, indexer, intake, flip, climber, team);
     }
-
-
-    // if (AutoChooser.getSelected() == 0){
-    //   return new DriveBackSeq(drivetrain, flip);
-    // }
-    // else if (AutoChooser.getSelected() == 1){
-    //   return new ThreeNoteSeq(drivetrain, shooter, indexer, intake, flip, false, team);
-    // }
-    // else if (AutoChooser.getSelected() == 2){
-    //   return new ThreeNoteSeq(drivetrain, shooter, indexer, intake, flip, false, -team);
-    // }
-    // else if (AutoChooser.getSelected() == 3){
-    //   return new FourNoteSeq(drivetrain, shooter, indexer, intake, flip, team);
-    // }
-    // else if (AutoChooser.getSelected() == 4){
-    //   return new TwoAmpSeq(drivetrain, shooter, indexer, intake, flip, -team);
-    // }
-    // else if (AutoChooser.getSelected() == 5){
-    //   return new TwoSpeakerAmpSeq(drivetrain, shooter, indexer, intake, flip, false, -team);
-    // }
-    // else if (AutoChooser.getSelected() == 6){
-    //   return new TwoNoteSeq(drivetrain, shooter, indexer, intake, flip, false, team);
-    // }
-    // else if (AutoChooser.getSelected() == 7){
-    //   return new PassNotesSeq(drivetrain, shooter, indexer, intake, flip, team);
-    // }
-    // return new InstantCommand(()-> System.out.println("pain"));
   }
+
+
+  //   if (AutoChooser.getSelected() == 0){
+  //     return new DriveBackSeq(drivetrain, flip);
+  //   }
+  //   else if (AutoChooser.getSelected() == 1){
+  //     return new ThreeNoteSeq(drivetrain, shooter, indexer, intake, flip, false, team);
+  //   }
+  //   else if (AutoChooser.getSelected() == 2){
+  //     return new ThreeNoteSeq(drivetrain, shooter, indexer, intake, flip, false, -team);
+  //   }
+  //   else if (AutoChooser.getSelected() == 3){
+  //     return new FourNoteSeq(drivetrain, shooter, indexer, intake, flip, team);
+  //   }
+  //   else if (AutoChooser.getSelected() == 4){
+  //     return new TwoAmpSeq(drivetrain, shooter, indexer, intake, flip, -team);
+  //   }
+  //   else if (AutoChooser.getSelected() == 5){
+  //     return new TwoSpeakerAmpSeq(drivetrain, shooter, indexer, intake, flip, false, -team);
+  //   }
+  //   else if (AutoChooser.getSelected() == 6){
+  //     return new TwoNoteSeq(drivetrain, shooter, indexer, intake, flip, false, team);
+  //   }
+  //   else if (AutoChooser.getSelected() == 7){
+  //     return new PassNotesSeq(drivetrain, shooter, indexer, intake, flip, team);
+  //   }
+  //   return new InstantCommand(()-> System.out.println("pain"));
+  // }
 
   public static double getRobotSpeed() {
-    return Controls.getLeftTriggerMain() ? 0.45 : 0.9;
+    return Controls.getLeftTriggerMain() ? 0.6 : 0.9;
     // return 0.7;
   }
+
   public static double getRobotYawSpeed() {
-    return Controls.getLeftTriggerMain() ? 0.45 : 0.7;
+    return Controls.getLeftTriggerMain() ? 0.6 : 0.7;
     // return 0.7;
   }
 
