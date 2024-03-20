@@ -64,7 +64,7 @@ public class driveLine extends Command {
     @Override
     public void initialize(){
         startTime = System.currentTimeMillis(); // time when command is run
-        start = new Point(drivetrain.getOdometry().getX(), drivetrain.getOdometry().getY()); 
+        start = new Point(drivetrain.getEstimator().getX(), drivetrain.getEstimator().getY()); 
         startAngle = RobotContainer.gyro.getGyroscopeRotation().getRadians();
 
         double dx = end.x-start.x;//change in x from start to end

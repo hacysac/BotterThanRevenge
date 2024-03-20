@@ -1,13 +1,18 @@
 package org.team1515.BotterThanRevenge.Subsystems;
 
 import org.team1515.BotterThanRevenge.RobotContainer;
+import org.team1515.BotterThanRevenge.Utils.LimelightHelpers;
 
 import com.team364.swervelib.util.SwerveConstants;
 import com.team364.swervelib.util.SwerveModule;
 
+import edu.wpi.first.math.VecBuilder;
+//import edu.wpi.first.math.MathUtil;
+//import edu.wpi.first.math.estimator.PoseEstimator;
 import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Transform2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
@@ -25,10 +30,15 @@ public class Drivetrain extends SubsystemBase {
 
     private Pose2d m_pose;
     private SwerveDrivePoseEstimator estimator;
+    private Pose2d initialTagOffset;
+    //private PhotonVision photonVision;
 
 
     public Drivetrain(Pose2d initialPos) {
         realZero = Rotation2d.fromDegrees(RobotContainer.gyro.getYaw());
+        initialTagOffset = new Pose2d();
+
+        //photonVision = photon;
         
         zeroGyro();
 
@@ -149,14 +159,37 @@ public class Drivetrain extends SubsystemBase {
             //SmartDashboard.putNumber("Mod " + mod.moduleNumber + " Velocity", mod.getState().speedMetersPerSecond);
             
         }
-        m_pose = estimator.update(RobotContainer.gyro.getGyroscopeRotation(),
+        m_pose = estimator.update(
+            RobotContainer.gyro.getGyroscopeRotation(),
             new SwerveModulePosition[] {
-            mSwerveMods[0].getPosition(), mSwerveMods[1].getPosition(),
-            mSwerveMods[2].getPosition(), mSwerveMods[3].getPosition()}
+                mSwerveMods[0].getPosition(),
+                mSwerveMods[1].getPosition(),
+                mSwerveMods[2].getPosition(),
+                mSwerveMods[3].getPosition()
+            }
+        );
+        estimator.update(
+            RobotContainer.gyro.getGyroscopeRotation(),
+            new SwerveModulePosition[] {
+                mSwerveMods[0].getPosition(),
+                mSwerveMods[1].getPosition(),
+                mSwerveMods[2].getPosition(),
+                mSwerveMods[3].getPosition()
+            }
         );
         
-        SmartDashboard.putNumber("Pose X: ", getOdometry().getX());
-        SmartDashboard.putNumber("Pose Y: ", getOdometry().getY());
+        LimelightHelpers.PoseEstimate limelightMeasurement = LimelightHelpers.getBotPoseEstimate_wpiBlue("limelight");
+        if(limelightMeasurement.tagCount >= 2){
+            estimator.setVisionMeasurementStdDevs(VecBuilder.fill(.7,.7,9999999));
+            estimator.addVisionMeasurement(
+                limelightMeasurement.pose,
+                limelightMeasurement.timestampSeconds);
+        }
+
+        SmartDashboard.putNumber("Odem Pose X: ", getOdometry().getX());
+        SmartDashboard.putNumber("Odem Pose Y: ", getOdometry().getY());
+        SmartDashboard.putNumber("Estimated Pose X: ", getEstimator().getX());
+        SmartDashboard.putNumber("Estimated Pose Y: ", getEstimator().getY());
     }
 
     /**
@@ -171,11 +204,20 @@ public class Drivetrain extends SubsystemBase {
     public void setOdometry(Pose2d pose){
         m_pose = pose;
     }
+    public void zeroEstimatorOffset(){
+        initialTagOffset = getEstimator();
+    }
     public void resetOdometry(){
         zeroGyro();
         for (SwerveModule mod : mSwerveMods){
             mod.zeroInternalEncoder();
         }
         setOdometry(new Pose2d(new Translation2d(0,0), new Rotation2d(0.0)));
+    }
+    public Pose2d getEstimator(){
+        return estimator.getEstimatedPosition();
+    }
+    public Transform2d getRelativeEstimator(){
+        return getEstimator().minus(initialTagOffset);
     }
 }
