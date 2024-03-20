@@ -57,14 +57,14 @@ public class TwoNoteSeq extends SequentialCommandGroup{
         addCommands(Commands.parallel(
             new FlipUp(flip),
             new InstantCommand(()->shooter.shootSpeaker())
-        ));
+        ).withTimeout(2));
         //}
         
         //FEED PIECE + FLIP DOWN: run indexer 0.5 seconds?
         addCommands(Commands.parallel(
                 new AutoFeed(indexer, RobotMap.AUTO_FEED_TIME),
                 new FlipDown(flip)
-        ));
+        ).withTimeout(2));
         //end shooter and indexer
         
         
@@ -78,17 +78,17 @@ public class TwoNoteSeq extends SequentialCommandGroup{
         addCommands(Commands.parallel(
                 new driveSegment(drivetrain, angle, finalPoint, speed, startPoint, true),
                 new AutoIntakeIn(intake, indexer, RobotMap.AUTO_INTAKE_TIME)
-        ));
+        ).withTimeout(2));
         
         //PICK UP PIECE: run intake+indexer 1 second limit
 
         //DRIVE FORWARD + flip up + start shooter
         startPoint = new Pose2d(new Translation2d(subwoofer.getX()+finalPoint.x, subwoofer.getY()+finalPoint.y), new Rotation2d(0.0));
         finalPoint = new Point(-subwooferToNoteX, 0);
-        addCommands(new driveSegment(drivetrain, angle, finalPoint, speed, startPoint, true));
+        addCommands(new driveSegment(drivetrain, angle, finalPoint, speed, startPoint, true).withTimeout(2));
         
         //FEED PIECE: run indexer 0.5 seconds?
-        addCommands(new AutoFeed(indexer, RobotMap.AUTO_FEED_TIME));
+        addCommands(new AutoFeed(indexer, RobotMap.AUTO_FEED_TIME).withTimeout(2));
 
         //DRIVE BACK
         startPoint = subwoofer;
@@ -99,7 +99,7 @@ public class TwoNoteSeq extends SequentialCommandGroup{
         speed = dist/time;
         
         addCommands(new InstantCommand(()->shooter.end()));
-        addCommands(new driveSegment(drivetrain, angle, finalPoint, speed, subwoofer, true));
+        addCommands(new driveSegment(drivetrain, angle, finalPoint, speed, subwoofer, true).withTimeout(2));
         //end all
     }
 }

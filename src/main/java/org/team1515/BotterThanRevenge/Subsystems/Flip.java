@@ -25,7 +25,7 @@ public class Flip extends SubsystemBase{
 
     private double topValue;
     private double midValue;
-    private double lowValue;
+    public double lowValue;
 
     private double midOffset;
     private double lowOffset;
