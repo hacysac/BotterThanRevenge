@@ -4,6 +4,8 @@
 
 package org.team1515.BotterThanRevenge;
 
+import org.team1515.BotterThanRevenge.Commands.ClimberCommands.ZeroClimber;
+
 import com.team364.swervelib.util.CTREConfigs;
 
 import edu.wpi.first.cameraserver.CameraServer;
@@ -47,12 +49,13 @@ public class Robot extends TimedRobot {
 
   @Override
   public void autonomousInit() {
-    InstantCommand reset = new InstantCommand(()->RobotContainer.drivetrain.resetOdometry());
+    InstantCommand resetOdometry = new InstantCommand(()->RobotContainer.drivetrain.resetOdometry());
+    Command zeroClimber = new ZeroClimber(RobotContainer.climber);
 
     m_autonomousCommand = m_robotContainer.getAutonomousCommand();
 
     if (m_autonomousCommand != null) {
-      SequentialCommandGroup sequence = new SequentialCommandGroup(reset, m_robotContainer.getAutonomousCommand());
+      SequentialCommandGroup sequence = new SequentialCommandGroup(resetOdometry, m_robotContainer.getAutonomousCommand(), zeroClimber);
       sequence.schedule();
     }
   }

@@ -8,19 +8,19 @@ import java.util.Optional;
 import java.util.function.DoubleSupplier;
 
 import org.team1515.BotterThanRevenge.Commands.AutoCommands.RotateAngle;
-import org.team1515.BotterThanRevenge.Commands.AutoCommands.AutoSequences.TwoSpeakerAmpSeq;
-import org.team1515.BotterThanRevenge.Commands.AutoCommands.AutoSequences.Better.BetterFourNote;
 import org.team1515.BotterThanRevenge.Commands.ClimberCommands.ClimberDown;
 import org.team1515.BotterThanRevenge.Commands.ClimberCommands.ClimberUp;
 import org.team1515.BotterThanRevenge.Commands.ClimberCommands.SingleClimber;
 import org.team1515.BotterThanRevenge.Commands.ClimberCommands.ZeroClimber;
+import org.team1515.BotterThanRevenge.Commands.AutoCommands.AutoSequences.FourNoteSeq;
+import org.team1515.BotterThanRevenge.Commands.AutoCommands.AutoSequences.ThreeNoteSeq;
+import org.team1515.BotterThanRevenge.Commands.AutoCommands.AutoSequences.TwoSpeakerAmpSeq;
+import org.team1515.BotterThanRevenge.Commands.AutoCommands.AutoSequences.BetterTwoAmp;
 import org.team1515.BotterThanRevenge.Commands.AutoCommands.AutoSequences.DriveBackSeq;
 import org.team1515.BotterThanRevenge.Commands.AutoCommands.AutoSequences.PassNotesSeq;
+import org.team1515.BotterThanRevenge.Commands.AutoCommands.AutoSequences.ShootBack;
 import org.team1515.BotterThanRevenge.Commands.AutoCommands.AutoSequences.Stay;
-import org.team1515.BotterThanRevenge.Commands.AutoCommands.AutoSequences.ThreeNoteSeq;
 import org.team1515.BotterThanRevenge.Commands.AutoCommands.AutoSequences.TwoAmpSeq;
-import org.team1515.BotterThanRevenge.Commands.AutoCommands.AutoSequences.TwoNoteSeq;
-//import org.team1515.BotterThanRevenge.Commands.AutoCommands.AutoSequences.TwoNoteSeq;
 import org.team1515.BotterThanRevenge.Commands.DefaultDriveCommand;
 import org.team1515.BotterThanRevenge.Commands.IndexerCommands.IndexerDown;
 import org.team1515.BotterThanRevenge.Commands.IndexerCommands.IndexerUp;
@@ -39,8 +39,6 @@ import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
-import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
@@ -51,18 +49,15 @@ public class RobotContainer {
   public static GenericHID autoController;
 
   public static Gyroscope gyro;
-  private PhotonVision photon;
 
   public static Drivetrain drivetrain;
   public static Intake intake;
   public static Flip flip;
   private static Indexer indexer;
-  private static Climber climber;
+  static Climber climber;
   public static Shooter shooter;
 
   public double direction = 1;
-
-  public static SendableChooser<Integer> AutoChooser = new SendableChooser<>();
   
   public RobotContainer() {
     mainController = new XboxController(0);
@@ -70,24 +65,13 @@ public class RobotContainer {
     autoController = new GenericHID(2);
 
     gyro = new Gyroscope();
-    photon = new PhotonVision();
 
-    drivetrain = new Drivetrain(new Pose2d(), photon); 
+    drivetrain = new Drivetrain(new Pose2d()); 
     intake = new Intake();
     indexer = new Indexer();
     flip = new Flip();
     climber = new Climber();
     shooter = new Shooter();
-
-    AutoChooser.setDefaultOption("Drive Back", 0);
-    AutoChooser.addOption("3 Note Source Side Seq", 1);
-    AutoChooser.addOption("3 Note Amp Side Seq", 2);
-    AutoChooser.addOption("4 Note Seq", 3);
-    AutoChooser.addOption("2 Amp Seq", 4);
-    AutoChooser.addOption("2 Note + Amp Seq", 5);
-    AutoChooser.addOption("2 Note Seq", 6);
-    //AutoChooser.addOption("Center Pass Seq", 7);
-    SmartDashboard.putData(AutoChooser);
 
     configureBindings();
 
@@ -108,7 +92,7 @@ public class RobotContainer {
     //Controls.ROTATE_ANGLE_TARGET.onTrue(new RotateAngle(drivetrain, angle));
 
     DoubleSupplier zeroAngle = () -> -Units.degreesToRadians(gyro.getYaw());
-    Controls.ZERO_ROBOT.onTrue(new ZeroClimber(climber));
+    Controls.ZERO_CLIMBER.onTrue(new ZeroClimber(climber));
 
     //Intake
     Controls.AUTO_INTAKE.toggleOnTrue(new AutoIntakeIn(intake, indexer)); // infinite until sensor
@@ -169,51 +153,23 @@ public class RobotContainer {
       case 0:
         return new DriveBackSeq(drivetrain, flip);
       case 1:
-        return new ThreeNoteSeq(drivetrain, shooter, indexer, intake, flip, false, team);
+        return new ThreeNoteSeq(drivetrain, shooter, indexer, intake, flip, team);
       case 2:
-        return new ThreeNoteSeq(drivetrain, shooter, indexer, intake, flip, false, -team);
+        return new ThreeNoteSeq(drivetrain, shooter, indexer, intake, flip, -team);
       case 3:
-        return new BetterFourNote(drivetrain, shooter, indexer, intake, flip, climber, team);
+        return new FourNoteSeq(drivetrain, shooter, indexer, intake, flip, team);
       case 4:
-        return new TwoAmpSeq(drivetrain, shooter, indexer, intake, flip, -team);
+        return new BetterTwoAmp(drivetrain, shooter, indexer, intake, flip, -team);
       case 5:
-        return new TwoSpeakerAmpSeq(drivetrain, shooter, indexer, intake, flip, false, -team);
+        return new TwoSpeakerAmpSeq(drivetrain, shooter, indexer, intake, flip, -team);
       case 6:
-        return new TwoNoteSeq(drivetrain, shooter, indexer, intake, flip, false, team);
+        return new ShootBack(drivetrain, shooter, indexer, flip, team);
       case 7:
         return new PassNotesSeq(drivetrain, shooter, indexer, intake, flip, team);
       default:
-        return new BetterFourNote(drivetrain, shooter, indexer, intake, flip, climber, team);
+        return new Stay(shooter, flip, indexer);
     }
   }
-
-
-  //   if (AutoChooser.getSelected() == 0){
-  //     return new DriveBackSeq(drivetrain, flip);
-  //   }
-  //   else if (AutoChooser.getSelected() == 1){
-  //     return new ThreeNoteSeq(drivetrain, shooter, indexer, intake, flip, false, team);
-  //   }
-  //   else if (AutoChooser.getSelected() == 2){
-  //     return new ThreeNoteSeq(drivetrain, shooter, indexer, intake, flip, false, -team);
-  //   }
-  //   else if (AutoChooser.getSelected() == 3){
-  //     return new FourNoteSeq(drivetrain, shooter, indexer, intake, flip, team);
-  //   }
-  //   else if (AutoChooser.getSelected() == 4){
-  //     return new TwoAmpSeq(drivetrain, shooter, indexer, intake, flip, -team);
-  //   }
-  //   else if (AutoChooser.getSelected() == 5){
-  //     return new TwoSpeakerAmpSeq(drivetrain, shooter, indexer, intake, flip, false, -team);
-  //   }
-  //   else if (AutoChooser.getSelected() == 6){
-  //     return new TwoNoteSeq(drivetrain, shooter, indexer, intake, flip, false, team);
-  //   }
-  //   else if (AutoChooser.getSelected() == 7){
-  //     return new PassNotesSeq(drivetrain, shooter, indexer, intake, flip, team);
-  //   }
-  //   return new InstantCommand(()-> System.out.println("pain"));
-  // }
 
   public static double getRobotSpeed() {
     return Controls.getLeftTriggerMain() ? 0.6 : 0.9;

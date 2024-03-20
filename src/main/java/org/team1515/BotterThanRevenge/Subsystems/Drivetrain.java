@@ -1,13 +1,10 @@
 package org.team1515.BotterThanRevenge.Subsystems;
 
 import org.team1515.BotterThanRevenge.RobotContainer;
-import org.team1515.BotterThanRevenge.Utils.PhotonVision;
 
 import com.team364.swervelib.util.SwerveConstants;
 import com.team364.swervelib.util.SwerveModule;
 
-//import edu.wpi.first.math.MathUtil;
-//import edu.wpi.first.math.estimator.PoseEstimator;
 import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -28,13 +25,10 @@ public class Drivetrain extends SubsystemBase {
 
     private Pose2d m_pose;
     private SwerveDrivePoseEstimator estimator;
-    //private PhotonVision photonVision;
 
 
-    public Drivetrain(Pose2d initialPos, PhotonVision photon) {
+    public Drivetrain(Pose2d initialPos) {
         realZero = Rotation2d.fromDegrees(RobotContainer.gyro.getYaw());
-
-        //photonVision = photon;
         
         zeroGyro();
 
@@ -160,20 +154,7 @@ public class Drivetrain extends SubsystemBase {
             mSwerveMods[0].getPosition(), mSwerveMods[1].getPosition(),
             mSwerveMods[2].getPosition(), mSwerveMods[3].getPosition()}
         );
-
-        // Compute the robot's field-relative position exclusively from vision measurements.
         
-        // if(photonVision.getEstimatedGlobalPose(m_pose).isPresent()){
-        //     Pose3d visionMeasurement3d = photonVision.getEstimatedGlobalPose(m_pose).get().estimatedPose;
-
-        //     // Convert robot pose from Pose3d to Pose2d needed to apply vision measurements.
-        //     Pose2d visionMeasurement2d = visionMeasurement3d.toPose2d();
-
-        //     estimator.addVisionMeasurement(visionMeasurement2d, Timer.getFPGATimestamp());
-        // }
-
-
-
         SmartDashboard.putNumber("Pose X: ", getOdometry().getX());
         SmartDashboard.putNumber("Pose Y: ", getOdometry().getY());
     }

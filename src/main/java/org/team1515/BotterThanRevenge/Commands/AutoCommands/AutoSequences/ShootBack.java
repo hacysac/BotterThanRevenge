@@ -1,12 +1,8 @@
-package org.team1515.BotterThanRevenge.Commands.AutoCommands.AutoSequences.Better;
+package org.team1515.BotterThanRevenge.Commands.AutoCommands.AutoSequences;
 
-import java.util.function.DoubleSupplier;
 import org.team1515.BotterThanRevenge.RobotMap;
 import org.team1515.BotterThanRevenge.Commands.AutoCommands.driveLine;
-import org.team1515.BotterThanRevenge.Commands.AutoCommands.driveSegment;
 import org.team1515.BotterThanRevenge.Commands.IndexerCommands.AutoFeed;
-import org.team1515.BotterThanRevenge.Commands.IntakeCommands.AutoIntakeIn;
-import org.team1515.BotterThanRevenge.Commands.IntakeCommands.FlipDown;
 import org.team1515.BotterThanRevenge.Commands.IntakeCommands.FlipUp;
 import org.team1515.BotterThanRevenge.Subsystems.Drivetrain;
 import org.team1515.BotterThanRevenge.Subsystems.Flip;
@@ -14,17 +10,17 @@ import org.team1515.BotterThanRevenge.Subsystems.Indexer;
 import org.team1515.BotterThanRevenge.Subsystems.Shooter;
 import org.team1515.BotterThanRevenge.Utils.Point;
 
-import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 
 public class ShootBack extends SequentialCommandGroup {
-    public ShootBack(Drivetrain drivetrain, Shooter shooter, Indexer indexer, int direction){
+    public ShootBack(Drivetrain drivetrain, Shooter shooter, Indexer indexer, Flip flip, int direction){
         Point finalPose = new Point(Units.inchesToMeters(RobotMap.ROBOT_STARTING_ZONE_WIDTH + 5), direction*Units.inchesToMeters(63));
         
         addCommands(new InstantCommand(()->shooter.shootSpeaker()));
+        addCommands(new FlipUp(flip));
         addCommands(Commands.waitSeconds(0.5));
         
         //Score Stoed Note
@@ -33,6 +29,6 @@ public class ShootBack extends SequentialCommandGroup {
         addCommands(new InstantCommand(()->shooter.end()));
 
         //Drive Away
-        //addCommands(new driveLine(drivetrain, 0, finalPose, 1)).withTimeout(2));
+        addCommands(new driveLine(drivetrain, 0, finalPose, 1).withTimeout(2));
     }
 }

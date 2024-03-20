@@ -1,17 +1,11 @@
-
 package org.team1515.BotterThanRevenge.Commands.AutoCommands.AutoSequences;
 
-import java.util.function.DoubleSupplier;
-
 import org.team1515.BotterThanRevenge.RobotMap;
-import org.team1515.BotterThanRevenge.Commands.AutoCommands.driveArcLength;
-import org.team1515.BotterThanRevenge.Commands.AutoCommands.driveSegment;
-import org.team1515.BotterThanRevenge.Commands.ClimberCommands.ZeroClimber;
+import org.team1515.BotterThanRevenge.Commands.AutoCommands.driveLine;
 import org.team1515.BotterThanRevenge.Commands.IndexerCommands.AutoFeed;
 import org.team1515.BotterThanRevenge.Commands.IntakeCommands.AutoIntakeIn;
 import org.team1515.BotterThanRevenge.Commands.IntakeCommands.FlipDown;
 import org.team1515.BotterThanRevenge.Commands.IntakeCommands.FlipUp;
-import org.team1515.BotterThanRevenge.Subsystems.Climber;
 import org.team1515.BotterThanRevenge.Subsystems.Drivetrain;
 import org.team1515.BotterThanRevenge.Subsystems.Flip;
 import org.team1515.BotterThanRevenge.Subsystems.Indexer;
@@ -19,140 +13,68 @@ import org.team1515.BotterThanRevenge.Subsystems.Intake;
 import org.team1515.BotterThanRevenge.Subsystems.Shooter;
 import org.team1515.BotterThanRevenge.Utils.Point;
 
-import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 
 public class FourNoteSeq extends SequentialCommandGroup{
-    public FourNoteSeq(Drivetrain drivetrain, Shooter shooter, Indexer indexer, Intake intake, Flip flip, Climber climber, double direction){
-        Pose2d subwoofer = new Pose2d(new Translation2d(0,0), new Rotation2d(0.0)); //Starting from subwoofer
-        
+    public FourNoteSeq(Drivetrain drivetrain, Shooter shooter, Indexer indexer, Intake intake, Flip flip, double direction){        
         double subwooferToNoteX = Units.inchesToMeters(RobotMap.SUBWOOFER_TO_NOTE - RobotMap.CHASSIS_WIDTH + 1);
-        //double subwooferToNoteX = Units.inchesToMeters(RobotMap.SUBWOOFER_TO_NOTE - RobotMap.CHASSIS_WIDTH + 4);
-        double subwooferToNoteY = -direction * Units.inchesToMeters(RobotMap.NOTE_TO_NOTE - (0.5 * RobotMap.CHASSIS_WIDTH) + 3);
-    
-        DoubleSupplier angle = () -> Units.degreesToRadians(0.0); //make sure shooter is forward
-        
-        //start shooter + flip up to find offsets
-        addCommands(new FlipUp(flip));
-        addCommands(new InstantCommand(()->shooter.shootSpeaker()));
+        double subwooferToNoteY = Units.inchesToMeters(RobotMap.NOTE_TO_NOTE - (0.5 * RobotMap.CHASSIS_WIDTH) + 3);
 
+        Point pose0 = new Point(0, 0);
+        Point pose1 = new Point(subwooferToNoteX, 0);
+        Point pose2 = new Point(subwooferToNoteX, -direction*subwooferToNoteY);
+        Point pose3 = new Point(subwooferToNoteX, direction*(subwooferToNoteY-Units.inchesToMeters(3)));
+        Point finalPose = new Point(Units.inchesToMeters(RobotMap.ROBOT_STARTING_ZONE_WIDTH + 5), direction*Units.inchesToMeters(63));
+
+        double firstRotation = -RobotMap.AUTO_NOTE_ANGLE_OFFSET*direction;
+        double secondRotation = RobotMap.AUTO_NOTE_ANGLE_OFFSET*direction;
+        
+        addCommands(new FlipUp(flip).withTimeout(2));
+        addCommands(new InstantCommand(()->shooter.shootSpeaker()));
+        
         addCommands(Commands.waitSeconds(0.5));
         
-        //FEED PIECE + FLIP DOWN: run indexer 0.5 seconds?
+        //Score Stoed Note
         addCommands(Commands.parallel(
                 new AutoFeed(indexer, RobotMap.AUTO_FEED_TIME),
                 new FlipDown(flip)
         ).withTimeout(2));
-        //end shooter and indexer
-        
-        
-        angle = () -> Units.degreesToRadians(0);
-        double time = 1;
-        double speed = subwooferToNoteX/time;
 
-        //DRIVE BACK + flip down + auto intake 1 second limit?
-        Pose2d startPoint = subwoofer;
-        Point finalPoint = new Point(subwooferToNoteX, 0);
+        //Pick Up Note 1
         addCommands(Commands.parallel(
-                new driveSegment(drivetrain, angle, finalPoint, speed, startPoint, true),
+                new driveLine(drivetrain, 0, pose1, 1),
                 new AutoIntakeIn(intake, indexer, RobotMap.AUTO_INTAKE_TIME)
         ).withTimeout(2));
-        
-        //PICK UP PIECE: run intake+indexer 1 second limit
-        
 
-        //DRIVE FORWARD + flip up + start shooter
-        startPoint = new Pose2d(new Translation2d(subwoofer.getX()+finalPoint.x, subwoofer.getY()+finalPoint.y), new Rotation2d(0.0));
-        finalPoint = new Point(-subwooferToNoteX, 0);
-        addCommands(new driveSegment(drivetrain, angle, finalPoint, speed, startPoint, true).withTimeout(2));
-        
-        //FEED PIECE: run indexer 0.5 seconds?
+        //Score Note 1
+        addCommands(new driveLine(drivetrain, 0, pose0, 1).withTimeout(2));
         addCommands(new AutoFeed(indexer, RobotMap.AUTO_FEED_TIME).withTimeout(2));
-        //end shooter and indexer
-        
 
-        angle = ()->Units.degreesToRadians(-RobotMap.AUTO_NOTE_ANGLE_OFFSET*direction);
-        double dist = Math.sqrt(Math.pow(subwooferToNoteX, 2)+Math.pow(subwooferToNoteY, 2));
-        time = 1;
-        speed = dist/time;
-
-        //DRIVE DIAGONAL BACKWARD + flip down + auto intake 1.5 second limit?
-        startPoint = subwoofer;
-        finalPoint = new Point(subwooferToNoteX, subwooferToNoteY);
+        //Pick Up Note 2
         addCommands(Commands.parallel(
-                new driveSegment(drivetrain, angle, finalPoint, speed, startPoint, true),
+                new driveLine(drivetrain, firstRotation, pose2, 1, true),
                 new AutoIntakeIn(intake, indexer, RobotMap.AUTO_INTAKE_TIME)
         ).withTimeout(2));
 
-        
-        //PICK UP PIECE: run intake+indexer 1 second limit
-        
+        //Score Note 2
+        addCommands(new driveLine(drivetrain, -firstRotation, pose0, 1).withTimeout(2));
+        addCommands(new AutoFeed(indexer, RobotMap.AUTO_FEED_TIME).withTimeout(2));
 
-        angle = ()->Units.degreesToRadians(RobotMap.AUTO_NOTE_ANGLE_OFFSET*direction);
-        //dist = Math.sqrt(Math.pow(subwooferToNoteX + Units.inchesToMeters(6), 2)+Math.pow(subwooferToNoteY, 2));
-        dist = Math.sqrt(Math.pow(subwooferToNoteX + Units.inchesToMeters(2), 2)+Math.pow(subwooferToNoteY, 2));
-        time = 1;
-        speed = dist/time;
-        
-        //DRIVE DIAGONAL FORWARD + flip up + start shooter
-        startPoint = new Pose2d(new Translation2d(subwoofer.getX()+finalPoint.x, subwoofer.getY()+finalPoint.y), new Rotation2d(0.0));
-        finalPoint = new Point(-(subwooferToNoteX + Units.inchesToMeters(2)), -subwooferToNoteY);
-        //finalPoint = new Point(-(subwooferToNoteX + Units.inchesToMeters(6)), -subwooferToNoteY);
-        addCommands(new driveSegment(drivetrain, angle, finalPoint, speed, startPoint, true).withTimeout(2));
-
-        //FEED PIECE: run indexer 0.5 seconds?
-        addCommands(new AutoFeed(indexer, RobotMap.AUTO_FEED_TIME).withTimeout(1));
-        //end shooter and indexer
-        
-
-        angle = ()->Units.degreesToRadians(RobotMap.AUTO_NOTE_ANGLE_OFFSET*direction);
-        dist = Math.sqrt(Math.pow(subwooferToNoteX, 2)+Math.pow(subwooferToNoteY, 2));
-        time = 1;
-        speed = dist/time;
-
-        //DRIVE DIAGONAL BACKWARD + flip down + auto intake 1.5 second limit?
-        startPoint = subwoofer;
-        finalPoint = new Point(subwooferToNoteX, -subwooferToNoteY);
+        //Pick Up Note 3
         addCommands(Commands.parallel(
-                new driveSegment(drivetrain, angle, finalPoint, speed, startPoint, true),
+                new driveLine(drivetrain, secondRotation, pose3, 1, true),
                 new AutoIntakeIn(intake, indexer, RobotMap.AUTO_INTAKE_TIME)
         ).withTimeout(2));
 
-        
-        //PICK UP PIECE: run intake+indexer 1 second limit
-        
+        //Score Note 3
+        addCommands(new driveLine(drivetrain, -secondRotation, pose0, 1).withTimeout(2));
+        addCommands(new AutoFeed(indexer, RobotMap.AUTO_FEED_TIME).withTimeout(2));
 
-        angle = ()->Units.degreesToRadians(-RobotMap.AUTO_NOTE_ANGLE_OFFSET*direction);
-        dist = Math.sqrt(Math.pow(subwooferToNoteX + Units.inchesToMeters(2), 2)+Math.pow(subwooferToNoteY, 2));
-        //dist = Math.sqrt(Math.pow(subwooferToNoteX + Units.inchesToMeters(6), 2)+Math.pow(subwooferToNoteY, 2));
-        time = 1;
-        speed = dist/time;
-        
-        //DRIVE DIAGONAL FORWARD + flip up + start shooter
-        startPoint = new Pose2d(new Translation2d(subwoofer.getX()+finalPoint.x, subwoofer.getY()+finalPoint.y), new Rotation2d(0.0));
-        //finalPoint = new Point(-(subwooferToNoteX + Units.inchesToMeters(6)), subwooferToNoteY);
-        finalPoint = new Point(-(subwooferToNoteX + Units.inchesToMeters(2)), subwooferToNoteY);
-        addCommands(new driveSegment(drivetrain, angle, finalPoint, speed, startPoint, true).withTimeout(2));
-        
-        //FEED PIECE: run indexer 0.5 seconds?
-        addCommands(new AutoFeed(indexer, RobotMap.AUTO_FEED_TIME).withTimeout(1));
-
-        //DRIVE BACK
-        startPoint = subwoofer;
-        angle = ()->Units.degreesToRadians(0.0);
-        time = 1;
-        finalPoint = new Point(Units.inchesToMeters(RobotMap.ROBOT_STARTING_ZONE_WIDTH + 5), direction*Units.inchesToMeters(63));
-        dist = Math.sqrt(Math.pow(finalPoint.x, 2)+Math.pow(finalPoint.y, 2));
-        speed = dist/time;
-        
+        //Drive Back
         addCommands(new InstantCommand(()->shooter.end()));
-        addCommands(new driveSegment(drivetrain, angle, finalPoint, speed, subwoofer, true).withTimeout(2));
-        addCommands(new ZeroClimber(climber).withTimeout(3));
-        //end all
+        addCommands(new driveLine(drivetrain, 0, finalPose, 1).withTimeout(2));
     }
 }
