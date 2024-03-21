@@ -20,7 +20,6 @@ import org.team1515.BotterThanRevenge.Commands.AutoCommands.AutoSequences.DriveB
 import org.team1515.BotterThanRevenge.Commands.AutoCommands.AutoSequences.PassNotesSeq;
 import org.team1515.BotterThanRevenge.Commands.AutoCommands.AutoSequences.ShootBack;
 import org.team1515.BotterThanRevenge.Commands.AutoCommands.AutoSequences.Stay;
-import org.team1515.BotterThanRevenge.Commands.AutoCommands.AutoSequences.TwoAmpSeq;
 import org.team1515.BotterThanRevenge.Commands.DefaultDriveCommand;
 import org.team1515.BotterThanRevenge.Commands.IndexerCommands.IndexerDown;
 import org.team1515.BotterThanRevenge.Commands.IndexerCommands.IndexerUp;
@@ -86,12 +85,12 @@ public class RobotContainer {
             () -> direction,
             () -> Controls.DRIVE_ROBOT_ORIENTED.getAsBoolean()));
     
-    //DoubleSupplier angle = () -> Units.degreesToRadians(180);
+    DoubleSupplier angle = () -> -LimelightHelpers.getTY(RobotMap.LIMELIGHT_NAME);
     Controls.RESET_GYRO.onTrue(new InstantCommand(()->drivetrain.zeroGyro()));
     Controls.CHANGE_DIRECTION.onTrue(new InstantCommand(()->direction = -direction));
-    //Controls.ROTATE_ANGLE_TARGET.onTrue(new RotateAngle(drivetrain, angle));
+    Controls.ROTATE_ANGLE_TARGET.onTrue(new RotateAngle(drivetrain, angle));
 
-    DoubleSupplier zeroAngle = () -> -Units.degreesToRadians(gyro.getYaw());
+    //DoubleSupplier zeroAngle = () -> -Units.degreesToRadians(gyro.getYaw());
     Controls.ZERO_CLIMBER.onTrue(new ZeroClimber(climber));
 
     //Intake
