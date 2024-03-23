@@ -50,11 +50,11 @@ public class RobotContainer {
   public static Gyroscope gyro;
 
   public static Drivetrain drivetrain;
-  public static Intake intake;
-  public static Flip flip;
-  private static Indexer indexer;
-  static Climber climber;
-  public static Shooter shooter;
+  // public static Intake intake;
+  // public static Flip flip;
+  // private static Indexer indexer;
+  // static Climber climber;
+  // public static Shooter shooter;
 
   public double direction = 1;
   
@@ -66,11 +66,11 @@ public class RobotContainer {
     gyro = new Gyroscope();
 
     drivetrain = new Drivetrain(new Pose2d()); 
-    intake = new Intake();
-    indexer = new Indexer();
-    flip = new Flip();
-    climber = new Climber();
-    shooter = new Shooter();
+    // intake = new Intake();
+    // indexer = new Indexer();
+    // flip = new Flip();
+    // climber = new Climber();
+    // shooter = new Shooter();
 
     configureBindings();
 
@@ -91,35 +91,35 @@ public class RobotContainer {
     Controls.ROTATE_ANGLE_TARGET.onTrue(new RotateAngle(drivetrain, angle));
 
     //DoubleSupplier zeroAngle = () -> -Units.degreesToRadians(gyro.getYaw());
-    Controls.ZERO_CLIMBER.onTrue(new ZeroClimber(climber));
+    //Controls.ZERO_CLIMBER.onTrue(new ZeroClimber(climber));
 
     //Intake
-    Controls.AUTO_INTAKE.toggleOnTrue(new AutoIntakeIn(intake, indexer)); // infinite until sensor
-    Controls.INTAKE.whileTrue(new IntakeIn(intake));
-    Controls.OUTTAKE.whileTrue(new IntakeOut(intake));
+    // Controls.AUTO_INTAKE.toggleOnTrue(new AutoIntakeIn(intake, indexer)); // infinite until sensor
+    // Controls.INTAKE.whileTrue(new IntakeIn(intake));
+    // Controls.OUTTAKE.whileTrue(new IntakeOut(intake));
 
     //Flip
     //Controls.FLIP.onTrue(new SetFlip(flip));
-    Controls.FLIP_UP.onTrue(new FlipUp(flip));
-    Controls.FLIP_DOWN.onTrue(new FlipDown(flip));
+    // Controls.FLIP_UP.onTrue(new FlipUp(flip));
+    // Controls.FLIP_DOWN.onTrue(new FlipDown(flip));
     // Indexer
-    Controls.INDEXER_UP.whileTrue(new IndexerUp(indexer));
-    Controls.INDEXER_DOWN.whileTrue(new IndexerDown(indexer));
+    // Controls.INDEXER_UP.whileTrue(new IndexerUp(indexer));
+    // Controls.INDEXER_DOWN.whileTrue(new IndexerDown(indexer));
 
     //Climber
-    Controls.CLIMBER_UP.whileTrue(new ClimberUp(climber));
-    Controls.CLIMBER_DOWN.whileTrue(new ClimberDown(climber));
-    Controls.LEFT_CLIMBER_DOWN.whileTrue(new SingleClimber(climber, true));
-    Controls.RIGHT_CLIMBER_DOWN.whileTrue(new SingleClimber(climber, false));
+    // Controls.CLIMBER_UP.whileTrue(new ClimberUp(climber));
+    // Controls.CLIMBER_DOWN.whileTrue(new ClimberDown(climber));
+    // Controls.LEFT_CLIMBER_DOWN.whileTrue(new SingleClimber(climber, true));
+    // Controls.RIGHT_CLIMBER_DOWN.whileTrue(new SingleClimber(climber, false));
 
     //Shooter Hold Down
     //Controls.SHOOT_SPEAKER.whileTrue(new ShooterShoot(shooter, RobotMap.SPEAKER_SPEED));
     //Controls.SHOOT_AMP.whileTrue(new ShooterShoot(shooter, RobotMap.AMP_SPEED));
-    Controls.SHOOTER_IN.whileTrue(new ShooterIn(shooter));
+    //Controls.SHOOTER_IN.whileTrue(new ShooterIn(shooter));
   
     //Shooter Toggle
-    Controls.SHOOT_SPEAKER.toggleOnTrue(new ToggleSpeaker(shooter));
-    Controls.SHOOT_AMP.toggleOnTrue(new ToggleAmp(shooter));
+    // Controls.SHOOT_SPEAKER.toggleOnTrue(new ToggleSpeaker(shooter));
+    // Controls.SHOOT_AMP.toggleOnTrue(new ToggleAmp(shooter));
   }
 
   public Command getAutonomousCommand() {
@@ -150,23 +150,23 @@ public class RobotContainer {
     int selected = (8*c1+4*c2+2*c3+c4);
     switch (selected) {
       case 0:
-        return new DriveBackSeq(drivetrain, flip);
+        return new DriveBackSeq(drivetrain);
       case 1:
-        return new ThreeNoteSeq(drivetrain, shooter, indexer, intake, flip, team);
+        return new DriveBackSeq(drivetrain);
       case 2:
-        return new ThreeNoteSeq(drivetrain, shooter, indexer, intake, flip, -team);
+        return new DriveBackSeq(drivetrain);
       case 3:
-        return new FourNoteSeq(drivetrain, shooter, indexer, intake, flip, team);
+        return new FourNoteSeq(drivetrain, team);
       case 4:
-        return new TwoAmpSeq(drivetrain, shooter, indexer, intake, flip, -team);
+        return new DriveBackSeq(drivetrain);
       case 5:
-        return new TwoSpeakerAmpSeq(drivetrain, shooter, indexer, intake, flip, -team);
+        return new DriveBackSeq(drivetrain);
       case 6:
-        return new ShootBack(drivetrain, shooter, indexer, flip, team);
+        return new DriveBackSeq(drivetrain);
       case 7:
-        return new PassNotesSeq(drivetrain, shooter, indexer, intake, flip, team);
+        return new DriveBackSeq(drivetrain);
       default:
-        return new Stay(shooter, flip, indexer);
+        return new DriveBackSeq(drivetrain);
     }
   }
 

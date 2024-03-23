@@ -50,12 +50,12 @@ public class Robot extends TimedRobot {
   @Override
   public void autonomousInit() {
     InstantCommand resetOdometry = new InstantCommand(()->RobotContainer.drivetrain.resetOdometry());
-    Command zeroClimber = new ZeroClimber(RobotContainer.climber);
+    //Command zeroClimber = new ZeroClimber(RobotContainer.climber);
 
     m_autonomousCommand = m_robotContainer.getAutonomousCommand();
 
     if (m_autonomousCommand != null) {
-      SequentialCommandGroup sequence = new SequentialCommandGroup(resetOdometry, m_robotContainer.getAutonomousCommand(), zeroClimber);
+      SequentialCommandGroup sequence = new SequentialCommandGroup(resetOdometry, m_robotContainer.getAutonomousCommand());
       sequence.schedule();
     }
   }
