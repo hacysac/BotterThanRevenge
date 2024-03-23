@@ -11,9 +11,9 @@ import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 
 public class DriveBackSeq extends SequentialCommandGroup {
-    public DriveBackSeq(Drivetrain drivetrain, Flip flip){
+    public DriveBackSeq(Drivetrain drivetrain){
         Point finalPose = new Point(Units.inchesToMeters(RobotMap.ROBOT_STARTING_ZONE_WIDTH + 5), 0);
-        addCommands(new FlipUp(flip).withTimeout(2));
+        //addCommands(new FlipUp(flip).withTimeout(2));
         addCommands(new driveLine(drivetrain, 0, finalPose, 3).withTimeout(2));
     }
 }
