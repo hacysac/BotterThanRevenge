@@ -30,7 +30,8 @@ public class Drivetrain extends SubsystemBase {
     private double gyroOffset = 0;
 
     private Pose2d m_pose;
-    private SwerveDrivePoseEstimator estimator;
+    private SwerveDrivePoseEstimator limelightEstimator;
+    private SwerveDrivePoseEstimator odemetryEstimator;
     private Pose2d initialTagOffset;
     //private PhotonVision photonVision;
 
@@ -50,7 +51,7 @@ public class Drivetrain extends SubsystemBase {
                 new SwerveModule(3, SwerveConstants.Swerve.Mod3.constants)
         };
 
-        estimator = new SwerveDrivePoseEstimator(
+        limelightEstimator = new SwerveDrivePoseEstimator(
             SwerveConstants.Swerve.swerveKinematics, RobotContainer.gyro.getGyroscopeRotation(),
             new SwerveModulePosition[] {
             mSwerveMods[0].getPosition(),
@@ -61,6 +62,15 @@ public class Drivetrain extends SubsystemBase {
           //tune
           VecBuilder.fill(0.05, 0.05, Units.degreesToRadians(5)),
           VecBuilder.fill(0.5, 0.5, Units.degreesToRadians(30)));
+
+        odemetryEstimator = new SwerveDrivePoseEstimator(
+            SwerveConstants.Swerve.swerveKinematics, RobotContainer.gyro.getGyroscopeRotation(),
+            new SwerveModulePosition[] {
+            mSwerveMods[0].getPosition(),
+            mSwerveMods[1].getPosition(),
+            mSwerveMods[2].getPosition(),
+            mSwerveMods[3].getPosition()
+        }, initialPos);
         
 
 
@@ -163,7 +173,7 @@ public class Drivetrain extends SubsystemBase {
             //SmartDashboard.putNumber("Mod " + mod.moduleNumber + " Velocity", mod.getState().speedMetersPerSecond);
             
         }
-        m_pose = estimator.update(
+        m_pose = odemetryEstimator.update(
             RobotContainer.gyro.getGyroscopeRotation(),
             new SwerveModulePosition[] {
                 mSwerveMods[0].getPosition(),
@@ -172,7 +182,8 @@ public class Drivetrain extends SubsystemBase {
                 mSwerveMods[3].getPosition()
             }
         );
-        estimator.update(
+
+        limelightEstimator.update(
             RobotContainer.gyro.getGyroscopeRotation(),
             new SwerveModulePosition[] {
                 mSwerveMods[0].getPosition(),
@@ -184,8 +195,8 @@ public class Drivetrain extends SubsystemBase {
 
         LimelightHelpers.PoseEstimate limelightMeasurement = LimelightHelpers.getBotPoseEstimate_wpiBlue("limelight");
         if(limelightMeasurement.tagCount >= 2){
-            estimator.setVisionMeasurementStdDevs(VecBuilder.fill(.7,.7,9999999));
-            estimator.addVisionMeasurement(
+            limelightEstimator.setVisionMeasurementStdDevs(VecBuilder.fill(.7,.7,9999999));
+            limelightEstimator.addVisionMeasurement(
                 limelightMeasurement.pose,
                 limelightMeasurement.timestampSeconds);
         }
@@ -219,7 +230,7 @@ public class Drivetrain extends SubsystemBase {
         setOdometry(new Pose2d(new Translation2d(0,0), new Rotation2d(0.0)));
     }
     public Pose2d getEstimator(){
-        return estimator.getEstimatedPosition();
+        return limelightEstimator.getEstimatedPosition();
     }
     public Transform2d getRelativeEstimator(){
         return getEstimator().minus(initialTagOffset);
