@@ -4,6 +4,7 @@ import java.util.function.DoubleSupplier;
 
 import org.team1515.BotterThanRevenge.RobotMap;
 import org.team1515.BotterThanRevenge.Commands.AutoCommands.RotateAngle;
+import org.team1515.BotterThanRevenge.Commands.AutoCommands.driveLine;
 import org.team1515.BotterThanRevenge.Commands.AutoCommands.driveSegment;
 import org.team1515.BotterThanRevenge.Commands.IndexerCommands.AutoFeed;
 import org.team1515.BotterThanRevenge.Commands.IntakeCommands.AutoIntakeIn;
@@ -26,7 +27,42 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 
 public class PassNotesSeq extends SequentialCommandGroup {
     public PassNotesSeq(Drivetrain drivetrain, Shooter shooter, Indexer indexer, Intake intake, Flip flip, double direction){
-        
+        double NotesX = Units.inchesToMeters(Units.inchesToMeters(RobotMap.WALL_TO_NOTE));
+        double NotesY = direction*(Units.inchesToMeters(RobotMap.NOTE_TO_AMP_Y+(RobotMap.NOTE_TO_NOTE/2.0)-Units.inchesToMeters(RobotMap.AMP_ZONE)));
+        double CenterX = Units.inchesToMeters(RobotMap.WALL_TO_CENTER);
+        double CenterY = direction*Units.inchesToMeters(-RobotMap.AMP_ZONE+RobotMap.BARRIER_TO_CENTER-RobotMap.CHASSIS_WIDTH);
+        double secondNoteY = direction*(CenterY+Units.inchesToMeters(RobotMap.CENTER_NOTE_TO_NOTE));
+        double passDownY = secondNoteY-(direction*RobotMap.PASS_SPEAKER_OFFSET);
+        double thirdNoteY = direction*(CenterY+2*(Units.inchesToMeters(RobotMap.CENTER_NOTE_TO_NOTE)));
+        double fourthNoteY = direction*(CenterY+2*(Units.inchesToMeters(RobotMap.CENTER_NOTE_TO_NOTE)));
+        double passUpY = fourthNoteY+(direction*RobotMap.PASS_SPEAKER_OFFSET);
+        double fifthNoteY = direction*(CenterY+2*(Units.inchesToMeters(RobotMap.CENTER_NOTE_TO_NOTE)));
+
+
+
+        Point pose0 = new Point(0, 0);
+        //in between amp and center notes
+        Point pose1 = new Point(NotesX, NotesY);
+        //top note
+        Point pose2 = new Point(CenterX, CenterY);
+        //second note
+        Point pose3 = new Point(CenterX, secondNoteY);
+        //upper shot pose
+        Point pose4 = new Point(CenterX, passDownY);
+        //third note
+        Point pose5 = new Point(CenterX, thirdNoteY);
+        //pass to shoot
+        Point pose6 = new Point(CenterX, passDownY);
+        //fourth note
+        Point pose7 = new Point(CenterX, fourthNoteY);
+        //pass to shoot
+        Point pose8 = new Point(CenterX, passUpY);
+        //fifth note
+        Point pose9 = new Point(CenterX, fifthNoteY);
+
+
+
+
         //startup sequence
         addCommands(new FlipUp(flip));
         addCommands(new InstantCommand(()->shooter.shoot(RobotMap.AMP_SPEED)));
@@ -39,41 +75,24 @@ public class PassNotesSeq extends SequentialCommandGroup {
         ).withTimeout(2));
 
         //drive to center and pick up first note
-        DoubleSupplier driveAngle = () -> Units.degreesToRadians(0.0);
-        Point finalPoint = new Point(Units.inchesToMeters(RobotMap.ROBOT_STARTING_ZONE_WIDTH-((RobotMap.CHASSIS_WIDTH+RobotMap.BUMPER_WIDTH)/2)), 0);
-        Pose2d startPose = new Pose2d(0,0, new Rotation2d());
-        double time = 3.0;
-        double speed = finalPoint.x/time;
+
+        addCommands(new driveLine(drivetrain, 0, pose1, 1).withTimeout(1));
         addCommands(Commands.parallel(
-            new driveSegment(drivetrain, driveAngle, finalPoint, speed, startPose, true),
-            new AutoIntakeIn(intake, indexer, (time+.75))).withTimeout(3));
-        startPose.plus(new Transform2d(finalPoint.x, finalPoint.y, new Rotation2d()));
-        
-        //turn around and shoot
-        DoubleSupplier turnAround = () -> Units.degreesToRadians(180.0);
-        addCommands(new RotateAngle(drivetrain, turnAround).withTimeout(2));
-        addCommands(new AutoFeed(indexer, RobotMap.AUTO_FEED_TIME).withTimeout(2));
+            new driveLine(drivetrain, 0, pose2, 1),
+            new AutoIntakeIn(intake, indexer, (1+.75))).withTimeout(1));
 
         //turn to second note
         DoubleSupplier turnToNote = () -> Units.degreesToRadians(direction*-90.0);
         addCommands(new RotateAngle(drivetrain, turnToNote).withTimeout(2));
 
         //get second note
-        Point notePoint = new Point(Units.inchesToMeters(0), Units.inchesToMeters(direction*RobotMap.CENTER_NOTE_TO_NOTE));
-        double noteTime = 1.0;
-        double noteSpeed = notePoint.y/noteTime;
         addCommands(Commands.parallel(
-            new driveSegment(drivetrain, driveAngle, notePoint, noteSpeed, startPose, true),
-            new AutoIntakeIn(intake, indexer, RobotMap.AUTO_INTAKE_TIME).withTimeout(1))
+            new driveLine(drivetrain, 0, pose3, 1),
+            new AutoIntakeIn(intake, indexer, RobotMap.AUTO_INTAKE_TIME)).withTimeout(1.5)
         );
-        startPose.plus(new Transform2d(notePoint.x, notePoint.y, new Rotation2d()));
 
         //drive out from speaker
-        Point passPoint = new Point(0, Units.inchesToMeters(direction*RobotMap.PASS_SPEAKER_OFFSET));
-        double passTime = 1.0;
-        double passSpeed = Math.abs(passPoint.y)/passTime;
-        addCommands(new driveSegment(drivetrain, driveAngle, passPoint, passSpeed, startPose, true).withTimeout(1));
-        startPose.plus(new Transform2d(passPoint.x, passPoint.y, new Rotation2d()));
+        addCommands(new driveLine(drivetrain, 0, pose4, 1));
 
         //turn to our field and shoot second note
         DoubleSupplier turnToAllies = () -> Units.degreesToRadians(direction*90.0);
@@ -83,26 +102,15 @@ public class PassNotesSeq extends SequentialCommandGroup {
         //turn to third note
         addCommands(new RotateAngle(drivetrain, turnToNote).withTimeout(2));
 
-        //drive back from speaker
-        Point unpassPoint = new Point(0, -direction*RobotMap.PASS_SPEAKER_OFFSET);
-        double unpassTime = 1.0;
-        double unpassSpeed = Math.abs(unpassPoint.y)/unpassTime;
-        addCommands(new driveSegment(drivetrain, driveAngle, unpassPoint, unpassSpeed, startPose, true).withTimeout(1));
-        startPose.plus(new Transform2d(unpassPoint.x, unpassPoint.y, new Rotation2d()));
-
         //get third note
-        addCommands(Commands.parallel(
-            new driveSegment(drivetrain, driveAngle, notePoint, noteSpeed, startPose, true),
-            new AutoIntakeIn(intake, indexer, (time+.75))).withTimeout(2)
+        addCommands(
+        Commands.parallel(
+            new driveLine(drivetrain, 0, pose5, 1),
+            new AutoIntakeIn(intake, indexer, (1+.75))).withTimeout(2)
         );
-        startPose.plus(new Transform2d(notePoint.x, notePoint.y, new Rotation2d()));
 
         //drive out from speaker
-        Point backNote = new Point(0, -direction*Units.inchesToMeters(RobotMap.CENTER_NOTE_TO_NOTE));
-        addCommands(new driveSegment(drivetrain, driveAngle, backNote, noteSpeed, startPose, true).withTimeout(2));
-        addCommands(new driveSegment(drivetrain, driveAngle, passPoint, passSpeed, startPose, true).withTimeout(2));
-        startPose.plus(new Transform2d(backNote.x, backNote.y, new Rotation2d()));
-        startPose.plus(new Transform2d(passPoint.x, passPoint.y, new Rotation2d()));
+        addCommands(new driveLine(drivetrain, 0, pose6, 1).withTimeout(2));
 
         // turn and fire third note
         addCommands(new RotateAngle(drivetrain, turnToAllies).withTimeout(2));
@@ -111,24 +119,14 @@ public class PassNotesSeq extends SequentialCommandGroup {
         //turn to fourth note
         addCommands(new RotateAngle(drivetrain, turnToNote).withTimeout(2));
 
-        //drive back from speaker
-        addCommands(new driveSegment(drivetrain, driveAngle, notePoint, noteSpeed, startPose, true).withTimeout(2));
-        addCommands(new driveSegment(drivetrain, driveAngle, unpassPoint, unpassSpeed, startPose, true).withTimeout(2));
-        startPose.plus(new Transform2d(notePoint.x, notePoint.y, new Rotation2d()));
-        startPose.plus(new Transform2d(unpassPoint.x, unpassPoint.y, new Rotation2d()));
-        
-        
         //get fourth note
         addCommands(Commands.parallel(
-            new driveSegment(drivetrain, driveAngle, notePoint, noteSpeed, startPose, true),
-            new AutoIntakeIn(intake, indexer, (time+.75))).withTimeout(2)
+            new driveLine(drivetrain, 0, pose7, 1),
+            new AutoIntakeIn(intake, indexer, (1+.75))).withTimeout(2)
         );
-        startPose.plus(new Transform2d(notePoint.x, notePoint.y, new Rotation2d()));
-        
+
         //drive front from speaker
-        addCommands(new driveSegment(drivetrain, driveAngle, unpassPoint, unpassSpeed, startPose, true).withTimeout(2));
-        startPose.plus(new Transform2d(unpassPoint.x, unpassPoint.y, new Rotation2d()));
-        
+        addCommands(new driveLine(drivetrain, 0, pose8, 1).withTimeout(1));
         // turn and fire
         addCommands(new RotateAngle(drivetrain, turnToAllies).withTimeout(2));
         addCommands(new AutoFeed(indexer, RobotMap.AUTO_FEED_TIME).withTimeout(2));
@@ -137,17 +135,17 @@ public class PassNotesSeq extends SequentialCommandGroup {
         addCommands(new RotateAngle(drivetrain, turnToNote).withTimeout(2));
 
         //get fifth note
-        Point finalNotePoint = new Point(0, direction*(RobotMap.CENTER_NOTE_TO_NOTE+RobotMap.PASS_SPEAKER_OFFSET));
-        double finalNoteTime = 1.0;
-        double finalNoteSpeed = Math.abs(finalNotePoint.y)/finalNoteTime;
         addCommands(Commands.parallel(
-            new driveSegment(drivetrain, driveAngle, finalNotePoint, finalNoteSpeed, startPose, true),
-            new AutoIntakeIn(intake, indexer, (time+.75))).withTimeout(2)
+            new driveLine(drivetrain, 0, pose9, 1),
+            new AutoIntakeIn(intake, indexer, (1+.75))).withTimeout(2)
         );
-        startPose.plus(new Transform2d(finalNotePoint.x, finalNotePoint.y, new Rotation2d()));
 
         // turn and fire
         addCommands(new RotateAngle(drivetrain, turnToAllies).withTimeout(2));
-        addCommands(new AutoFeed(indexer, RobotMap.AUTO_FEED_TIME).withTimeout(2));
+        addCommands(Commands.parallel(
+            new AutoFeed(indexer, RobotMap.AUTO_FEED_TIME),
+            new FlipUp(flip)).withTimeout(2)
+            );
+
     }
 }

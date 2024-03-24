@@ -28,14 +28,17 @@ public class RobotMap {
     public static final double NOTE_TO_NOTE = 57;
     public static final double CENTER_NOTE_TO_NOTE = 66;
     public static final double WALL_TO_AMP = 73;
+    public static final double WALL_TO_NOTE = 114;
     public static final double WALL_TO_CENTER = 325.5;
+    public static final double BARRIER_TO_CENTER = 29.64;
     public static final double ROBOT_STARTING_ZONE_WIDTH = 76;
     public static final double HALF_FIELD_WIDTH = 324.6;
     public static final double SUBWOOFER_TO_CENTER = (WALL_TO_CENTER-SUBWOOFER_DEPTH) - 7; // -7 for note TODO check
     public static final double AMP_TO_CENTER = (WALL_TO_CENTER-WALL_TO_AMP) - 7; // -7 for note TODO check
     public static final double NOTE_TO_AMP_Y = 47.64;
     public static final double NOTE_TO_AMP_X = 40;
-    public static final double PASS_SPEAKER_OFFSET = -20;
+    public static final double AMP_ZONE = 17.75;
+    public static final double PASS_SPEAKER_OFFSET = 20;
 
 
     //Vision
