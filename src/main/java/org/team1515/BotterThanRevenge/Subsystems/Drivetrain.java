@@ -217,6 +217,8 @@ public class Drivetrain extends SubsystemBase {
         SmartDashboard.putNumber("Relative Estimated Pose Y: ", getRelativeEstimator().getY());
         SmartDashboard.putNumber("Estimated Pose X: ", getEstimator().getX());
         SmartDashboard.putNumber("Estimated Pose Y: ", getEstimator().getY());
+        SmartDashboard.putNumber("LL Pose X: ", limelightMeasurement.pose.getX());
+        SmartDashboard.putNumber("LL Pose Y: ", limelightMeasurement.pose.getY());
     }
 
     /**
