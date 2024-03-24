@@ -28,7 +28,7 @@ public class driveLine extends Command {
     private double angle;
     private double ff = 0.0; // retune
     private boolean overshoot;
-    
+
     public driveLine(Drivetrain drivetrain, double angle, Point end, double time, boolean overshoot) {
         this.drivetrain = drivetrain;
         this.end = end;
@@ -63,6 +63,9 @@ public class driveLine extends Command {
 
     @Override
     public void initialize(){
+        
+        drivetrain.updateVision();
+
         startTime = System.currentTimeMillis(); // time when command is run
         start = new Point(drivetrain.getRelativeEstimator().getX(), drivetrain.getRelativeEstimator().getY()); 
         startAngle = RobotContainer.gyro.getGyroscopeRotation().getRadians();

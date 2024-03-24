@@ -39,7 +39,7 @@ public class RobotMap {
 
 
     //Vision
-    public static final String LIMELIGHT_NAME = "camera3";
+    public static final String LIMELIGHT_NAME = "limelight";
     public static final double CAMERA_HEIGHT_METERS = 0.07; //TODO
     public static final double AMP_TARGET_HEIGHT_METERS = -1.0; //TODO: to center or bottom?
     public static final double SPEAKER_TARGET_HEIGHT_METERS = 0.85; //TODO: to center or bottom?

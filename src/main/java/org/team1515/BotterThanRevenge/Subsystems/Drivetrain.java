@@ -1,6 +1,7 @@
 package org.team1515.BotterThanRevenge.Subsystems;
 
 import org.team1515.BotterThanRevenge.RobotContainer;
+import org.team1515.BotterThanRevenge.RobotMap;
 import org.team1515.BotterThanRevenge.Utils.LimelightHelpers;
 
 import com.team364.swervelib.util.SwerveConstants;
@@ -31,9 +32,10 @@ public class Drivetrain extends SubsystemBase {
 
     private Pose2d m_pose;
     private Pose2d m_poseLimelight;
-    private SwerveDrivePoseEstimator limelightEstimator;
+    public SwerveDrivePoseEstimator limelightEstimator;
     private SwerveDrivePoseEstimator odemetryEstimator;
     private Pose2d initialTagOffset;
+    private boolean update;
     //private PhotonVision photonVision;
 
 
@@ -43,6 +45,7 @@ public class Drivetrain extends SubsystemBase {
         //photonVision = photon;
         
         zeroGyro();
+        update = true;
 
         mSwerveMods = new SwerveModule[] {
                 new SwerveModule(0, SwerveConstants.Swerve.Mod0.constants),
@@ -72,15 +75,8 @@ public class Drivetrain extends SubsystemBase {
             mSwerveMods[3].getPosition()
         }, initialPos);
 
-        LimelightHelpers.PoseEstimate limelightMeasurement = LimelightHelpers.getBotPoseEstimate_wpiBlue("limelight");
-        if(limelightMeasurement.tagCount >= 2){
-            limelightEstimator.setVisionMeasurementStdDevs(VecBuilder.fill(.7,.7,9999999));
-            limelightEstimator.addVisionMeasurement(
-                limelightMeasurement.pose,
-                limelightMeasurement.timestampSeconds);
-        }
 
-        initialTagOffset = limelightEstimator.getEstimatedPosition();
+        initialTagOffset = new Pose2d();
         
 
 
@@ -203,22 +199,12 @@ public class Drivetrain extends SubsystemBase {
             }
         );
 
-        LimelightHelpers.PoseEstimate limelightMeasurement = LimelightHelpers.getBotPoseEstimate_wpiBlue("a");
-        if(limelightMeasurement.tagCount >= 2){
-            limelightEstimator.setVisionMeasurementStdDevs(VecBuilder.fill(.7,.7,9999999));
-            limelightEstimator.addVisionMeasurement(
-                limelightMeasurement.pose,
-                limelightMeasurement.timestampSeconds);
-        }
-
         SmartDashboard.putNumber("Odem Pose X: ", getOdometry().getX());
         SmartDashboard.putNumber("Odem Pose Y: ", getOdometry().getY());
         SmartDashboard.putNumber("Relative Estimated Pose X: ", getRelativeEstimator().getX());
         SmartDashboard.putNumber("Relative Estimated Pose Y: ", getRelativeEstimator().getY());
         SmartDashboard.putNumber("Estimated Pose X: ", getEstimator().getX());
         SmartDashboard.putNumber("Estimated Pose Y: ", getEstimator().getY());
-        SmartDashboard.putNumber("LL Pose X: ", limelightMeasurement.pose.getX());
-        SmartDashboard.putNumber("LL Pose Y: ", limelightMeasurement.pose.getY());
     }
 
     /**
@@ -248,5 +234,23 @@ public class Drivetrain extends SubsystemBase {
     }
     public Transform2d getRelativeEstimator(){
         return getEstimator().minus(initialTagOffset);
+    }
+    public void updateVision(){
+        LimelightHelpers.PoseEstimate limelightMeasurement = LimelightHelpers.getBotPoseEstimate_wpiBlue(RobotMap.LIMELIGHT_NAME);
+        
+        if (update && limelightMeasurement.pose.getX()>0){
+            initialTagOffset = new Pose2d(
+                new Translation2d(limelightMeasurement.pose.getX()-getOdometry().getX(), limelightMeasurement.pose.getY()-getOdometry().getY()),
+                new Rotation2d(0)
+            );
+            update = false;
+        }
+        
+        if(limelightMeasurement.tagCount >= 2){
+            limelightEstimator.setVisionMeasurementStdDevs(VecBuilder.fill(.7,.7,9999999));
+            limelightEstimator.addVisionMeasurement(
+                limelightMeasurement.pose,
+                limelightMeasurement.timestampSeconds);
+        }
     }
 }
