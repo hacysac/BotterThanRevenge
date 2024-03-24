@@ -30,6 +30,7 @@ public class Drivetrain extends SubsystemBase {
     private double gyroOffset = 0;
 
     private Pose2d m_pose;
+    private Pose2d m_poseLimelight;
     private SwerveDrivePoseEstimator limelightEstimator;
     private SwerveDrivePoseEstimator odemetryEstimator;
     private Pose2d initialTagOffset;
@@ -38,7 +39,6 @@ public class Drivetrain extends SubsystemBase {
 
     public Drivetrain(Pose2d initialPos) {
         realZero = Rotation2d.fromDegrees(RobotContainer.gyro.getYaw());
-        initialTagOffset = new Pose2d();
 
         //photonVision = photon;
         
@@ -71,6 +71,16 @@ public class Drivetrain extends SubsystemBase {
             mSwerveMods[2].getPosition(),
             mSwerveMods[3].getPosition()
         }, initialPos);
+
+        LimelightHelpers.PoseEstimate limelightMeasurement = LimelightHelpers.getBotPoseEstimate_wpiBlue("limelight");
+        if(limelightMeasurement.tagCount >= 2){
+            limelightEstimator.setVisionMeasurementStdDevs(VecBuilder.fill(.7,.7,9999999));
+            limelightEstimator.addVisionMeasurement(
+                limelightMeasurement.pose,
+                limelightMeasurement.timestampSeconds);
+        }
+
+        initialTagOffset = limelightEstimator.getEstimatedPosition();
         
 
 
@@ -183,7 +193,7 @@ public class Drivetrain extends SubsystemBase {
             }
         );
 
-        limelightEstimator.update(
+        m_poseLimelight = limelightEstimator.update(
             RobotContainer.gyro.getGyroscopeRotation(),
             new SwerveModulePosition[] {
                 mSwerveMods[0].getPosition(),
@@ -193,7 +203,7 @@ public class Drivetrain extends SubsystemBase {
             }
         );
 
-        LimelightHelpers.PoseEstimate limelightMeasurement = LimelightHelpers.getBotPoseEstimate_wpiBlue("limelight");
+        LimelightHelpers.PoseEstimate limelightMeasurement = LimelightHelpers.getBotPoseEstimate_wpiBlue("a");
         if(limelightMeasurement.tagCount >= 2){
             limelightEstimator.setVisionMeasurementStdDevs(VecBuilder.fill(.7,.7,9999999));
             limelightEstimator.addVisionMeasurement(
@@ -203,6 +213,8 @@ public class Drivetrain extends SubsystemBase {
 
         SmartDashboard.putNumber("Odem Pose X: ", getOdometry().getX());
         SmartDashboard.putNumber("Odem Pose Y: ", getOdometry().getY());
+        SmartDashboard.putNumber("Relative Estimated Pose X: ", getRelativeEstimator().getX());
+        SmartDashboard.putNumber("Relative Estimated Pose Y: ", getRelativeEstimator().getY());
         SmartDashboard.putNumber("Estimated Pose X: ", getEstimator().getX());
         SmartDashboard.putNumber("Estimated Pose Y: ", getEstimator().getY());
     }
@@ -230,7 +242,7 @@ public class Drivetrain extends SubsystemBase {
         setOdometry(new Pose2d(new Translation2d(0,0), new Rotation2d(0.0)));
     }
     public Pose2d getEstimator(){
-        return limelightEstimator.getEstimatedPosition();
+        return m_poseLimelight;
     }
     public Transform2d getRelativeEstimator(){
         return getEstimator().minus(initialTagOffset);
