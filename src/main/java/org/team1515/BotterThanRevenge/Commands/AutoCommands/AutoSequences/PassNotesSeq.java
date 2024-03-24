@@ -27,38 +27,36 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 
 public class PassNotesSeq extends SequentialCommandGroup {
     public PassNotesSeq(Drivetrain drivetrain, Shooter shooter, Indexer indexer, Intake intake, Flip flip, double direction){
-        double NotesX = Units.inchesToMeters(Units.inchesToMeters(RobotMap.WALL_TO_NOTE));
-        double NotesY = direction*(Units.inchesToMeters(RobotMap.NOTE_TO_AMP_Y+(RobotMap.NOTE_TO_NOTE/2.0)-Units.inchesToMeters(RobotMap.AMP_ZONE)));
-        double CenterX = Units.inchesToMeters(RobotMap.WALL_TO_CENTER);
-        double CenterY = direction*Units.inchesToMeters(-RobotMap.AMP_ZONE+RobotMap.BARRIER_TO_CENTER-RobotMap.CHASSIS_WIDTH);
-        double secondNoteY = direction*(CenterY+Units.inchesToMeters(RobotMap.CENTER_NOTE_TO_NOTE));
+        double notesX = Units.inchesToMeters(Units.inchesToMeters(RobotMap.WALL_TO_NOTE));
+        double notesY = direction*(Units.inchesToMeters(RobotMap.NOTE_TO_AMP_Y +(RobotMap.NOTE_TO_NOTE/2.0) - RobotMap.AMP_ZONE));
+        double centerX = Units.inchesToMeters(RobotMap.WALL_TO_CENTER);
+        double centerY = direction*Units.inchesToMeters(-RobotMap.AMP_ZONE+RobotMap.BARRIER_TO_CENTER-RobotMap.CHASSIS_WIDTH);
+        double secondNoteY = direction*(centerY+Units.inchesToMeters(RobotMap.CENTER_NOTE_TO_NOTE));
         double passDownY = secondNoteY-(direction*RobotMap.PASS_SPEAKER_OFFSET);
-        double thirdNoteY = direction*(CenterY+2*(Units.inchesToMeters(RobotMap.CENTER_NOTE_TO_NOTE)));
-        double fourthNoteY = direction*(CenterY+2*(Units.inchesToMeters(RobotMap.CENTER_NOTE_TO_NOTE)));
+        double thirdNoteY = direction*(centerY+2*(Units.inchesToMeters(RobotMap.CENTER_NOTE_TO_NOTE)));
+        double fourthNoteY = direction*(centerY+2*(Units.inchesToMeters(RobotMap.CENTER_NOTE_TO_NOTE)));
         double passUpY = fourthNoteY+(direction*RobotMap.PASS_SPEAKER_OFFSET);
-        double fifthNoteY = direction*(CenterY+2*(Units.inchesToMeters(RobotMap.CENTER_NOTE_TO_NOTE)));
+        double fifthNoteY = direction*(centerY+2*(Units.inchesToMeters(RobotMap.CENTER_NOTE_TO_NOTE)));
 
 
-
-        Point pose0 = new Point(0, 0);
         //in between amp and center notes
-        Point pose1 = new Point(NotesX, NotesY);
+        Point pose1 = new Point(notesX, notesY);
         //top note
-        Point pose2 = new Point(CenterX, CenterY);
+        Point pose2 = new Point(centerX, centerY);
         //second note
-        Point pose3 = new Point(CenterX, secondNoteY);
+        Point pose3 = new Point(centerX, secondNoteY);
         //upper shot pose
-        Point pose4 = new Point(CenterX, passDownY);
+        Point pose4 = new Point(centerX, passDownY);
         //third note
-        Point pose5 = new Point(CenterX, thirdNoteY);
+        Point pose5 = new Point(centerX, thirdNoteY);
         //pass to shoot
-        Point pose6 = new Point(CenterX, passDownY);
+        Point pose6 = new Point(centerX, passDownY);
         //fourth note
-        Point pose7 = new Point(CenterX, fourthNoteY);
+        Point pose7 = new Point(centerX, fourthNoteY);
         //pass to shoot
-        Point pose8 = new Point(CenterX, passUpY);
+        Point pose8 = new Point(centerX, passUpY);
         //fifth note
-        Point pose9 = new Point(CenterX, fifthNoteY);
+        Point pose9 = new Point(centerX, fifthNoteY);
 
 
 
@@ -149,3 +147,6 @@ public class PassNotesSeq extends SequentialCommandGroup {
 
     }
 }
+
+// SOMEONE HELP MEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE
+// =sum(help+skilledmentor)*HelpOfGod /* */
