@@ -5,7 +5,6 @@ import java.util.function.DoubleSupplier;
 import org.team1515.BotterThanRevenge.RobotMap;
 import org.team1515.BotterThanRevenge.Commands.AutoCommands.RotateAngle;
 import org.team1515.BotterThanRevenge.Commands.AutoCommands.driveLine;
-import org.team1515.BotterThanRevenge.Commands.AutoCommands.driveSegment;
 import org.team1515.BotterThanRevenge.Commands.IndexerCommands.AutoFeed;
 import org.team1515.BotterThanRevenge.Commands.IntakeCommands.AutoIntakeIn;
 import org.team1515.BotterThanRevenge.Commands.IntakeCommands.FlipDown;
@@ -17,9 +16,6 @@ import org.team1515.BotterThanRevenge.Subsystems.Intake;
 import org.team1515.BotterThanRevenge.Subsystems.Shooter;
 import org.team1515.BotterThanRevenge.Utils.Point;
 
-import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.math.geometry.Transform2d;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.InstantCommand;

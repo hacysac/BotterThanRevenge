@@ -16,16 +16,16 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 
 public class ShootBack extends SequentialCommandGroup {
-    public ShootBack(Shooter shooter, Flip flip, Indexer indexer, Drivetrain drivetrain){
+    public ShootBack(Drivetrain drivetrain, Shooter shooter, Flip flip, Indexer indexer){
+        Point finalPose = new Point(Units.inchesToMeters(RobotMap.ROBOT_STARTING_ZONE_WIDTH + 5), 0);
         addCommands(Commands.parallel(
            new FlipUp(flip),
            new InstantCommand(()->shooter.shootSpeaker())
-       ).withTimeout(2));
-       addCommands(Commands.waitSeconds(1));
-       addCommands(new AutoFeed(indexer, RobotMap.AUTO_FEED_TIME).withTimeout(2));
-       addCommands(Commands.waitSeconds(1));
-       addCommands(new InstantCommand(()->shooter.end()));
-        Point finalPose = new Point(Units.inchesToMeters(RobotMap.ROBOT_STARTING_ZONE_WIDTH + 5), 0);
+        ).withTimeout(2));
+        addCommands(Commands.waitSeconds(1));
+        addCommands(new AutoFeed(indexer, RobotMap.AUTO_FEED_TIME).withTimeout(2));
+        addCommands(Commands.waitSeconds(1));
+        addCommands(new InstantCommand(()->shooter.end()));
         //addCommands(new FlipUp(flip).withTimeout(2));
         addCommands(new driveLine(drivetrain, 0, finalPose, 3).withTimeout(2));
     }

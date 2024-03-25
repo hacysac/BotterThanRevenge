@@ -163,7 +163,7 @@ public class RobotContainer {
       case 5:
         return new TwoSpeakerAmpSeq(drivetrain, shooter, indexer, intake, flip, -team);
       case 6:
-        return new ShootBack(drivetrain, shooter, indexer, flip, team);
+        return new ShootBack(drivetrain, shooter, flip, indexer);
       case 7:
         return new PassNotesSeq(drivetrain, shooter, indexer, intake, flip, team);
       default:
