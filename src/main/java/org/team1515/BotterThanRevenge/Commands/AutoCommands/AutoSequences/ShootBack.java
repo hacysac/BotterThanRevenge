@@ -4,7 +4,7 @@ import org.team1515.BotterThanRevenge.RobotMap;
 import org.team1515.BotterThanRevenge.Commands.AutoCommands.driveLine;
 import org.team1515.BotterThanRevenge.Commands.IndexerCommands.AutoFeed;
 import org.team1515.BotterThanRevenge.Commands.IntakeCommands.FlipUp;
-import org.team1515.BotterThanRevenge.Subsystems.Drivetrain;`
+import org.team1515.BotterThanRevenge.Subsystems.Drivetrain;
 import org.team1515.BotterThanRevenge.Subsystems.Flip;
 import org.team1515.BotterThanRevenge.Subsystems.Indexer;
 import org.team1515.BotterThanRevenge.Subsystems.Shooter;
@@ -15,8 +15,8 @@ import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 
-public class DriveBack2Seq extends SequentialCommandGroup {
-    public DriveBack2Seq(Shooter shooter, Flip flip, Indexer indexer, Drivetrain drivetrain){
+public class ShootBack extends SequentialCommandGroup {
+    public ShootBack(Shooter shooter, Flip flip, Indexer indexer, Drivetrain drivetrain){
         addCommands(Commands.parallel(
            new FlipUp(flip),
            new InstantCommand(()->shooter.shootSpeaker())
