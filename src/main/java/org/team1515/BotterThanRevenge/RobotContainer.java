@@ -119,8 +119,8 @@ public class RobotContainer {
     Controls.SHOOTER_IN.whileTrue(new ShooterIn(shooter));
   
     //Shooter Toggle
-    Controls.SHOOT_SPEAKER.toggleOnTrue(new ToggleSpeaker(shooter));
-    Controls.SHOOT_AMP.toggleOnTrue(new ToggleAmp(shooter));
+    Controls.SHOOT_SPEAKER.onTrue(new ToggleSpeaker(shooter));
+    Controls.SHOOT_AMP.onTrue(new ToggleAmp(shooter));
   }
 
   public Command getAutonomousCommand() {
@@ -172,12 +172,12 @@ public class RobotContainer {
   }
 
   public static double getRobotSpeed() {
-    return Controls.getLeftTriggerMain() ? 0.6 : 0.9;
+    return Controls.getLeftTriggerMain() ? 0.6 : 1;
     // return 0.7;
   }
 
   public static double getRobotYawSpeed() {
-    return Controls.getLeftTriggerMain() ? 0.6 : 0.7;
+    return Controls.getLeftTriggerMain() ? 0.6 : (0.7*(1/0.9));
     // return 0.7;
   }
 

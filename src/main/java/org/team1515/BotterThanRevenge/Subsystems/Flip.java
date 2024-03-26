@@ -130,6 +130,9 @@ public class Flip extends SubsystemBase{
     public void end(){
         flip.set(0);
     }
+    public void endUp(){
+        flip.set(0.05);//TODO
+    }
 
     public void setCurrentLowValue(){
         lowValue = getCANCoderValue();
