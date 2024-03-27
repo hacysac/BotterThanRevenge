@@ -131,7 +131,7 @@ public class Flip extends SubsystemBase{
         flip.set(0);
     }
     public void endUp(){
-        flip.set(0.05);//TODO
+        flip.set(-0.025);//TODO
     }
 
     public void setCurrentLowValue(){
