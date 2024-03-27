@@ -20,7 +20,6 @@ import org.team1515.BotterThanRevenge.Commands.AutoCommands.AutoSequences.DriveB
 import org.team1515.BotterThanRevenge.Commands.AutoCommands.AutoSequences.PassNotesSeq;
 import org.team1515.BotterThanRevenge.Commands.AutoCommands.AutoSequences.ShootBack;
 import org.team1515.BotterThanRevenge.Commands.AutoCommands.AutoSequences.Stay;
-import org.team1515.BotterThanRevenge.Commands.AutoCommands.AutoSequences.TwoAmpSeq;
 import org.team1515.BotterThanRevenge.Commands.DefaultDriveCommand;
 import org.team1515.BotterThanRevenge.Commands.IndexerCommands.IndexerDown;
 import org.team1515.BotterThanRevenge.Commands.IndexerCommands.IndexerUp;
