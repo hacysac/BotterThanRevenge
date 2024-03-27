@@ -40,6 +40,7 @@ public class Flip extends SubsystemBase{
         flip.setInverted(false);
         flip.setIdleMode(CANSparkBase.IdleMode.kBrake);
         flip.setSmartCurrentLimit(RobotMap.FLIP_CURRENT_LIMIT);
+        flip.setOpenLoopRampRate(1);
         flip.burnFlash();
 
         canCoder = new CANcoder(RobotMap.FLIP_CANCODER_ID);
