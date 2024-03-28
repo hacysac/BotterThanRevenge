@@ -24,7 +24,7 @@ public class Shooter extends SubsystemBase {
     private RelativeEncoder lEncoder;
     private SparkPIDController lPidController;
 
-    public double kP,kI,kD,kIz,kFF,kMaxOutput,kMinOutput,maxRPM,maxVel,minVel,maxAcc,allowedErr;
+    public double kP,kI,kD,kIz,kFF,kMaxOutput,kMinOutput;
     
     public Shooter(){
         lShooter = new CANSparkMax(RobotMap.L_SHOOTER_ID, MotorType.kBrushless);
@@ -40,14 +40,13 @@ public class Shooter extends SubsystemBase {
         lShooter.burnFlash();
         rShooter.burnFlash();
         //PID coeficients
-        kP = 5e-5;
+        kP = 5e-4;
         kI = 0;
         kD = 0;
         kIz = 0;
-        kFF = 0.000156;
+        kFF = 0.00018;
         kMaxOutput = 1;
         kMinOutput = -1;
-        maxRPM = 5700;
         //set PID coefficients
         lPidController.setP(kP);
         lPidController.setI(kI);
@@ -59,7 +58,7 @@ public class Shooter extends SubsystemBase {
         SmartDashboard.putNumber("kP", kP);
         SmartDashboard.putNumber("kI", kI);
         SmartDashboard.putNumber("kD", kD);
-        SmartDashboard.putNumber("kIz", kIz);
+    SmartDashboard.putNumber("kIz", kIz);
         SmartDashboard.putNumber("kFF", kFF);
         SmartDashboard.putNumber("kMax", kMaxOutput);
         SmartDashboard.putNumber("kMin", kMinOutput);
@@ -97,14 +96,15 @@ public class Shooter extends SubsystemBase {
     public void shootAmp(){
         amp = true;
         speaker = false;
-        lShooter.set(-RobotMap.AMP_SPEED);
+        lPidController.setReference(-800, ControlType.kVelocity);
+
     }
 
     public void shootSpeaker(){
         speaker = true;
         amp = false;
         // lShooter.set(-RobotMap.SPEAKER_SPEED);
-        lPidController.setReference(4900, ControlType.kVelocity);
+        lPidController.setReference(-4900, ControlType.kVelocity);
     }
 
     public void shoot(double speed){
@@ -126,13 +126,13 @@ public class Shooter extends SubsystemBase {
     }
     @Override
     public void periodic(){
-        double p = SmartDashboard.getNumber("P Gain", 0);
-        double i = SmartDashboard.getNumber("I Gain", 0);
-        double d = SmartDashboard.getNumber("D Gain", 0);
-        double iz = SmartDashboard.getNumber("I Zone", 0);
-        double ff = SmartDashboard.getNumber("Feed Forward", 0);
-        double max = SmartDashboard.getNumber("Max Output", 0);
-        double min = SmartDashboard.getNumber("Min Output", 0);
+        double p = SmartDashboard.getNumber("kP", 0);
+        double i = SmartDashboard.getNumber("kI", 0);
+        double d = SmartDashboard.getNumber("kD", 0);
+        double iz = SmartDashboard.getNumber("kIz", 0);
+        double ff = SmartDashboard.getNumber("kFF", 0);
+        double max = SmartDashboard.getNumber("kMax", 0);
+        double min = SmartDashboard.getNumber("kMin", 0);
 
         if((p != kP)) { lPidController.setP(p); kP = p; }
         if((i != kI)) { lPidController.setI(i); kI = i; }
@@ -146,13 +146,13 @@ public class Shooter extends SubsystemBase {
         SmartDashboard.putNumber("Shooter Left RPM", getLeft());
         SmartDashboard.putNumber("Shooter Right RPM", getRight());
 
-        SmartDashboard.putNumber("P Gain", kP);
-        SmartDashboard.putNumber("I Gain", kI);
-        SmartDashboard.putNumber("D Gain", kD);
-        SmartDashboard.putNumber("I Zone", kIz);
-        SmartDashboard.putNumber("Feed Forward", kFF);
-        SmartDashboard.putNumber("Max Output", kMaxOutput);
-        SmartDashboard.putNumber("Min Output", kMinOutput);
+        SmartDashboard.putNumber("kP", kP);
+        SmartDashboard.putNumber("kI", kI);
+        SmartDashboard.putNumber("kD", kD);
+        SmartDashboard.putNumber("kIz", kIz);
+        SmartDashboard.putNumber("kFF", kFF);
+        SmartDashboard.putNumber("kMax", kMaxOutput);
+        SmartDashboard.putNumber("kMin", kMinOutput);
 
         // SmartDashboard.putNumber("Shooter Left Current", lShooter.getOutputCurrent());
         // SmartDashboard.putNumber("Shooter Right Current", rShooter.getOutputCurrent());
