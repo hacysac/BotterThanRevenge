@@ -3,6 +3,7 @@ package org.team1515.BotterThanRevenge.Subsystems;
 import org.team1515.BotterThanRevenge.RobotMap;
 
 import com.revrobotics.CANSparkLowLevel.MotorType;
+import com.revrobotics.CANSparkBase;
 import com.revrobotics.CANSparkMax;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -26,6 +27,8 @@ public class Shooter extends SubsystemBase {
 
         lShooter.setSmartCurrentLimit(RobotMap.SHOOTER_CURRENT_LIMIT);
         rShooter.setSmartCurrentLimit(RobotMap.SHOOTER_CURRENT_LIMIT);
+        lShooter.setIdleMode(CANSparkBase.IdleMode.kCoast);
+        rShooter.setIdleMode(CANSparkBase.IdleMode.kCoast);
         lShooter.burnFlash();
         rShooter.burnFlash();
 

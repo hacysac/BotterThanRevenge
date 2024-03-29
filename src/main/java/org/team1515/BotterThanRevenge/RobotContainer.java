@@ -118,8 +118,8 @@ public class RobotContainer {
     Controls.SHOOTER_IN.whileTrue(new ShooterIn(shooter));
   
     //Shooter Toggle
-    Controls.SHOOT_SPEAKER.onTrue(new ToggleSpeaker(shooter));
-    Controls.SHOOT_AMP.onTrue(new ToggleAmp(shooter));
+    Controls.SHOOT_SPEAKER.whileTrue(new ToggleSpeaker(shooter));
+    Controls.SHOOT_AMP.whileTrue(new ToggleAmp(shooter));
   }
 
   public Command getAutonomousCommand() {
