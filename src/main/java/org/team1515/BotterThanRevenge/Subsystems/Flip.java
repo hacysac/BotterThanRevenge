@@ -87,7 +87,7 @@ public class Flip extends SubsystemBase{
     }
 
     public void flipUp(){
-        if (getCANCoderValue() < topValue-0.4){
+        if (getCANCoderValue() < topValue-0.35){
             flip.set(-RobotMap.FLIP_UP_SPEED);
         }
         else{
@@ -96,7 +96,7 @@ public class Flip extends SubsystemBase{
     }
 
     public void flipDown(){
-        if (getCANCoderValue() > lowValue+0.25){
+        if (getCANCoderValue() > lowValue+0.1){
             flip.set(RobotMap.FLIP_DOWN_SPEED);
         }
         else{
