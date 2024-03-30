@@ -40,7 +40,7 @@ public class Flip extends SubsystemBase{
         flip.setInverted(false);
         flip.setIdleMode(CANSparkBase.IdleMode.kBrake);
         flip.setSmartCurrentLimit(RobotMap.FLIP_CURRENT_LIMIT);
-        flip.setOpenLoopRampRate(1);
+        //flip.setOpenLoopRampRate(1);
         flip.burnFlash();
 
         canCoder = new CANcoder(RobotMap.FLIP_CANCODER_ID);
@@ -87,11 +87,11 @@ public class Flip extends SubsystemBase{
     }
 
     public void flipUp(){
-        if (getCANCoderValue() < topValue-0.3){
+        if (getCANCoderValue() < topValue-0.4){
             flip.set(-RobotMap.FLIP_UP_SPEED);
         }
         else{
-            flip.set(-RobotMap.FLIP_UP_SPEED/2.5);
+            flip.set(-RobotMap.FLIP_UP_SPEED/4);
         }
     }
 
@@ -116,7 +116,7 @@ public class Flip extends SubsystemBase{
             }
         }
         else{
-            return 0.5+canCoder.getAbsolutePosition().getValueAsDouble();
+            return 0.7+canCoder.getAbsolutePosition().getValueAsDouble();
         }
 
         //no looping
@@ -143,10 +143,10 @@ public class Flip extends SubsystemBase{
         topValue = getCANCoderValue();
         midValue = topValue - midOffset;
         lowValue = topValue - lowOffset;
-        if (lowValue<0){
-            wrapping= !wrapping;
-            setCurrentTopValue();
-        }
+        // if (lowValue<0){
+        //     wrapping= !wrapping;
+        //     setCurrentTopValue();
+        // }
     }
 
     public void setUp(boolean up){

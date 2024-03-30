@@ -68,7 +68,7 @@ public class RobotMap {
 
     // Indexer
     public static final int INDEXER_ID = 22;
-    public static final int INDEX_SENSOR_CHANNEL = 2; // TODO
+    public static final int INDEX_SENSOR_CHANNEL = 5; // TODO
     public static final double INDEXER_SPEED = 0.7;// TODO 
     public static final int INDEXER_CURRENT_LIMIT = 25;
 
@@ -82,10 +82,10 @@ public class RobotMap {
     //Flip
     public static final int FLIP_INTAKE_ID = 25;
     public static final int FLIP_CANCODER_ID = 30; 
-    public static final double FLIP_UP_SPEED = 0.4; //TODO
-    public static final double FLIP_DOWN_SPEED = 0.15; //TODO should be less than ff value
+    public static final double FLIP_UP_SPEED = 0.5; //TODO
+    public static final double FLIP_DOWN_SPEED = 0.2; //TODO should be less than ff value
     public static final double FLIP_MID_OFFSET = 0.24; //TODO
-    public static final double FLIP_DOWN_OFFSET = 0.51; //TODO
+    public static final double FLIP_DOWN_OFFSET = 0.49; //TODO
     public static final int FLIP_CURRENT_LIMIT = 30;
 
     //Climber

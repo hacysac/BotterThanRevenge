@@ -3,6 +3,7 @@ package org.team1515.BotterThanRevenge.Subsystems;
 import org.team1515.BotterThanRevenge.RobotMap;
 
 import com.revrobotics.CANSparkLowLevel.MotorType;
+import com.revrobotics.CANSparkBase;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkPIDController;
