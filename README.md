@@ -42,10 +42,10 @@
 
 > Before setting up module offsets ensure each offset is set to `Rotation2d.fromDegrees(0.0)` and that code is deployed to the
 > robot. This must be done each time offsets are determined.
-1. Either turn the robot on its side or put it up on a cart with the wheels exposed.
+1. Remove robot bumpers and place it on the block.
 
-> By default, module sensor information is displayed in the `Drivetrain` tab on ShuffleBoard.
-2. Rotate each module so the bevel gear on the sides of each wheel are pointing to the robot's left (intake as front).
+> By default, module sensor information is displayed in elastic under the "swerves" list layout.
+2. Rotate each module so the bevel gear on the sides of each wheel are pointing to the robot's right (intake as front).
 > When aligning the wheels they must be as straight as possible. It is recommended to use a long straight edge such as
 > a piece of 2x1 in order to make the wheels straight.
 3. Record the angles of each module using the reading displayed on the dashboard.
