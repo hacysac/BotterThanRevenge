@@ -104,6 +104,8 @@ public class RobotContainer {
     //Controls.FLIP.onTrue(new SetFlip(flip));
     Controls.FLIP_UP.onTrue(new FlipUp(flip));
     Controls.FLIP_DOWN.onTrue(new FlipDown(flip));
+    Controls.RESET_CANCODER.onTrue(new InstantCommand(()->flip.resetWrapping()));
+
     // Indexer
     Controls.INDEXER_UP.whileTrue(new IndexerUp(indexer));
     Controls.INDEXER_DOWN.whileTrue(new IndexerDown(indexer));

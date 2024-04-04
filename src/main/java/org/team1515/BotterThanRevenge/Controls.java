@@ -5,6 +5,7 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 public class Controls {
     // change button maps later
     public static final Trigger RESET_GYRO = new Trigger(RobotContainer.mainController::getBackButton);
+    public static final Trigger RESET_CANCODER = new Trigger(RobotContainer.secondController::getBackButton);
     public static final Trigger CHANGE_DIRECTION = new Trigger(RobotContainer.mainController::getYButton);
     public static final Trigger DRIVE_ROBOT_ORIENTED = new Trigger(RobotContainer.mainController::getLeftBumper);
     public static final Trigger CANCEL_ALL = new Trigger(RobotContainer.secondController::getBackButton);
