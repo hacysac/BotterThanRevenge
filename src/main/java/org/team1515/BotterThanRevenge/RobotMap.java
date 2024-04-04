@@ -72,14 +72,14 @@ public class RobotMap {
     public static final int INDEXER_ID = 22;
     public static final int INDEX_SENSOR_CHANNEL = 5; // TODO
     public static final double INDEXER_SPEED = 0.7;// TODO 
-    public static final int INDEXER_CURRENT_LIMIT = 25;
+    public static final int INDEXER_CURRENT_LIMIT = 30;
 
     //Intake
     public static final int TOP_INTAKE_ID = 23;
     public static final int BOTTOM_INTAKE_ID = 24;
     public static final double UPPER_INTAKE_SPEED = 0.9;
     public static final double LOWER_INTAKE_SPEED = 0.7;
-    public static final int INTAKE_CURRENT_LIMIT = 35;
+    public static final double INTAKE_CURRENT_LIMIT = 28;
 
     //Flip
     public static final int FLIP_INTAKE_ID = 25;

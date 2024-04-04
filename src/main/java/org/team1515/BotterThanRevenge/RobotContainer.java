@@ -96,7 +96,7 @@ public class RobotContainer {
     Controls.ZERO_CLIMBER.onTrue(new ZeroClimber(climber));
 
     //Intake
-    Controls.AUTO_INTAKE.toggleOnTrue(new AutoIntakeIn(intake, indexer)); // infinite until sensor
+    Controls.AUTO_INTAKE.onTrue(new AutoIntakeIn(intake, indexer)); // infinite until sensor
     Controls.INTAKE.whileTrue(new IntakeIn(intake));
     Controls.OUTTAKE.whileTrue(new IntakeOut(intake));
 
@@ -202,7 +202,7 @@ public class RobotContainer {
         return new FourNoteSeq(drivetrain, shooter, indexer, intake, flip, -team);
       case 4:
         SmartDashboard.putString("Auto", "FiveNote");
-        return new FiveNoteSeq(drivetrain, shooter, indexer, intake, flip, -team);
+        return new FiveNoteSeq(drivetrain, shooter, indexer, intake, flip, team);
       case 5:
         SmartDashboard.putString("Auto", "ShootBack");
         return new ShootBack(drivetrain, shooter,flip, indexer);
@@ -210,8 +210,8 @@ public class RobotContainer {
         SmartDashboard.putString("Auto", "Stay");
         return new Stay(shooter, flip, indexer);
       default:
-        SmartDashboard.putString("Auto", "Stay");
-        return new Stay(shooter, flip, indexer);
+        SmartDashboard.putString("Auto", "Nothing");
+        return new FlipUp(flip);
     }
   }
 
