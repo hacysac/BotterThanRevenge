@@ -54,16 +54,13 @@ public class FourNoteSeq extends SequentialCommandGroup{
         addCommands(new AutoFeed(indexer, RobotMap.AUTO_FEED_TIME).withTimeout(2));
 
         //Pick Up Note 2
-        addCommands(Commands.deadline(
+        addCommands(Commands.parallel(
                 new driveLine(drivetrain, firstRotation, pose2, 1, true),
                 new AutoIntakeIn(intake, indexer, RobotMap.AUTO_INTAKE_TIME)
         ).withTimeout(2));
 
         //Score Note 2
-        addCommands(Commands.parallel(
-                new driveLine(drivetrain, -firstRotation, pose0, 1),
-                new AutoIntakeIn(intake, indexer)
-                ).withTimeout(2).deadlineWith());
+        addCommands(new driveLine(drivetrain, -firstRotation, pose0, 1).withTimeout(2));
         addCommands(new AutoFeed(indexer, RobotMap.AUTO_FEED_TIME).withTimeout(2));
 
         //Pick Up Note 3
