@@ -79,7 +79,7 @@ public class RobotMap {
     public static final int BOTTOM_INTAKE_ID = 24;
     public static final double UPPER_INTAKE_SPEED = 0.9;
     public static final double LOWER_INTAKE_SPEED = 0.7;
-    public static final double INTAKE_CURRENT_LIMIT = 28;
+    public static final int INTAKE_CURRENT_LIMIT = 28;
 
     //Flip
     public static final int FLIP_INTAKE_ID = 25;
