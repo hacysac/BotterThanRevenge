@@ -39,6 +39,7 @@ import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
@@ -151,24 +152,34 @@ public class RobotContainer {
     // int selected = (8*c1+4*c2+2*c3+c4);
     // switch (selected) {
     //   case 0:
+    //     SmartDashboard.putString("Auto", "DriveBack");
     //     return new DriveBackSeq(drivetrain, flip);
     //   case 1:
+    //     SmartDashboard.putString("Auto", "ThreeNote");
     //     return new ThreeNoteSeq(drivetrain, shooter, indexer, intake, flip, team);
     //   case 2:
+    //     SmartDashboard.putString("Auto", "FlippedThreeNote");
     //     return new ThreeNoteSeq(drivetrain, shooter, indexer, intake, flip, -team);
     //   case 3:
+    //     SmartDashboard.putString("Auto", "FourNote");
     //     return new FourNoteSeq(drivetrain, shooter, indexer, intake, flip, team);
     //   case 4:
+    //     SmartDashboard.putString("Auto", "TwoAmp");
     //     return new TwoAmpSeq(drivetrain, shooter, indexer, intake, flip, -team);
     //   case 5:
+    //     SmartDashboard.putString("Auto", "TwoSpeakerAmp");
     //     return new TwoSpeakerAmpSeq(drivetrain, shooter, indexer, intake, flip, -team);
     //   case 6:
+    //     SmartDashboard.putString("Auto", "ShootBack");
     //     return new ShootBack(drivetrain, shooter, flip, indexer);
     //   case 7:
+    //     SmartDashboard.putString("Auto", "PassNotes");
     //     return new PassNotesSeq(drivetrain, shooter, indexer, intake, flip, team);
     //   case 8:
+    //     SmartDashboard.putString("Auto", "FiveNotes");
     //     return new FiveNoteSeq(drivetrain, shooter, indexer, intake, flip, team);
     //   default:
+    //     SmartDashboard.putString("Auto", "Stay");
     //     return new Stay(shooter, flip, indexer);
     // }
     int selected = 0;
@@ -181,18 +192,25 @@ public class RobotContainer {
 
     switch (selected) {
       case 1:
+        SmartDashboard.putString("Auto", "DriveBack");
         return new DriveBackSeq(drivetrain, flip);
       case 2:
+        SmartDashboard.putString("Auto", "FourNote");
         return new FourNoteSeq(drivetrain, shooter, indexer, intake, flip, team);
       case 3:
+        SmartDashboard.putString("Auto", "FlippedFourNote");
         return new FourNoteSeq(drivetrain, shooter, indexer, intake, flip, -team);
       case 4:
+        SmartDashboard.putString("Auto", "FiveNote");
         return new FiveNoteSeq(drivetrain, shooter, indexer, intake, flip, -team);
       case 5:
+        SmartDashboard.putString("Auto", "ShootBack");
         return new ShootBack(drivetrain, shooter,flip, indexer);
       case 6:
+        SmartDashboard.putString("Auto", "Stay");
         return new Stay(shooter, flip, indexer);
       default:
+        SmartDashboard.putString("Auto", "Stay");
         return new Stay(shooter, flip, indexer);
     }
   }
