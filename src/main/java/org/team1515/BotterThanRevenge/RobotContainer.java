@@ -17,6 +17,7 @@ import org.team1515.BotterThanRevenge.Commands.AutoCommands.AutoSequences.ThreeN
 import org.team1515.BotterThanRevenge.Commands.AutoCommands.AutoSequences.TwoSpeakerAmpSeq;
 import org.team1515.BotterThanRevenge.Commands.AutoCommands.AutoSequences.TwoAmpSeq;
 import org.team1515.BotterThanRevenge.Commands.AutoCommands.AutoSequences.DriveBackSeq;
+import org.team1515.BotterThanRevenge.Commands.AutoCommands.AutoSequences.FiveNoteSeq;
 import org.team1515.BotterThanRevenge.Commands.AutoCommands.AutoSequences.PassNotesSeq;
 import org.team1515.BotterThanRevenge.Commands.AutoCommands.AutoSequences.ShootBack;
 import org.team1515.BotterThanRevenge.Commands.AutoCommands.AutoSequences.Stay;
@@ -165,6 +166,8 @@ public class RobotContainer {
         return new ShootBack(drivetrain, shooter, flip, indexer);
       case 7:
         return new PassNotesSeq(drivetrain, shooter, indexer, intake, flip, team);
+      case 8:
+        return new FiveNoteSeq(drivetrain, shooter, indexer, intake, flip, team);
       default:
         return new Stay(shooter, flip, indexer);
     }

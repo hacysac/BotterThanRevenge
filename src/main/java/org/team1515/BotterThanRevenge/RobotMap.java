@@ -39,6 +39,8 @@ public class RobotMap {
     public static final double NOTE_TO_AMP_X = 40;
     public static final double AMP_ZONE = 17.75;
     public static final double PASS_SPEAKER_OFFSET = 20;
+    public static final double SUBWOOFER_TO_FIFTH = 104.64;
+    
 
 
     //Vision
@@ -75,9 +77,9 @@ public class RobotMap {
     //Intake
     public static final int TOP_INTAKE_ID = 23;
     public static final int BOTTOM_INTAKE_ID = 24;
-    public static final double UPPER_INTAKE_SPEED = 0.7;
+    public static final double UPPER_INTAKE_SPEED = 0.9;
     public static final double LOWER_INTAKE_SPEED = 0.7;
-    public static final int INTAKE_CURRENT_LIMIT = 25;
+    public static final int INTAKE_CURRENT_LIMIT = 35;
 
     //Flip
     public static final int FLIP_INTAKE_ID = 25;
