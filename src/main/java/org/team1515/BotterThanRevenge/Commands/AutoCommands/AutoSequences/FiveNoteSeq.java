@@ -27,8 +27,8 @@ public class FiveNoteSeq extends SequentialCommandGroup{
         Point pose1 = new Point(subwooferToNoteX, 0);
         Point pose2 = new Point(subwooferToNoteX, -direction*subwooferToNoteY);
         Point pose3 = new Point(subwooferToNoteX, direction*(subwooferToNoteY-Units.inchesToMeters(3)));
-        Point finalPose = new Point(Units.inchesToMeters(RobotMap.ROBOT_STARTING_ZONE_WIDTH + 5), direction*Units.inchesToMeters(63));
-        Point pose4 = new Point(RobotMap.SUBWOOFER_TO_CENTER, RobotMap.SUBWOOFER_TO_FIFTH);
+        Point finalPose = new Point(Units.inchesToMeters(RobotMap.ROBOT_STARTING_ZONE_WIDTH + 5), RobotMap.SUBWOOFER_TO_FIFTH*direction);
+        Point pose4 = new Point(RobotMap.SUBWOOFER_TO_CENTER, RobotMap.SUBWOOFER_TO_FIFTH*direction);
 
         double firstRotation = -RobotMap.AUTO_NOTE_ANGLE_OFFSET*direction;
         double secondRotation = RobotMap.AUTO_NOTE_ANGLE_OFFSET*direction;
@@ -81,12 +81,13 @@ public class FiveNoteSeq extends SequentialCommandGroup{
         //Drive To Note 5
         addCommands(Commands.parallel(
                 new driveLine(drivetrain, 0, pose4, 2, true),
-                new AutoIntakeIn(intake, indexer, RobotMap.AUTO_INTAKE_TIME)
-        ).withTimeout(2));
+                new AutoIntakeIn(intake, indexer, RobotMap.AUTO_INTAKE_TIME+5)
+        ).withTimeout(5));
 
         //Drive To Subwoofer
         addCommands(new driveLine(drivetrain, 0, finalPose, 2, false).withTimeout(2));
         addCommands(new driveLine(drivetrain, 0, pose0, 2, false).withTimeout(2));
         addCommands(new AutoFeed(indexer, RobotMap.AUTO_FEED_TIME).withTimeout(2));
+        addCommands(new InstantCommand(()->shooter.end()));
     }
 }
