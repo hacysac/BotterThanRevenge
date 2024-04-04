@@ -141,34 +141,56 @@ public class RobotContainer {
     boolean controller5 = autoController.getRawButton(5);
     boolean controller6 = autoController.getRawButton(6);
 
-    int c1 = (controller1)?1:0;
-    int c2 = (controller2)?1:0;
-    int c3 = (controller3)?1:0;
-    int c4 = (controller4)?1:0;
-    int c5 = (controller5)?1:0;
-    int c6 = (controller6)?1:0;
+    // int c1 = (controller1)?1:0;
+    // int c2 = (controller2)?1:0;
+    // int c3 = (controller3)?1:0;
+    // int c4 = (controller4)?1:0;
+    // int c5 = (controller5)?1:0;
+    // int c6 = (controller6)?1:0;
 
-    int selected = (8*c1+4*c2+2*c3+c4);
+    // int selected = (8*c1+4*c2+2*c3+c4);
+    // switch (selected) {
+    //   case 0:
+    //     return new DriveBackSeq(drivetrain, flip);
+    //   case 1:
+    //     return new ThreeNoteSeq(drivetrain, shooter, indexer, intake, flip, team);
+    //   case 2:
+    //     return new ThreeNoteSeq(drivetrain, shooter, indexer, intake, flip, -team);
+    //   case 3:
+    //     return new FourNoteSeq(drivetrain, shooter, indexer, intake, flip, team);
+    //   case 4:
+    //     return new TwoAmpSeq(drivetrain, shooter, indexer, intake, flip, -team);
+    //   case 5:
+    //     return new TwoSpeakerAmpSeq(drivetrain, shooter, indexer, intake, flip, -team);
+    //   case 6:
+    //     return new ShootBack(drivetrain, shooter, flip, indexer);
+    //   case 7:
+    //     return new PassNotesSeq(drivetrain, shooter, indexer, intake, flip, team);
+    //   case 8:
+    //     return new FiveNoteSeq(drivetrain, shooter, indexer, intake, flip, team);
+    //   default:
+    //     return new Stay(shooter, flip, indexer);
+    // }
+    int selected = 0;
+    if(controller1){selected = 0;}
+    if(controller2){selected = 1;}
+    if(controller3){selected = 2;}
+    if(controller4){selected = 3;}
+    if(controller5){selected = 4;}
+    if(controller6){selected = 5;}
+
     switch (selected) {
       case 0:
         return new DriveBackSeq(drivetrain, flip);
       case 1:
-        return new ThreeNoteSeq(drivetrain, shooter, indexer, intake, flip, team);
-      case 2:
-        return new ThreeNoteSeq(drivetrain, shooter, indexer, intake, flip, -team);
-      case 3:
         return new FourNoteSeq(drivetrain, shooter, indexer, intake, flip, team);
+      case 2:
+        return new FourNoteSeq(drivetrain, shooter, indexer, intake, flip, -team);
+      case 3:
+        return new FiveNoteSeq(drivetrain, shooter, indexer, intake, flip, -team);
       case 4:
-        return new TwoAmpSeq(drivetrain, shooter, indexer, intake, flip, -team);
+        return new ShootBack(drivetrain, shooter,flip, indexer);
       case 5:
-        return new TwoSpeakerAmpSeq(drivetrain, shooter, indexer, intake, flip, -team);
-      case 6:
-        return new ShootBack(drivetrain, shooter, flip, indexer);
-      case 7:
-        return new PassNotesSeq(drivetrain, shooter, indexer, intake, flip, team);
-      case 8:
-        return new FiveNoteSeq(drivetrain, shooter, indexer, intake, flip, team);
-      default:
         return new Stay(shooter, flip, indexer);
     }
   }
