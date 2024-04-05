@@ -85,7 +85,7 @@ public class FiveNoteMidSeq extends SequentialCommandGroup{
         addCommands(Commands.parallel(
                 new driveLine(drivetrain, 0, pose5, 1, true),
                 new AutoIntakeIn(intake, indexer, RobotMap.AUTO_INTAKE_TIME+5)
-        ).withTimeout(2));
+        ).withTimeout(5));
 
         //Drive back
         addCommands(new driveLine(drivetrain, 0, pose4, 1).withTimeout(2));
