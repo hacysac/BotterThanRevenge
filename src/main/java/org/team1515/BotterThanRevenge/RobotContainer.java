@@ -29,6 +29,7 @@ import org.team1515.BotterThanRevenge.Commands.IntakeCommands.FlipDown;
 import org.team1515.BotterThanRevenge.Commands.IntakeCommands.FlipUp;
 import org.team1515.BotterThanRevenge.Commands.IntakeCommands.IntakeIn;
 import org.team1515.BotterThanRevenge.Commands.IntakeCommands.IntakeOut;
+import org.team1515.BotterThanRevenge.Commands.IntakeCommands.TriggeredFlipDown;
 import org.team1515.BotterThanRevenge.Commands.ShooterCommands.ShooterIn;
 import org.team1515.BotterThanRevenge.Commands.ShooterCommands.ToggleAmp;
 import org.team1515.BotterThanRevenge.Commands.ShooterCommands.ToggleSpeaker;
@@ -213,7 +214,7 @@ public class RobotContainer {
         return new Stay(shooter, flip, indexer);
       default:
         SmartDashboard.putString("Auto", "Nothing");
-        return new FlipUp(flip);
+        return new TriggeredFlipDown(flip);
     }
   }
 
