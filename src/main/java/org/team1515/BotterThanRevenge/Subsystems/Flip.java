@@ -104,6 +104,10 @@ public class Flip extends SubsystemBase{
         }
     }
 
+    public void slowDown(){
+        flip.set(0.05);
+    }
+
     public double getCANCoderValue(){
         //looping
         
