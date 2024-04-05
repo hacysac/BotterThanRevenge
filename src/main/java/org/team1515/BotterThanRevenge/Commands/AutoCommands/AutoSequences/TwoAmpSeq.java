@@ -5,7 +5,7 @@ import org.team1515.BotterThanRevenge.Commands.AutoCommands.driveLine;
 import org.team1515.BotterThanRevenge.Commands.IndexerCommands.AutoFeed;
 import org.team1515.BotterThanRevenge.Commands.IntakeCommands.AutoIntakeIn;
 import org.team1515.BotterThanRevenge.Commands.IntakeCommands.FlipDown;
-import org.team1515.BotterThanRevenge.Commands.IntakeCommands.FlipUp;
+import org.team1515.BotterThanRevenge.Commands.IntakeCommands.TriggeredFlipDown;
 import org.team1515.BotterThanRevenge.Subsystems.Drivetrain;
 import org.team1515.BotterThanRevenge.Subsystems.Flip;
 import org.team1515.BotterThanRevenge.Subsystems.Indexer;
@@ -33,7 +33,7 @@ public class TwoAmpSeq extends SequentialCommandGroup{
         double firstRotation = Units.degreesToRadians(90*direction);
         double secondRotation = -(Units.degreesToRadians(50))*direction;
         
-        addCommands(new FlipUp(flip).withTimeout(2));
+        addCommands(new TriggeredFlipDown(flip));
         addCommands(new InstantCommand(()->shooter.shootAmp()));
         
         //Drive to Amp

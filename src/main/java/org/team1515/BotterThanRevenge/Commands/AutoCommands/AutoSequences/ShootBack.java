@@ -3,7 +3,7 @@ package org.team1515.BotterThanRevenge.Commands.AutoCommands.AutoSequences;
 import org.team1515.BotterThanRevenge.RobotMap;
 import org.team1515.BotterThanRevenge.Commands.AutoCommands.driveLine;
 import org.team1515.BotterThanRevenge.Commands.IndexerCommands.AutoFeed;
-import org.team1515.BotterThanRevenge.Commands.IntakeCommands.FlipUp;
+import org.team1515.BotterThanRevenge.Commands.IntakeCommands.TriggeredFlipDown;
 import org.team1515.BotterThanRevenge.Subsystems.Drivetrain;
 import org.team1515.BotterThanRevenge.Subsystems.Flip;
 import org.team1515.BotterThanRevenge.Subsystems.Indexer;
@@ -19,7 +19,7 @@ public class ShootBack extends SequentialCommandGroup {
     public ShootBack(Drivetrain drivetrain, Shooter shooter, Flip flip, Indexer indexer){
         Point finalPose = new Point(Units.inchesToMeters(RobotMap.ROBOT_STARTING_ZONE_WIDTH + 5), 0);
         addCommands(Commands.parallel(
-           new FlipUp(flip),
+           new TriggeredFlipDown(flip),
            new InstantCommand(()->shooter.shootSpeaker())
         ).withTimeout(2));
         addCommands(Commands.waitSeconds(1));
