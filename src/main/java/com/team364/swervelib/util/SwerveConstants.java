@@ -51,7 +51,7 @@ public final class SwerveConstants {
 
         public static final int driveCurrentLimit = 45;
         public static final int driveCurrentThreshold = 60;
-        public static final double driveCurrentThresholdTime = 0.1;
+        public static final double driveCurrentThresholdTime = 1;
         public static final boolean driveEnableCurrentLimit = true;
 
         /* These values are used by the drive falcon to ramp in open loop and closed loop driving.
