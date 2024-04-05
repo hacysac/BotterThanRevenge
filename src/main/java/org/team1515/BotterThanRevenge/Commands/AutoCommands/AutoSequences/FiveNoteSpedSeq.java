@@ -27,8 +27,8 @@ public class FiveNoteSpedSeq extends SequentialCommandGroup{
         Point pose1 = new Point(subwooferToNoteX, 0);
         Point pose2 = new Point(subwooferToNoteX, -direction*subwooferToNoteY);
         Point pose3 = new Point(subwooferToNoteX, direction*(subwooferToNoteY-Units.inchesToMeters(3)));
-        Point finalPose = new Point(Units.inchesToMeters(RobotMap.ROBOT_STARTING_ZONE_WIDTH + 5), RobotMap.SUBWOOFER_TO_FIFTH*direction);
-        Point pose4 = new Point(RobotMap.SUBWOOFER_TO_CENTER, RobotMap.SUBWOOFER_TO_FIFTH*direction);
+        Point finalPose = new Point(Units.inchesToMeters(RobotMap.ROBOT_STARTING_ZONE_WIDTH + 5), direction*Units.inchesToMeters(63));
+        Point pose4 = new Point(Units.inchesToMeters(RobotMap.SUBWOOFER_TO_CENTER), Units.inchesToMeters(RobotMap.SUBWOOFER_TO_FIFTH)*direction);
 
         double firstRotation = -RobotMap.AUTO_NOTE_ANGLE_OFFSET*direction;
         double secondRotation = RobotMap.AUTO_NOTE_ANGLE_OFFSET*direction;
