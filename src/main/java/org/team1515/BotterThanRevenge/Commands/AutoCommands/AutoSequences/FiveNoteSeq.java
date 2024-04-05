@@ -33,7 +33,7 @@ public class FiveNoteSeq extends SequentialCommandGroup{
         double firstRotation = -RobotMap.AUTO_NOTE_ANGLE_OFFSET*direction;
         double secondRotation = RobotMap.AUTO_NOTE_ANGLE_OFFSET*direction;
         
-        addCommands(new FlipUp(flip).withTimeout(1));
+        addCommands(new InstantCommand(()->flip.setCurrentTopValue()));
         addCommands(new InstantCommand(()->shooter.shootSpeaker()));
         
         addCommands(Commands.waitSeconds(0.5));
