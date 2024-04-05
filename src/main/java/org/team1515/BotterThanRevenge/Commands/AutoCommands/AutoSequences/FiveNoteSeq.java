@@ -76,19 +76,13 @@ public class FiveNoteSeq extends SequentialCommandGroup{
         addCommands(new AutoFeed(indexer, RobotMap.AUTO_FEED_TIME).withTimeout(2));
 
         //Drive Back
-        addCommands(new InstantCommand(()->shooter.end()));
         addCommands(new driveLine(drivetrain, 0, finalPose, 1).withTimeout(2));
+        addCommands(new InstantCommand(()->shooter.end()));
 
         //Drive To Note 5
         addCommands(Commands.parallel(
                 new driveLine(drivetrain, 0, pose4, 2, true),
                 new AutoIntakeIn(intake, indexer, RobotMap.AUTO_INTAKE_TIME+5)
         ).withTimeout(5));
-
-        //Drive To Subwoofer
-        addCommands(new driveLine(drivetrain, 0, finalPose, 2, false).withTimeout(2));
-        addCommands(new driveLine(drivetrain, 0, pose0, 2, false).withTimeout(2));
-        addCommands(new AutoFeed(indexer, RobotMap.AUTO_FEED_TIME).withTimeout(2));
-        addCommands(new InstantCommand(()->shooter.end()));
     }
 }
