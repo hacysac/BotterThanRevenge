@@ -93,18 +93,18 @@ public class Shooter extends SubsystemBase {
     }
 
     public void shootAmp(){
-        amp = true;
-        speaker = false;
-        bangBangSetpoint = -5100;
-        lPidController.setReference(-5100, ControlType.kVelocity);
+        amp = false;
+        speaker = true;
+        bangBangSetpoint = -800;
+        lShooter.set(-RobotMap.AMP_SPEED);
 
     }
 
     public void shootSpeaker(){
-        speaker = true;
-        amp = false;
-        bangBangSetpoint = -4900;
-        lPidController.setReference(-4900, ControlType.kVelocity);
+        amp = true;
+        speaker = false;
+        bangBangSetpoint = -5100;
+        lPidController.setReference(-5100, ControlType.kVelocity);
     }
 
     public void shoot(double speed){
