@@ -19,6 +19,9 @@ public class FlipDown extends Command {
 
     @Override
     public void execute() {
+        // if (flip.getUp()){
+        //     flip.setCurrentTopValue();
+        // }
         flip.flipDown();
     }
 
