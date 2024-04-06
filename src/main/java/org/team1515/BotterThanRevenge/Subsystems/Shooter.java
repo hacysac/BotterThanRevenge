@@ -95,8 +95,8 @@ public class Shooter extends SubsystemBase {
     public void shootAmp(){
         amp = true;
         speaker = false;
-        bangBangSetpoint = -800;
-        lPidController.setReference(-800, ControlType.kVelocity);
+        bangBangSetpoint = -5100;
+        lPidController.setReference(-5100, ControlType.kVelocity);
 
     }
 
