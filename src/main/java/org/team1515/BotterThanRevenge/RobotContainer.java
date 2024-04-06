@@ -17,7 +17,9 @@ import org.team1515.BotterThanRevenge.Commands.AutoCommands.AutoSequences.ThreeN
 import org.team1515.BotterThanRevenge.Commands.AutoCommands.AutoSequences.TwoSpeakerAmpSeq;
 import org.team1515.BotterThanRevenge.Commands.AutoCommands.AutoSequences.TwoAmpSeq;
 import org.team1515.BotterThanRevenge.Commands.AutoCommands.AutoSequences.DriveBackSeq;
+import org.team1515.BotterThanRevenge.Commands.AutoCommands.AutoSequences.FiveNoteMidSeq;
 import org.team1515.BotterThanRevenge.Commands.AutoCommands.AutoSequences.FiveNoteSeq;
+import org.team1515.BotterThanRevenge.Commands.AutoCommands.AutoSequences.FiveNoteSpedSeq;
 import org.team1515.BotterThanRevenge.Commands.AutoCommands.AutoSequences.PassNotesSeq;
 import org.team1515.BotterThanRevenge.Commands.AutoCommands.AutoSequences.ShootBack;
 import org.team1515.BotterThanRevenge.Commands.AutoCommands.AutoSequences.Stay;
@@ -210,8 +212,8 @@ public class RobotContainer {
         SmartDashboard.putString("Auto", "ShootBack");
         return new ShootBack(drivetrain, shooter,flip, indexer);
       case 6:
-        SmartDashboard.putString("Auto", "Stay");
-        return new Stay(shooter, flip, indexer);
+        SmartDashboard.putString("Auto", "MidFiveNote");
+        return new FiveNoteMidSeq(drivetrain, shooter, indexer, intake, flip, team);
       default:
         SmartDashboard.putString("Auto", "Nothing");
         return new TriggeredFlipDown(flip);
