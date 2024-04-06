@@ -51,7 +51,7 @@ public class Flip extends SubsystemBase{
         midValue = -1000;
         lowValue = -1000;
 
-        wrapping = false;
+        wrapping = true;
 
         lowOffset = RobotMap.FLIP_DOWN_OFFSET;
         midOffset = RobotMap.FLIP_MID_OFFSET;
