@@ -1,10 +1,13 @@
 package org.team1515.BotterThanRevenge.Subsystems;
 
 import org.team1515.BotterThanRevenge.RobotContainer;
+import org.team1515.BotterThanRevenge.RobotMap;
+import org.team1515.BotterThanRevenge.Utils.LimelightHelpers;
 
 import com.team364.swervelib.util.SwerveConstants;
 import com.team364.swervelib.util.SwerveModule;
 
+import edu.wpi.first.math.VecBuilder;
 import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -13,6 +16,9 @@ import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
+import edu.wpi.first.math.util.Units;
+import edu.wpi.first.networktables.NetworkTable;
+import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -24,7 +30,11 @@ public class Drivetrain extends SubsystemBase {
     private double gyroOffset = 0;
 
     private Pose2d m_pose;
+
+    private static NetworkTable network = NetworkTableInstance.getDefault().getTable(RobotMap.LIMELIGHT_NAME);
+
     private SwerveDrivePoseEstimator estimator;
+    private SwerveDrivePoseEstimator visionEstimator;
 
 
     public Drivetrain(Pose2d initialPos) {
@@ -47,6 +57,19 @@ public class Drivetrain extends SubsystemBase {
             mSwerveMods[2].getPosition(),
             mSwerveMods[3].getPosition()
         }, initialPos); // maybe pose needs to be set correctly at the begining
+
+        visionEstimator = new SwerveDrivePoseEstimator(
+            SwerveConstants.Swerve.swerveKinematics, RobotContainer.gyro.getGyroscopeRotation(),
+            new SwerveModulePosition[] {
+            mSwerveMods[0].getPosition(),
+            mSwerveMods[1].getPosition(),
+            mSwerveMods[2].getPosition(),
+            mSwerveMods[3].getPosition()
+        }, initialPos,
+            VecBuilder.fill(RobotMap.kPositionStdDevX, RobotMap.kPositionStdDevY, Units.degreesToRadians(RobotMap.kPositionStdDevTheta)),
+            VecBuilder.fill(RobotMap.kVisionStdDevX, RobotMap.kVisionStdDevY, Units.degreesToRadians(RobotMap.kVisionStdDevTheta))
+            );
+        
         
 
 
@@ -154,9 +177,6 @@ public class Drivetrain extends SubsystemBase {
             mSwerveMods[0].getPosition(), mSwerveMods[1].getPosition(),
             mSwerveMods[2].getPosition(), mSwerveMods[3].getPosition()}
         );
-        
-        SmartDashboard.putNumber("Pose X: ", getOdometry().getX());
-        SmartDashboard.putNumber("Pose Y: ", getOdometry().getY());
     }
 
     /**
@@ -177,5 +197,57 @@ public class Drivetrain extends SubsystemBase {
             mod.zeroInternalEncoder();
         }
         setOdometry(new Pose2d(new Translation2d(0,0), new Rotation2d(0.0)));
+    }
+
+    public Pose2d getPose(){
+        return visionEstimator.getEstimatedPosition();
+    }
+
+    public Pose2d getOdometryPose(){
+        return estimator.getEstimatedPosition();
+    }
+
+    public boolean isEstimateReady(Pose2d pose) {
+        /* Disregard Vision if there are no targets in view */
+        if (network.getEntry("tv").getDouble(0) != 1) { // visionAccurate method sees if Apriltags present in Vision.java
+          return false;
+        }
+    
+        // Disregard measurements too far away from odometry
+        // this can be tuned to find a threshold that helps us remove jumping vision
+        // poses
+        return (Math.abs(pose.getX() - getOdometryPose().getX()) <= RobotMap.DIFFERENCE_CUTOFF_THRESHOLD)
+            && (Math.abs(pose.getY() - getOdometryPose().getY()) <= RobotMap.DIFFERENCE_CUTOFF_THRESHOLD);
+    }
+
+    public void updateOdometry(){
+        visionEstimator.update(RobotContainer.gyro.getGyroscopeRotation(), new SwerveModulePosition[] {
+            mSwerveMods[0].getPosition(),
+            mSwerveMods[1].getPosition(),
+            mSwerveMods[2].getPosition(),
+            mSwerveMods[3].getPosition()
+        });
+        estimator.update(RobotContainer.gyro.getGyroscopeRotation(), new SwerveModulePosition[] {
+            mSwerveMods[0].getPosition(),
+            mSwerveMods[1].getPosition(),
+            mSwerveMods[2].getPosition(),
+            mSwerveMods[3].getPosition()
+        });
+        
+    }
+
+    //more accurate because pose estimator has standard diviations and checks if limelight results are stable
+    public void updateVision(){
+        //var lastResult = LimelightHelpers.getLatestResults(RobotMap.LIMELIGHT_NAME).targetingResults;
+        Pose2d result = getRawPose();
+
+        if (network.getEntry("tv").getDouble(0) >= 1) {
+            visionEstimator.addVisionMeasurement(result, Timer.getFPGATimestamp());
+        }
+    }
+
+    public static Pose2d getRawPose(){
+        Pose2d result = LimelightHelpers.toPose2D(network.getEntry("botpose_wpired").getDoubleArray(new double[0]));
+        return result;
     }
 }

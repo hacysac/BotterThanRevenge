@@ -93,8 +93,22 @@ public class RobotMap {
     //Climber
     public static final int L_CLIMBER_ID = 26;
     public static final int R_CLIMBER_ID = 27;
-    public static final double CLIMBER_UP_SPEED = 1.0;
-    public static final double CLIMBER_DOWN_SPEED = 0.7;
+    public static final double CLIMBER_UP_SPEED = 0;
+    public static final double CLIMBER_DOWN_SPEED = 0;
     public static final double CLIMBER_EXTENTION_LIMIT = 65; //TODO
     public static final int CLIMBER_CURRENT_LIMIT = 30;
+
+    //Limelight 
+    // Increase these numbers to trust your model's state estimates less.
+    public static final double kPositionStdDevX = 0.1;
+    public static final double kPositionStdDevY = 0.1;
+    public static final double kPositionStdDevTheta = 10;
+
+    // Increase these numbers to trust global measurements from vision less.
+    public static final double kVisionStdDevX = 5;
+    public static final double kVisionStdDevY = 5;
+    public static final double kVisionStdDevTheta = 500;
+
+    public static final String LIMELIGHT_NAME = "limelight-isis";
+    public static final double DIFFERENCE_CUTOFF_THRESHOLD = 1.5; // Max difference between vision and odometry pose
 }
